@@ -1,17 +1,4 @@
 <section class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <fieldset class="border p-2 mb-3"
-                    style="border: 5px solid #ddd !important; border-radius:10px; background-color:#adad85; padding-left:10px!important;">
-                    <legend>Note*</legend>
-                    <li class="ml-3">Foto profil menggunakan foto ijazah</li>
-                    <li class="ml-3">Background foto merah</li>
-                    <li class="ml-3">Recomended 3x4</li>
-                </fieldset>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card-group">

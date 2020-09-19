@@ -10,7 +10,7 @@ class Login extends CI_Controller
         if (!empty($this->session->userdata('user_login'))) {
             if ($this->uri->segment(3) != 'logout') {
                 $this->session->set_flashdata('flash-error', 'Anda Sudah Login');
-                redirect('user/beranda');
+                redirect('mahasiswa/beranda');
             }
         }
     }
@@ -18,7 +18,7 @@ class Login extends CI_Controller
     public function index()
     {
         $data['title'] = 'Halaman Login';
-        $this->load->view('user/login/index', $data, FALSE);
+        $this->load->view('mahasiswa/login/index', $data, FALSE);
     }
 
     public function login()
