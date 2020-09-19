@@ -14,7 +14,6 @@ class Mahasiswa extends CI_Controller
         }
 
         $this->load->model('M_Mahasiswa', 'mahasiswa');
-        $this->load->model('M_Dosen', 'dosen');
     }
 
     public function index()
@@ -23,7 +22,6 @@ class Mahasiswa extends CI_Controller
         $data['page'] = 'admin/backend/mahasiswa';
 
         $data['mahasiswa'] = $this->mahasiswa->getAll();
-        $data['dosen'] = $this->dosen->getAll();
 
         $this->load->view('admin/backend/index', $data);
     }

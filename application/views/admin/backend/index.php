@@ -118,15 +118,6 @@
                             </a>
                         </li>
 
-                        <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/dosen'); ?>" class="nav-link hr">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    List Dosen
-                                </p>
-                            </a>
-                        </li>
-
                         <?php if (level($this->session->userdata('id')) == "Super Admin") : ?>
                         <li class="nav-item has-treeview">
                             <a href="<?= base_url('admin/admin'); ?>" class="nav-link hr">
@@ -137,100 +128,6 @@
                             </a>
                         </li>
                         <?php endif; ?>
-
-                        <li class="nav-item has-treeview">
-                            <hr class="bg-light">
-                            <a href="#" class="nav-link hr">
-                                <i class="nav-icon fas fa-file"></i>
-                                <p>
-                                    File Upload
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="<?= base_url('admin/jurnal'); ?>" class="nav-link">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Jurnal TA</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="<?= base_url('admin/laporan_pdf'); ?>" class="nav-link">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Laporan TA PDF</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="<?= base_url('admin/lembar_produk'); ?>" class="nav-link">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Lembar Produk</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="<?= base_url('admin/pengesahan'); ?>" class="nav-link">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Lembar Pengesahan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="<?= base_url('admin/persetujuan'); ?>" class="nav-link">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Lembar Persetujuan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="<?= base_url('admin/brosur'); ?>" class="nav-link">
-                                        <i class="fas fa-book nav-icon"></i>
-                                        <p>Brosur</p>
-                                    </a>
-
-                                    <hr class="bg-light">
-                                </li>
-                            </ul>
-
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/verifikasi'); ?>" class="nav-link hr">
-                                <i class="nav-icon fas fa-check"></i>
-                                <p>
-                                    Verifikasi File
-                                </p>
-                            </a>
-
-                            <hr class="bg-light">
-
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/galery'); ?>" class="nav-link hr">
-                                <i class="nav-icon fas fa-image"></i>
-                                <p>
-                                    Galery
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/background'); ?>" class="nav-link hr">
-                                <i class="nav-icon fas fa-image"></i>
-                                <p>
-                                    Background
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/about'); ?>" class="nav-link hr">
-                                <i class="nav-icon fas fa-question-circle"></i>
-                                <p>
-                                    About
-                                </p>
-                            </a>
-
-                            <hr class="bg-light">
-                        </li>
 
                     </ul>
                 </nav>
@@ -261,7 +158,7 @@
         <!-- /.content-wrapper -->
 
         <footer class="main-footer">
-            <strong>&copy; <a href="http://d3komputerphb.id" target='_blank'>Beranda SIKAPTA</a></strong>
+            <strong>&copy; <a href="http://d3komputerphb.id" target='_blank'>Beranda Mahasiswa</a></strong>
         </footer>
 
         <!-- Control Sidebar -->

@@ -24,10 +24,7 @@
                                     <th>#</th>
                                     <th>NIM</th>
                                     <th>Nama</th>
-                                    <th>Judul TA</th>
-                                    <th>Kategori</th>
-                                    <th>Dosbing 1</th>
-                                    <th>Dosbing 2</th>
+                                    <th>Semester</th>
                                     <th>Password</th>
                                     <th>Action</th>
                                     <th>
@@ -42,10 +39,7 @@
                                     <th><?= $i++ ?></th>
                                     <td><?= $hasil['nim']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
-                                    <td><?= $hasil['judul']; ?></td>
-                                    <td><?= $hasil['kategori']; ?></td>
-                                    <td><?= $hasil['dosbing_1']; ?></td>
-                                    <td><?= $hasil['dosbing_2']; ?></td>
+                                    <td><?= $hasil['semester']; ?></td>
                                     <td><a href="<?= base_url() ?>admin/mahasiswa/resetPassword/<?= $hasil['id']; ?>"
                                             class="badge badge-success delete-people"><i class="fa fa-edit"></i>
                                             Reset</a>
@@ -65,9 +59,6 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
                                     <th>-</th>
                                     <th>-</th>
                                     <th>-</th>
@@ -117,35 +108,16 @@
                         <input type="text" class="form-control" id="nama" name="nama" required autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="dosbing_1">Dosen Pembimbing 1</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="dosbing_1">
-                            <option value="">-- Pilih Dosen --</option>
-                            <?php foreach ($dosen as $ds) : ?>
-                            <option value="<?= $ds['nama']; ?>"><?= $ds['nama']; ?></option>
-                            <?php endforeach; ?>
+                        <label for="semester">Semester</label>
+                        <select class="custom-select" id="inputGroupSelect02" name="semester">
+                            <option value="">-- Pilih Semester --</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dosbing_2">Dosen Pembimbing 2</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="dosbing_2">
-                            <option value="">-- Pilih Dosen --</option>
-                            <?php foreach ($dosen as $ds) : ?>
-                            <option value="<?= $ds['nama']; ?>"><?= $ds['nama']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="kategori">Kategori</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="kategori">
-                            <option value="">-- Pilih Kategori --</option>
-                            <option value="Hardware">Hardware</option>
-                            <option value="Pemrograman">Pemrograman</option>
-                            <option value="Jaringan">Jaringan</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="judul">Judul TA</label>
-                        <textarea class="form-control" id="judul" name="judul" required autocomplete="off"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -184,28 +156,7 @@
                         <input type="text" class="form-control" id="nama" name="nama" required autocomplete="off"
                             value="<?= $dt['nama']; ?>">
                     </div>
-                    <div class="form-group">
-                        <label for="dosbing_1">Dosen Pembimbing 1</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="dosbing_1">
-                            <option value="">-- Pilih Dosen --</option>
-                            <?php foreach ($dosen as $ds) : ?>
-                            <option value="<?= $ds['nama']; ?>"
-                                <?php if ($ds['nama'] == $dt['dosbing_1']) echo 'selected="selected"'; ?>>
-                                <?= $ds['nama']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dosbing_2">Dosen Pembimbing 2</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="dosbing_2">
-                            <option value="">-- Pilih Dosen --</option>
-                            <?php foreach ($dosen as $ds) : ?>
-                            <option value="<?= $ds['nama']; ?>"
-                                <?php if ($ds['nama'] == $dt['dosbing_2']) echo 'selected="selected"'; ?>>
-                                <?= $ds['nama']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+
                     <div class="form-group">
                         <label for="kategori">Kategori</label>
                         <select class="custom-select" id="inputGroupSelect02" name="kategori">
@@ -222,9 +173,22 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="judul">Judul TA</label>
-                        <textarea class="form-control" id="judul" name="judul" required
-                            autocomplete="off"><?= $dt['judul']; ?></textarea>
+                        <label for="semester">Semester</label>
+                        <select class="custom-select" id="inputGroupSelect02" name="semester">
+                            <option value="">-- Pilih Semester --</option>
+                            <option value="1" <?php if ($dt['semester'] == '1') echo 'selected="selected"'; ?>>1
+                            </option>
+                            <option value="2" <?php if ($dt['semester'] == '2') echo 'selected="selected"'; ?>>2
+                            </option>
+                            <option value="3" <?php if ($dt['semester'] == '3') echo 'selected="selected"'; ?>>3
+                            </option>
+                            <option value="4" <?php if ($dt['semester'] == '4') echo 'selected="selected"'; ?>>4
+                            </option>
+                            <option value="5" <?php if ($dt['semester'] == '5') echo 'selected="selected"'; ?>>5
+                            </option>
+                            <option value="6" <?php if ($dt['semester'] == '6') echo 'selected="selected"'; ?>>6
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
