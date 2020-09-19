@@ -26,7 +26,7 @@
         <div class="login-logo">
             <a href="#"><img src="<?= base_url('assets/uploads/poltek.png'); ?>" style="margin-bottom:10px"
                     class="img-fluid" width="120" /></a><br />
-            <a href="#"><b>SIKAPTA</b><br />DIII Teknik Komputer</a>
+            <a href="#"><b>LAB HARDWARE</b><br />DIII Teknik Komputer</a>
         </div>
         <!-- /.login-logo -->
 
@@ -97,7 +97,7 @@ function ajax_login() {
     };
 
     $.ajax({
-        url: "<?= base_url('user/login/login'); ?>",
+        url: "<?= base_url('mahasiswa/login/login'); ?>",
         type: "POST",
         data: dataJson,
         dataType: 'json',
@@ -111,7 +111,8 @@ function ajax_login() {
                 }).then((result) => {
                     if (result.value) {
                         setTimeout(function() {
-                            document.location.href = "<?= base_url('user/dapur'); ?>";
+                            document.location.href =
+                            "<?= base_url('mahasiswa/beranda'); ?>";
                         }, 500)
                     }
                 });
