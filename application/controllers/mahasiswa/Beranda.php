@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mahasiswa extends CI_Controller
+class Beranda extends CI_Controller
 {
 
     public function __construct()
@@ -14,8 +14,6 @@ class Mahasiswa extends CI_Controller
         }
 
         $this->load->model('M_Mahasiswa', 'mahasiswa');
-
-        $this->load->library('pdf');
     }
 
     public function index()
@@ -25,9 +23,9 @@ class Mahasiswa extends CI_Controller
 
         $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
 
-        $data['page'] = 'user/frontend/upload';
+        $data['page'] = 'mahasiswa/frontend/beranda';
 
-        $this->load->view('user/frontend/index', $data);
+        $this->load->view('mahasiswa/frontend/index', $data);
     }
 
     public function profile()
@@ -48,9 +46,9 @@ class Mahasiswa extends CI_Controller
             $nim = $this->session->userdata('nim');
             $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
 
-            $data['page'] = 'user/frontend/profile';
+            $data['page'] = 'mahasiswa/frontend/profile';
 
-            $this->load->view('user/frontend/index', $data);
+            $this->load->view('mahasiswa/frontend/index', $data);
         } else {
             $this->_update();
         }
@@ -82,7 +80,7 @@ class Mahasiswa extends CI_Controller
 
             $this->session->set_flashdata('foto', $this->upload->display_errors());
 
-            redirect('user/dapur/profile', 'refresh');
+            redirect('mahasiswa/beranda/profile', 'refresh');
         } else {
             $upload_data = $this->upload->data();
 
@@ -101,7 +99,7 @@ class Mahasiswa extends CI_Controller
 
             $this->session->set_flashdata('flash-sukses', 'Profile berhasil diupdate');
 
-            redirect('user/dapur/profile', 'refresh');
+            redirect('mahasiswa/beranda/profile', 'refresh');
         }
     }
 
@@ -126,9 +124,9 @@ class Mahasiswa extends CI_Controller
             $nim = $this->session->userdata('nim');
             $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
 
-            $data['page'] = 'user/frontend/profile';
+            $data['page'] = 'mahasiswa/frontend/profile';
 
-            $this->load->view('user/frontend/index', $data);
+            $this->load->view('mahasiswa/frontend/index', $data);
         } else {
             $nim = $this->session->userdata('nim');
             $mahasiswa = $this->mahasiswa->getOne($nim);
@@ -145,11 +143,11 @@ class Mahasiswa extends CI_Controller
 
                 $this->session->set_flashdata('flash-sukses', 'Password berhasil diupdate');
 
-                redirect('user/dapur/profile', 'refresh');
+                redirect('mahasiswa/beranda/profile', 'refresh');
             } else {
                 $this->session->set_flashdata('flash-error', 'Password lama salah');
 
-                redirect('user/dapur/profile', 'refresh');
+                redirect('mahasiswa/beranda/profile', 'refresh');
             }
         }
     }

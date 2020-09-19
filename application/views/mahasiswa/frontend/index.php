@@ -58,12 +58,12 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="<?= base_url('mahasiswa/beranda/profile'); ?>">
+                        <a class="dropdown-item" href="<?= base_url('user/dapur/profile'); ?>">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?= base_url('mahasiswa/login/logout'); ?>" data-toggle="modal"
+                        <a class="dropdown-item" href="<?= base_url('user/login/logout'); ?>" data-toggle="modal"
                             data-target="#logoutModal">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
@@ -78,7 +78,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="<?= base_url('user/beranda'); ?>" class="brand-link ml-2">
-                <span class="brand-text font-weight-light">LAB HARDWARE</span>
+                <span class="brand-text font-weight-light">SIKAPTA</span>
             </a>
 
             <!-- Sidebar -->
@@ -90,7 +90,7 @@
                             class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="<?= base_url('mahasiswa/beranda/profile'); ?>"
+                        <a href="<?= base_url('user/dapur/profile'); ?>"
                             class="d-block"><?= $mahasiswa[0]['nama']; ?></a>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                 <div class="modal-body">Pilih "Logout" untuk keluar dari halaman</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-warning" href="<?= base_url('mahasiswa/login/logout'); ?>">Logout</a>
+                    <a class="btn btn-warning" href="<?= base_url('user/Login/logout'); ?>">Logout</a>
                 </div>
             </div>
         </div>
