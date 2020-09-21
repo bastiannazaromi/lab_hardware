@@ -14,6 +14,17 @@
                                 class="fa fa-download"></i>
                             Format</button>
                     </div>
+
+                    <?php if (form_error('nim')) : ?>
+                    <?= form_error('nim', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+                    <?php if (form_error('nama')) : ?>
+                    <?= form_error('nama', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+                    <?php if (form_error('semester')) : ?>
+                    <?= form_error('semester', '<small class="text-danger">', '</small>'); ?>
+                    <?php endif; ?>
+
                     <br>
                     <br>
                     <div class="table-responsive">
@@ -155,22 +166,6 @@
                         <label for="nama">Nama Mahasiswa</label>
                         <input type="text" class="form-control" id="nama" name="nama" required autocomplete="off"
                             value="<?= $dt['nama']; ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="kategori">Kategori</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="kategori">
-                            <option value="">-- Pilih Kategori --</option>
-                            <option value="Hardware"
-                                <?php if ($dt['kategori'] == 'Hardware') echo 'selected="selected"'; ?>>Hardware
-                            </option>
-                            <option value="Pemrograman"
-                                <?php if ($dt['kategori'] == 'Pemrograman') echo 'selected="selected"'; ?>>Pemrograman
-                            </option>
-                            <option value="Jaringan"
-                                <?php if ($dt['kategori'] == 'Jaringan') echo 'selected="selected"'; ?>>Jaringan
-                            </option>
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="semester">Semester</label>

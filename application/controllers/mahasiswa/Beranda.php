@@ -19,6 +19,8 @@ class Beranda extends CI_Controller
     public function index()
     {
         $nim = $this->session->userdata('nim');
+        cek_biodata($nim);
+
         $data['title'] = 'LAB HARDWARE';
 
         $data['mahasiswa'] = $this->mahasiswa->getOne($nim);

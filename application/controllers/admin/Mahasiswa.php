@@ -28,38 +28,62 @@ class Mahasiswa extends CI_Controller
 
     public function tambah()
     {
-        $data = [
-            "nim" => htmlspecialchars($this->input->post('nim', TRUE)),
-            "password" => password_hash($this->input->post('nim', TRUE), PASSWORD_DEFAULT),
-            "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
-            "judul" => htmlspecialchars($this->input->post('judul', TRUE)),
-            "kategori" => htmlspecialchars($this->input->post('kategori', TRUE)),
-            "dosbing_1" => htmlspecialchars($this->input->post('dosbing_1', TRUE)),
-            "dosbing_2" => htmlspecialchars($this->input->post('dosbing_2', TRUE)),
-            "foto" => 'default.jpg'
-        ];
+        $this->form_validation->set_rules('nim', 'NIM', 'required|alpha_numeric|min_length[8]');
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('semester', 'Semester', 'required|numeric');
 
-        $this->mahasiswa->tambah($data);
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'List Mahasiswa';
 
-        $this->session->set_flashdata('flash-sukses', 'Data berhasil ditambahkan');
-        redirect('admin/mahasiswa');
+            $data['mahasiswa'] = $this->mahasiswa->getAll();
+
+            $data['page'] = 'admin/backend/mahasiswa';
+
+            $this->load->view('admin/backend/index', $data);
+        } else {
+
+            $data = [
+                "nim" => htmlspecialchars($this->input->post('nim', TRUE)),
+                "password" => password_hash($this->input->post('nim', TRUE), PASSWORD_DEFAULT),
+                "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
+                "semester" => htmlspecialchars($this->input->post('semester', TRUE)),
+                "foto" => 'default.jpg'
+            ];
+
+            $this->mahasiswa->tambah($data);
+
+            $this->session->set_flashdata('flash-sukses', 'Data berhasil ditambahkan');
+            redirect('admin/mahasiswa');
+        }
     }
 
     public function edit()
     {
-        $data = [
-            "nim" => htmlspecialchars($this->input->post('nim', TRUE)),
-            "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
-            "judul" => htmlspecialchars($this->input->post('judul', TRUE)),
-            "kategori" => htmlspecialchars($this->input->post('kategori', TRUE)),
-            "dosbing_1" => htmlspecialchars($this->input->post('dosbing_1', TRUE)),
-            "dosbing_2" => htmlspecialchars($this->input->post('dosbing_2', TRUE))
-        ];
+        $this->form_validation->set_rules('nim', 'NIM', 'required|alpha_numeric|min_length[8]');
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('semester', 'Semester', 'required|numeric');
 
-        $this->mahasiswa->edit($data);
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'List Mahasiswa';
 
-        $this->session->set_flashdata('flash-sukses', 'Data berhasil diupdate');
-        redirect('admin/mahasiswa');
+            $data['mahasiswa'] = $this->mahasiswa->getAll();
+
+            $data['page'] = 'admin/backend/mahasiswa';
+
+            $this->load->view('admin/backend/index', $data);
+        } else {
+            $data = [
+                "nim" => htmlspecialchars($this->input->post('nim', TRUE)),
+                "password" => password_hash($this->input->post('nim', TRUE), PASSWORD_DEFAULT),
+                "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
+                "semester" => htmlspecialchars($this->input->post('semester', TRUE))
+            ];
+
+            $this->mahasiswa->edit($data);
+
+            $this->session->set_flashdata('flash-sukses', 'Data berhasil diupdate');
+            redirect('admin/mahasiswa');
+        }
     }
 
     public function resetPassword($id)
@@ -119,9 +143,7 @@ class Mahasiswa extends CI_Controller
                         'nim' => htmlspecialchars(str_replace('\'', '', $row['B'])),
                         'password' => password_hash(str_replace('\'', '',  $row['B']), PASSWORD_DEFAULT),
                         'nama' => htmlspecialchars($row['C']),
-                        'judul' => htmlspecialchars($row['F']),
-                        'dosbing_1' => htmlspecialchars($row['D']),
-                        'dosbing_2' => htmlspecialchars($row['E']),
+                        'semester' => htmlspecialchars($row['D']),
                         'foto' => 'default.jpg'
                     ));
                 }
