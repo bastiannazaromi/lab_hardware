@@ -41,7 +41,7 @@
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                         value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_login">
                     <div class="input-group mb-3">
-                        <input type="text" id="nim" name="nim" class="form-control" placeholder="nim">
+                        <input type="text" id="username" name="username" class="form-control" placeholder="username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -85,24 +85,25 @@
 
 <script>
 function ajax_login() {
-    let nim = $("#nim").val();
+    let username = $("#username").val();
     let password = $("#password").val();
     let csrfName = $("#csrf_login").attr('name');
     let csrfHash = $("#csrf_login").val();
 
     var dataJson = {
         [csrfName]: csrfHash,
-        nim: nim,
+        username: username,
         password: password
     };
 
     $.ajax({
-        url: "<?= base_url('mahasiswa/login/login'); ?>",
+        url: "<?= base_url('login/login'); ?>",
         type: "POST",
         data: dataJson,
         dataType: 'json',
         success: function(result) {
-            if (result.status == 'Valid') {
+            let data = result;
+            if (data.status == 'Valid') {
 
                 Swal.fire({
                     title: 'Success',
@@ -111,15 +112,21 @@ function ajax_login() {
                 }).then((result) => {
                     if (result.value) {
                         setTimeout(function() {
-                            document.location.href =
-                            "<?= base_url('mahasiswa/beranda'); ?>";
+                            if (data.role == 'dosen') {
+                                document.location.href =
+                                    "<?= base_url('dosen/beranda'); ?>";
+                            } else {
+                                document.location.href =
+                                    "<?= base_url('mahasiswa/beranda'); ?>";
+                            }
+
                         }, 500)
                     }
                 });
             } else {
                 Swal.fire({
                     title: 'Sorry !!',
-                    text: result.status,
+                    text: data.status,
                     icon: 'warning'
                 });
 

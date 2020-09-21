@@ -52,6 +52,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $route['admin'] = 'admin/auth';
 $route['mahasiswa'] = 'mahasiswa/beranda';
+$route['dosen'] = 'dosen/beranda';
 
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';

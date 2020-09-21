@@ -63,7 +63,7 @@
                             Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?= base_url('mahasiswa/login/logout'); ?>" data-toggle="modal"
+                        <a class="dropdown-item" href="<?= base_url('login/logout'); ?>" data-toggle="modal"
                             data-target="#logoutModal">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
@@ -178,7 +178,7 @@
                 <div class="modal-body">Pilih "Logout" untuk keluar dari halaman</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-warning" href="<?= base_url('mahasiswa/login/logout'); ?>">Logout</a>
+                    <a class="btn btn-warning" href="<?= base_url('login/logout'); ?>">Logout</a>
                 </div>
             </div>
         </div>

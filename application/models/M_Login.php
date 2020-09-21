@@ -14,12 +14,13 @@ class M_Login extends CI_Model
         if (count($data) === 1) {
             if (password_verify($p, $data[0]->password)) {
                 $login        =    array(
-                    'is_logged_in'    =>     true,
-                    'username'            =>    $u,
-                    'id'            =>    $data[0]->id,
-                    'nim'           =>    $data[0]->nim,
-                    'nama'            =>    $data[0]->nama,
-                    'semester'         => $data[0]->semester
+                    'is_logged_in'  => true,
+                    'username'      => $u,
+                    'id'            => $data[0]->id,
+                    'nim'           => $data[0]->nim,
+                    'nama'          => $data[0]->nama,
+                    'semester'      => $data[0]->semester,
+                    'status'        => $data[0]->status
                 );
                 if ($login) {
                     $this->session->set_userdata('user_login', $login);
@@ -30,7 +31,31 @@ class M_Login extends CI_Model
                 return 'Password Salah';
             }
         } else {
-            return 'NIM tidak terdaftar';
+            $this->db->where('username', $u);
+            $query = $this->db->get('tb_dosen');
+            $data = $query->result();
+
+            if (count($data) === 1) {
+                if (password_verify($p, $data[0]->password)) {
+                    $login        =    array(
+                        'is_logged_in'  => true,
+                        'username'      => $u,
+                        'id'            => $data[0]->id,
+                        'nidn'          => $data[0]->nidn_nipy,
+                        'nama'          => $data[0]->nama,
+                        'status'        => $data[0]->status
+                    );
+                    if ($login) {
+                        $this->session->set_userdata('user_login', $login);
+                        $this->session->set_userdata($login);
+                        return 'Valid';
+                    }
+                } else {
+                    return 'Password Salah';
+                }
+            } else {
+                return 'Username tidak terdaftar';
+            }
         }
     }
 }

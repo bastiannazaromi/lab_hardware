@@ -13,19 +13,19 @@ class Beranda extends CI_Controller
             redirect('login', 'refresh');
         }
 
-        $this->load->model('M_Mahasiswa', 'mahasiswa');
+        $this->load->model('M_Dosen', 'dosen');
     }
 
     public function index()
     {
-        $nim = $this->session->userdata('nim');
-        cek_biodata($nim);
+        $username = $this->session->userdata('username');
+        cek_biodata($username);
 
         $data['title'] = 'LAB HARDWARE';
 
-        $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
+        $data['mahasiswa'] = $this->mahasiswa->getOne($username);
 
-        $data['page'] = 'frontend/mahasiswa/beranda';
+        $data['page'] = 'frontend/dosen/beranda';
 
         $this->load->view('frontend/layout/index', $data);
     }
@@ -48,9 +48,9 @@ class Beranda extends CI_Controller
             $nim = $this->session->userdata('nim');
             $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
 
-            $data['page'] = 'frontend/mahasiswa/profile';
+            $data['page'] = 'mahasiswa/frontend/profile';
 
-            $this->load->view('frontend/layout/index', $data);
+            $this->load->view('mahasiswa/frontend/index', $data);
         } else {
             $this->_update();
         }
@@ -126,9 +126,9 @@ class Beranda extends CI_Controller
             $nim = $this->session->userdata('nim');
             $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
 
-            $data['page'] = 'frontend/mahasiswa/profile';
+            $data['page'] = 'mahasiswa/frontend/profile';
 
-            $this->load->view('frontend/layout/index', $data);
+            $this->load->view('mahasiswa/frontend/index', $data);
         } else {
             $nim = $this->session->userdata('nim');
             $mahasiswa = $this->mahasiswa->getOne($nim);
