@@ -14,6 +14,10 @@ class Beranda extends CI_Controller
         }
 
         $this->load->model('M_Mahasiswa', 'mahasiswa');
+
+        if ($this->session->userdata('status') == 'dosen') {
+            redirect('dosen/beranda');
+        }
     }
 
     public function index()
@@ -27,7 +31,7 @@ class Beranda extends CI_Controller
 
         $data['page'] = 'frontend/mahasiswa/beranda';
 
-        $this->load->view('frontend/layout/index', $data);
+        $this->load->view('frontend/mahasiswa/index', $data);
     }
 
     public function profile()
@@ -50,7 +54,7 @@ class Beranda extends CI_Controller
 
             $data['page'] = 'frontend/mahasiswa/profile';
 
-            $this->load->view('frontend/layout/index', $data);
+            $this->load->view('frontend/mahasiswa/index', $data);
         } else {
             $this->_update();
         }
@@ -128,7 +132,7 @@ class Beranda extends CI_Controller
 
             $data['page'] = 'frontend/mahasiswa/profile';
 
-            $this->load->view('frontend/layout/index', $data);
+            $this->load->view('frontend/mahasiswa/index', $data);
         } else {
             $nim = $this->session->userdata('nim');
             $mahasiswa = $this->mahasiswa->getOne($nim);

@@ -33,19 +33,31 @@ function level($id)
     return $admin[0]['level'];
 }
 
-function cek_biodata($nim)
+function cek_biodata($no_unik)
 {
     $CI = &get_instance();
 
-    $mahasiswa = $CI->mahasiswa->getOne($nim);
+    $CI->load->model('M_Dosen', 'dosen');
+    $CI->load->model('M_Mahasiswa', 'mahasiswa');
 
-    $foto = $mahasiswa[0]['foto'];
-    $no = $mahasiswa[0]['no_telepon'];
-    $email = $mahasiswa[0]['email'];
+    if ($CI->session->userdata('status') == 'mahasiswa') {
+        $data = $CI->mahasiswa->getOne($no_unik);
+    } else {
+        $data = $CI->dosen->getOne($no_unik);
+    }
+
+    $foto = $data[0]['foto'];
+    $no = $data[0]['no_telepon'];
+    $email = $data[0]['email'];
 
     if ($foto == "default.jpg" || $no == null || $email == nulL) {
         $CI->session->set_flashdata('flash-error', 'Lengkapi profile Anda !!');
-        redirect('mahasiswa/beranda/profile');
+
+        if ($CI->session->userdata('status') == 'mahasiswa') {
+            redirect('mahasiswa/beranda/profile');
+        } else {
+            redirect('dosen/beranda/profile');
+        }
     }
 }
 

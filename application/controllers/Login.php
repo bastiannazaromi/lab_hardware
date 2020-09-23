@@ -11,7 +11,11 @@ class Login extends CI_Controller
             if ($this->uri->segment(2) != 'logout') {
                 $this->session->set_flashdata('flash-error', 'Anda Sudah Login');
 
-                redirect('mahasiswa/beranda');
+                if ($this->session->userdata('status') == 'mahasiswa') {
+                    redirect('mahasiswa/beranda');
+                } else {
+                    redirect('dosen/beranda');
+                }
             }
         }
     }
@@ -28,9 +32,9 @@ class Login extends CI_Controller
             'required' => 'Username tidak boleh kosong !',
             'min_length' => 'Username kurang dari 5 digit !'
         ]);
-        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[5]', [
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]', [
             'required' => 'Password harap di isi !',
-            'min_length' => 'Password kurang dari 5'
+            'min_length' => 'Password kurang dari 8'
         ]);
 
         if ($this->form_validation->run() == false) {

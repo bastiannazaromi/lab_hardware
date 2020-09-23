@@ -5,37 +5,42 @@
                 <div class="col-md-4">
                     <div class="card">
                         <img class="rounded-circle img-thumbnail mt-3"
-                            src="<?= base_url('assets/uploads/profile/' . $mahasiswa[0]['foto']); ?>"
-                            alt="Card image cap" width="150" height="150" style="display: block; margin: 0 auto;"
-                            id="gambar_nodin">
+                            src="<?= base_url('assets/uploads/profile/' . $dosen[0]['foto']); ?>" alt="Card image cap"
+                            width="150" height="150" style="display: block; margin: 0 auto;" id="gambar_nodin">
                         <div class="card-body">
-                            <form action="<?= base_url('mahasiswa/beranda/profile'); ?>" method="post"
+                            <form action="<?= base_url('dosen/beranda/profile'); ?>" method="post"
                                 enctype="multipart/form-data">
-                                <input type="hidden" value="<?= $mahasiswa[0]['id']; ?>" name="id">
+                                <input type="hidden" value="<?= $dosen[0]['id']; ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_login">
 
                                 <div class="form-group">
-                                    <label for="nim">NIM</label>
-                                    <input type="text" class="form-control" id="nim" name="nim" required
-                                        autocomplete="off" value="<?= $mahasiswa[0]['nim']; ?>" readonly>
+                                    <label for="nim">NIDN / NIPY</label>
+                                    <input type="text" class="form-control" id="nidn" name="nidn" required
+                                        autocomplete="off" value="<?= $dosen[0]['nidn_nipy']; ?>" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="nama">Nama Mahasiswa</label>
+                                    <label for="nama">Nama Dosen</label>
                                     <input type="text" class="form-control" id="nama" name="nama" required
-                                        autocomplete="off" value="<?= $mahasiswa[0]['nama']; ?>" readonly>
+                                        autocomplete="off" value="<?= $dosen[0]['nama']; ?>" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_telepon">No Telepon</label>
-                                    <input type="text" class="form-control" id="no_telepon" name="no_telepon"
-                                        autocomplete="off" value="<?= $mahasiswa[0]['no_telepon']; ?>">
-                                    <?= form_error('no_telepon', '<small class="text-danger">', '</small>'); ?>
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username"
+                                        autocomplete="off" value="<?= $dosen[0]['username']; ?>">
+                                    <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control" id="email" name="email" autocomplete="off"
-                                        value="<?= $mahasiswa[0]['email']; ?>">
+                                        value="<?= $dosen[0]['email']; ?>">
                                     <?= form_error('email', '<small class="text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_telepon">No Telepon</label>
+                                    <input type="text" class="form-control" id="no_telepon" name="no_telepon"
+                                        autocomplete="off" value="<?= $dosen[0]['no_telepon']; ?>">
+                                    <?= form_error('no_telepon', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Update Foto <small class="text-dark">( Format : jpg |
@@ -57,7 +62,7 @@
                             <h3 class="text-center">Update Password</h3>
                         </div>
                         <div class="card-body ">
-                            <form action="<?= base_url('mahasiswa/beranda/updatePass'); ?>" method="post">
+                            <form action="<?= base_url('dosen/beranda/updatePass'); ?>" method="post">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_login">
 
