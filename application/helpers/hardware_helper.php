@@ -115,3 +115,25 @@ function tanggal_indo()
     $tanggal = Date('d') . " " . bulan() . " " . Date('Y');
     return $tanggal;
 }
+
+function flash_sukses($pesan)
+{
+    return
+        '<div class="alert alert-success alert-dismissible fade show" role="alert">' .
+        $pesan .
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>';
+}
+
+function flash_error($pesan)
+{
+    return
+        '<div class="alert alert-danger alert-dismissible fade show" role="alert">' .
+        $pesan .
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>';
+}

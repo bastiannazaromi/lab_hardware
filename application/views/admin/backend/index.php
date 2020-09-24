@@ -78,7 +78,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="<?= base_url('user/beranda'); ?>" class="brand-link ml-2">
-                <span class="brand-text font-weight-light">SIKAPTA</span>
+                <span class="brand-text font-weight-light">LAB HARDWARE</span>
             </a>
 
             <!-- Sidebar -->
@@ -114,6 +114,15 @@
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     List Mahasiswa
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="<?= base_url('admin/dosen'); ?>" class="nav-link hr">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    List Dosen
                                 </p>
                             </a>
                         </li>

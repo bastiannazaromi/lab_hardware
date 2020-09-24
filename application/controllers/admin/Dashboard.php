@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller
         }
 
         $this->load->model('M_Mahasiswa', 'mahasiswa');
+        $this->load->model('M_Dosen', 'dosen');
 
         $this->load->model('M_Admin', 'admin');
     }
@@ -24,6 +25,8 @@ class Dashboard extends CI_Controller
         $data['page'] = 'admin/backend/dashboard';
 
         $data['mahasiswa'] = count($this->mahasiswa->getAll());
+        $data['dosen'] = count($this->dosen->getAll());
+        $data['admin'] = count($this->admin->getAll());
 
         $this->load->view('admin/backend/index', $data);
     }

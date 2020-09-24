@@ -28,13 +28,13 @@ class Login extends CI_Controller
 
     public function login()
     {
-        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]', [
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[3]', [
             'required' => 'Username tidak boleh kosong !',
-            'min_length' => 'Username kurang dari 5 digit !'
+            'min_length' => 'Username kurang dari 3 digit !'
         ]);
-        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]', [
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[5]', [
             'required' => 'Password harap di isi !',
-            'min_length' => 'Password kurang dari 8'
+            'min_length' => 'Password kurang dari 5'
         ]);
 
         if ($this->form_validation->run() == false) {

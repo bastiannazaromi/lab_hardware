@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mahasiswa extends CI_Controller
+class Dosen extends CI_Controller
 {
 
     public function __construct()
@@ -13,76 +13,77 @@ class Mahasiswa extends CI_Controller
             redirect('admin/auth', 'refresh');
         }
 
-        $this->load->model('M_Mahasiswa', 'mahasiswa');
+        $this->load->model('M_Dosen', 'dosen');
     }
 
     public function index()
     {
-        $data['title'] = 'List Mahasiswa';
-        $data['page'] = 'admin/backend/mahasiswa';
+        $data['title'] = 'List Dosen';
+        $data['page'] = 'admin/backend/dosen';
 
-        $data['mahasiswa'] = $this->mahasiswa->getAll();
+        $data['dosen'] = $this->dosen->getAll();
 
         $this->load->view('admin/backend/index', $data);
     }
 
     public function tambah()
     {
-        $this->form_validation->set_rules('nim', 'NIM', 'required|alpha_numeric|min_length[8]');
+        $this->form_validation->set_rules('nidn', 'NIDN / NIPY', 'required|min_length[3]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('semester', 'Semester', 'required|numeric');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = 'List Mahasiswa';
+            $data['title'] = 'List Dosen';
 
-            $data['mahasiswa'] = $this->mahasiswa->getAll();
+            $data['dosen'] = $this->dosen->getAll();
 
-            $data['page'] = 'admin/backend/mahasiswa';
+            $data['page'] = 'admin/backend/dosen';
 
             $this->load->view('admin/backend/index', $data);
         } else {
 
             $data = [
-                "nim" => htmlspecialchars($this->input->post('nim', TRUE)),
-                "password" => password_hash($this->input->post('nim', TRUE), PASSWORD_DEFAULT),
+                "nidn_nipy" => htmlspecialchars($this->input->post('nidn', TRUE)),
+                "password" => password_hash($this->input->post('username', TRUE), PASSWORD_DEFAULT),
                 "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
-                "semester" => htmlspecialchars($this->input->post('semester', TRUE)),
-                "foto" => 'default.jpg'
+                "username" => htmlspecialchars($this->input->post('username', TRUE)),
+                "foto" => 'default.jpg',
+                "status" => 'dosen'
             ];
 
-            $this->mahasiswa->tambah($data);
+            $this->dosen->tambah($data);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil ditambahkan'));
-            redirect('admin/mahasiswa');
+            redirect('admin/dosen');
         }
     }
 
     public function edit()
     {
-        $this->form_validation->set_rules('nim', 'NIM', 'required|alpha_numeric|min_length[8]');
+        $this->form_validation->set_rules('nidn', 'NIDN / NIPY', 'required|min_length[3]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('semester', 'Semester', 'required|numeric');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]');
 
         if ($this->form_validation->run() == false) {
-            $data['title'] = 'List Mahasiswa';
+            $data['title'] = 'List Dosen';
 
-            $data['mahasiswa'] = $this->mahasiswa->getAll();
+            $data['dosen'] = $this->dosen->getAll();
 
-            $data['page'] = 'admin/backend/mahasiswa';
+            $data['page'] = 'admin/backend/dosen';
 
             $this->load->view('admin/backend/index', $data);
         } else {
             $data = [
-                "nim" => htmlspecialchars($this->input->post('nim', TRUE)),
-                "password" => password_hash($this->input->post('nim', TRUE), PASSWORD_DEFAULT),
+                "nidn_nipy" => htmlspecialchars($this->input->post('nidn', TRUE)),
+                "password" => password_hash($this->input->post('username', TRUE), PASSWORD_DEFAULT),
                 "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
-                "semester" => htmlspecialchars($this->input->post('semester', TRUE))
+                "username" => htmlspecialchars($this->input->post('username', TRUE)),
             ];
 
-            $this->mahasiswa->edit($data);
+            $this->dosen->edit($data);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diupdate'));
-            redirect('admin/mahasiswa');
+            redirect('admin/dosen');
         }
     }
 
@@ -90,23 +91,23 @@ class Mahasiswa extends CI_Controller
     {
         $this->db->where('id', $id);
 
-        $data = $this->db->get('tb_mahasiswa')->result_array();
+        $data = $this->db->get('tb_dosen')->result_array();
 
         $data = [
-            "password" => password_hash($data[0]['nim'], PASSWORD_DEFAULT)
+            "password" => password_hash($data[0]['username'], PASSWORD_DEFAULT)
         ];
 
-        $this->mahasiswa->resetPassword($data, $id);
+        $this->dosen->resetPassword($data, $id);
 
         $this->session->set_flashdata('flash_sukses', flash_sukses('Password berhasil direset !'));
-        redirect('admin/mahasiswa');
+        redirect('admin/dosen');
     }
 
     public function hapus($id)
     {
-        $this->mahasiswa->hapus($id);
+        $this->dosen->hapus($id);
         $this->session->set_flashdata('flash-sukses', 'Data berhasil dihapus');
-        redirect('admin/mahasiswa');
+        redirect('admin/dosen');
     }
 
     public function import()
@@ -125,7 +126,7 @@ class Mahasiswa extends CI_Controller
             //upload gagal
             $this->session->set_flashdata('flash_error', flash_error($this->upload->display_errors()));
             //redirect halaman
-            redirect('admin/mahasiswa');
+            redirect('admin/dosen');
         } else {
 
             $data_upload = $this->upload->data();
@@ -140,24 +141,26 @@ class Mahasiswa extends CI_Controller
             foreach ($sheet as $row) {
                 if ($numrow > 1) {
                     array_push($data, array(
-                        'nim' => htmlspecialchars(str_replace('\'', '', $row['B'])),
-                        'password' => password_hash(str_replace('\'', '',  $row['B']), PASSWORD_DEFAULT),
+                        'nidn_nipy' => htmlspecialchars(str_replace('\'', '', $row['B'])),
+                        'username' => htmlspecialchars(strtolower(str_replace(' ', '', $row['C']))),
+                        'password' => password_hash(strtolower(str_replace(' ', '', $row['C'])), PASSWORD_DEFAULT),
                         'nama' => htmlspecialchars($row['C']),
-                        'semester' => htmlspecialchars($row['D']),
+                        'email' => htmlspecialchars($row['D']),
+                        'no_telepon' => htmlspecialchars(str_replace('\'', '', $row['E'])),
                         'foto' => 'default.jpg',
-                        'status' => 'mahasiswa'
+                        'status' => 'dosen'
                     ));
                 }
                 $numrow++;
             }
-            $this->db->insert_batch('tb_mahasiswa', $data);
+            $this->db->insert_batch('tb_dosen', $data);
             //delete file from server
             unlink(realpath('excel/' . $data_upload['file_name']));
 
             //upload success
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diimport'));
             //redirect halaman
-            redirect('admin/mahasiswa');
+            redirect('admin/dosen');
         }
     }
 
@@ -166,12 +169,12 @@ class Mahasiswa extends CI_Controller
         $id = $this->input->post('id');
         if ($id == NULL) {
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
-            redirect('admin/mahasiswa');
+            redirect('admin/dosen');
         } else {
-            $this->mahasiswa->multiple_delete($id);
+            $this->dosen->multiple_delete($id);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil dihapus'));
-            redirect('admin/mahasiswa');
+            redirect('admin/dosen');
         }
     }
 }

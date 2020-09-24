@@ -17,6 +17,22 @@
             </div>
         </div>
 
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3> <?= $dosen; ?></h3>
+
+                    <p>Total Dosen</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user fa-2x"></i>
+                </div>
+                <a href="<?= base_url('admin/dosen'); ?>" class="small-box-footer">Detail <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
         <?php if (level($this->session->userdata('id')) == 'Super Admin') : ?>
         <div class="col-lg-3 col-6">
             <!-- small box -->
