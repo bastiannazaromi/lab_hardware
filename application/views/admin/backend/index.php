@@ -138,6 +138,38 @@
                         </li>
                         <?php endif; ?>
 
+                        <li class="nav-item has-treeview">
+                            <hr class="bg-light">
+                            <a href="<?= base_url('admin/stok_barang'); ?>" class="nav-link hr">
+                                <i class="fas fa-boxes nav-icon"></i>
+                                <p>Stok Barang</p>
+                            </a>
+                        </li>
+
+                        <!-- <li class="nav-item has-treeview">
+                            <a href="<?= base_url('admin/masuk'); ?>" class="nav-link hr">
+                                <i class="fas fa-dolly-flatbed nav-icon"></i>
+                                <p>Barang Masuk</p>
+                            </a>
+                        </li> -->
+
+                        <li class="nav-item has-treeview">
+                            <a href="<?= base_url('admin/barang_pinjam'); ?>" class="nav-link hr">
+                                <i class="fas fa-shopping-cart nav-icon"></i>
+                                <p>Barang Dipinjam</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="<?= base_url('admin/rekap'); ?>" class="nav-link hr">
+                                <i class="fas fa-history nav-icon"></i>
+                                <p>Rekap Peminjaman</p>
+                            </a>
+                            <hr class="bg-light">
+                        </li>
+
+
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -189,6 +221,8 @@
 
     <script src="<?= base_url('assets/sweetalert/sweetalert2.js'); ?> "></script>
     <script src="<?= base_url('assets/sweetalert/new_script.js'); ?> "></script>
+
+    <script src="<?php echo base_url(); ?>assets/js/script_hardware.js"></script>
 
     <script src="<?php echo base_url(); ?>assets/datatable/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/datatable/dataTables.bootstrap4.min.js"></script>
