@@ -44,7 +44,7 @@
                                                     class="dipinjam"
                                                     <?= $hasil['status'] == 'Dipinjam' ? 'checked' : ''; ?>
                                                     data-id="<?= $hasil['id']; ?>"
-                                                    data-id_brg="<?= $hasil['id_brg']; ?>"
+                                                    data-nama_barang="<?= $hasil['nama_barang']; ?>"
                                                     data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Dipinjam">
                                                 Dipinjam
                                             </label>
@@ -53,7 +53,7 @@
                                                     class="selesai"
                                                     <?= $hasil['status'] == 'Selesai' ? 'checked' : ''; ?>
                                                     data-id="<?= $hasil['id']; ?>"
-                                                    data-id_brg="<?= $hasil['id_brg']; ?>"
+                                                    data-nama_barang="<?= $hasil['nama_barang']; ?>"
                                                     data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Selesai">
                                                 Selesai
                                             </span>
@@ -111,14 +111,14 @@ $(document).ready(function() {
     for (dipinjam of dipinjams) {
         dipinjam.addEventListener("change", function(event) {
             let id = $(this).data('id');
-            let id_brg = $(this).data('id_brg');
+            let nama_barang = $(this).data('nama_barang');
             let jumlah = $(this).data('jumlah');
             let status = $(this).data('status');
 
             var dataJson = {
                 [csrfName]: csrfHash,
                 id: id,
-                id_brg: id_brg,
+                nama_barang: nama_barang,
                 jumlah: jumlah,
                 status: status
             };

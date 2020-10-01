@@ -16,12 +16,14 @@ class Mahasiswa extends CI_Controller
         $this->load->model('M_Mahasiswa', 'mahasiswa');
     }
 
-    public function index()
+    public function semester($semester = null)
     {
         $data['title'] = 'List Mahasiswa';
         $data['page'] = 'admin/backend/mahasiswa';
 
-        $data['mahasiswa'] = $this->mahasiswa->getAll();
+        $data['mahasiswa'] = $this->mahasiswa->getSemester($semester);
+
+        $this->session->set_userdata('previous_url', current_url());
 
         $this->load->view('admin/backend/index', $data);
     }
@@ -31,6 +33,7 @@ class Mahasiswa extends CI_Controller
         $this->form_validation->set_rules('nim', 'NIM', 'required|alpha_numeric|min_length[8]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('semester', 'Semester', 'required|numeric');
+        $this->form_validation->set_rules('kelas', 'Kelas', 'required|alpha');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'List Mahasiswa';
@@ -47,13 +50,16 @@ class Mahasiswa extends CI_Controller
                 "password" => password_hash($this->input->post('nim', TRUE), PASSWORD_DEFAULT),
                 "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
                 "semester" => htmlspecialchars($this->input->post('semester', TRUE)),
+                "kelas" => htmlspecialchars($this->input->post('kelas', TRUE)),
                 "foto" => 'default.jpg'
             ];
 
             $this->mahasiswa->tambah($data);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil ditambahkan'));
-            redirect('admin/mahasiswa');
+            $previous_url = $this->session->userdata('previous_url');
+
+            redirect($previous_url);
         }
     }
 
@@ -62,6 +68,7 @@ class Mahasiswa extends CI_Controller
         $this->form_validation->set_rules('nim', 'NIM', 'required|alpha_numeric|min_length[8]');
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('semester', 'Semester', 'required|numeric');
+        $this->form_validation->set_rules('kelas', 'Kelas', 'required|alpha');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'List Mahasiswa';
@@ -76,13 +83,16 @@ class Mahasiswa extends CI_Controller
                 "nim" => htmlspecialchars($this->input->post('nim', TRUE)),
                 "password" => password_hash($this->input->post('nim', TRUE), PASSWORD_DEFAULT),
                 "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
-                "semester" => htmlspecialchars($this->input->post('semester', TRUE))
+                "semester" => htmlspecialchars($this->input->post('semester', TRUE)),
+                "kelas" => htmlspecialchars($this->input->post('kelas', TRUE)),
             ];
 
             $this->mahasiswa->edit($data);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diupdate'));
-            redirect('admin/mahasiswa');
+            $previous_url = $this->session->userdata('previous_url');
+
+            redirect($previous_url);
         }
     }
 
@@ -99,14 +109,19 @@ class Mahasiswa extends CI_Controller
         $this->mahasiswa->resetPassword($data, $id);
 
         $this->session->set_flashdata('flash_sukses', flash_sukses('Password berhasil direset !'));
-        redirect('admin/mahasiswa');
+
+        $previous_url = $this->session->userdata('previous_url');
+
+        redirect($previous_url);
     }
 
     public function hapus($id)
     {
         $this->mahasiswa->hapus($id);
         $this->session->set_flashdata('flash-sukses', 'Data berhasil dihapus');
-        redirect('admin/mahasiswa');
+        $previous_url = $this->session->userdata('previous_url');
+
+        redirect($previous_url);
     }
 
     public function import()
@@ -139,25 +154,40 @@ class Mahasiswa extends CI_Controller
             $numrow = 1;
             foreach ($sheet as $row) {
                 if ($numrow > 1) {
-                    array_push($data, array(
-                        'nim' => htmlspecialchars(str_replace('\'', '', $row['B'])),
-                        'password' => password_hash(str_replace('\'', '',  $row['B']), PASSWORD_DEFAULT),
-                        'nama' => htmlspecialchars($row['C']),
-                        'semester' => htmlspecialchars($row['D']),
-                        'foto' => 'default.jpg',
-                        'status' => 'mahasiswa'
-                    ));
+
+                    $cek = $this->db->get_where('tb_mahasiswa', ['nim' => str_replace('\'', '', $row['B'])])->result_array();
+
+                    if (!$cek) {
+                        array_push($data, array(
+                            'nim' => htmlspecialchars(str_replace('\'', '', $row['B'])),
+                            'password' => password_hash(str_replace('\'', '',  $row['B']), PASSWORD_DEFAULT),
+                            'nama' => htmlspecialchars($row['C']),
+                            'semester' => htmlspecialchars($row['D']),
+                            'kelas' => htmlspecialchars($row['E']),
+                            'foto' => 'default.jpg',
+                            'status' => 'mahasiswa'
+                        ));
+                    }
                 }
                 $numrow++;
             }
-            $this->db->insert_batch('tb_mahasiswa', $data);
+
+            if (count($data) != 0) {
+                $this->db->insert_batch('tb_mahasiswa', $data);
+
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diimport'));
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Gagal import !'));
+            }
             //delete file from server
             unlink(realpath('excel/' . $data_upload['file_name']));
 
             //upload success
-            $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diimport'));
+
             //redirect halaman
-            redirect('admin/mahasiswa');
+            $previous_url = $this->session->userdata('previous_url');
+
+            redirect($previous_url);
         }
     }
 
@@ -166,12 +196,16 @@ class Mahasiswa extends CI_Controller
         $id = $this->input->post('id');
         if ($id == NULL) {
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
-            redirect('admin/mahasiswa');
+            $previous_url = $this->session->userdata('previous_url');
+
+            redirect($previous_url);
         } else {
             $this->mahasiswa->multiple_delete($id);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil dihapus'));
-            redirect('admin/mahasiswa');
+            $previous_url = $this->session->userdata('previous_url');
+
+            redirect($previous_url);
         }
     }
 }

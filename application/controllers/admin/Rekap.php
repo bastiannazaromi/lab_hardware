@@ -30,7 +30,7 @@ class Rekap extends CI_Controller
     public function update()
     {
         $id = $this->input->post('id');
-        $id_brg = $this->input->post('id_brg');
+        $nama_barang = $this->input->post('nama_barang');
         $jumlah = $this->input->post('jumlah');
         $status = $this->input->post('status');
 
@@ -42,14 +42,14 @@ class Rekap extends CI_Controller
         $this->db->where('id', $id);
         $this->db->update('tb_pinjaman', $data);
 
-        $barang = $this->stok->getOne($id_brg);
+        $barang = $this->stok->getOne($nama_barang);
         $dipinjam = $barang[0]['dipinjam'];
 
         $data2 = [
             'dipinjam' => $dipinjam + $jumlah
         ];
 
-        $this->db->where('id', $id_brg);
+        $this->db->where('nama_barang', $nama_barang);
         $this->db->update('tb_barang', $data2);
     }
 

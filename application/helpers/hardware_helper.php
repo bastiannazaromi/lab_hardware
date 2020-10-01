@@ -137,3 +137,17 @@ function flash_error($pesan)
         </button>
         </div>';
 }
+
+function semester()
+{
+    $CI = &get_instance();
+
+    $CI->load->model('M_Mahasiswa', 'mahasiswa');
+
+    $CI->db->select('semester');
+    $CI->db->from('tb_mahasiswa');
+    $CI->db->group_by('semester');
+    $CI->db->order_by('semester');
+
+    return $CI->db->get()->result_array();
+}

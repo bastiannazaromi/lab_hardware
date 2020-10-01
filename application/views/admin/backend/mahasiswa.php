@@ -39,6 +39,7 @@
                                     <th>NIM</th>
                                     <th>Nama</th>
                                     <th>Semester</th>
+                                    <th>Kelas</th>
                                     <th>Password</th>
                                     <th>Action</th>
                                     <th>
@@ -54,6 +55,7 @@
                                     <td><?= $hasil['nim']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
                                     <td><?= $hasil['semester']; ?></td>
+                                    <td><?= $hasil['kelas']; ?></td>
                                     <td><a href="<?= base_url() ?>admin/mahasiswa/resetPassword/<?= $hasil['id']; ?>"
                                             class="badge badge-success delete-people"><i class="fa fa-edit"></i>
                                             Reset</a>
@@ -73,6 +75,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
@@ -133,6 +136,27 @@
                             <option value="6">6</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="kelas">Kelas</label>
+                        <select class="custom-select" id="kelas" name="kelas">
+                            <option value="">-- Pilih Kelas --</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                            <option value="O">O</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -186,6 +210,27 @@
                             </option>
                             <option value="6" <?php if ($dt['semester'] == '6') echo 'selected="selected"'; ?>>6
                             </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kelas">Kelas</label>
+                        <select class="custom-select" id="kelas" name="kelas">
+                            <option value="">-- Pilih Kelas --</option>
+                            <option value="A" <?php if ($dt['kelas'] == 'A') echo 'selected="selected"'; ?>>A</option>
+                            <option value="B" <?php if ($dt['kelas'] == 'B') echo 'selected="selected"'; ?>>B</option>
+                            <option value="C" <?php if ($dt['kelas'] == 'C') echo 'selected="selected"'; ?>>C</option>
+                            <option value="D" <?php if ($dt['kelas'] == 'D') echo 'selected="selected"'; ?>>D</option>
+                            <option value="E" <?php if ($dt['kelas'] == 'E') echo 'selected="selected"'; ?>>E</option>
+                            <option value="F" <?php if ($dt['kelas'] == 'F') echo 'selected="selected"'; ?>>F</option>
+                            <option value="G" <?php if ($dt['kelas'] == 'G') echo 'selected="selected"'; ?>>G</option>
+                            <option value="H" <?php if ($dt['kelas'] == 'H') echo 'selected="selected"'; ?>>H</option>
+                            <option value="I" <?php if ($dt['kelas'] == 'I') echo 'selected="selected"'; ?>>I</option>
+                            <option value="J" <?php if ($dt['kelas'] == 'J') echo 'selected="selected"'; ?>>J</option>
+                            <option value="K" <?php if ($dt['kelas'] == 'K') echo 'selected="selected"'; ?>>K</option>
+                            <option value="L" <?php if ($dt['kelas'] == 'L') echo 'selected="selected"'; ?>>L</option>
+                            <option value="M" <?php if ($dt['kelas'] == 'M') echo 'selected="selected"'; ?>>M</option>
+                            <option value="N" <?php if ($dt['kelas'] == 'N') echo 'selected="selected"'; ?>>N</option>
+                            <option value="O" <?php if ($dt['kelas'] == 'O') echo 'selected="selected"'; ?>>O</option>
                         </select>
                     </div>
                 </div>

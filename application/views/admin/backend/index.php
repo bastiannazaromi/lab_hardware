@@ -110,15 +110,32 @@
                         </li>
 
                         <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/mahasiswa'); ?>" class="nav-link hr">
+                            <a href="#" class="nav-link hr">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     List Mahasiswa
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+
+
+
+                            <ul class="nav nav-treeview">
+                                <?php foreach (semester() as $hasil) : ?>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/mahasiswa/semester/') . $hasil['semester']; ?>"
+                                        class="nav-link">
+                                        <i class="far fa-user nav-icon"></i>
+                                        <p>Semester <?= $hasil['semester']; ?></p>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+
                         </li>
 
                         <li class="nav-item has-treeview">
+                            <hr class="bg-light">
                             <a href="<?= base_url('admin/dosen'); ?>" class="nav-link hr">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
@@ -145,13 +162,6 @@
                                 <p>Stok Barang</p>
                             </a>
                         </li>
-
-                        <!-- <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/masuk'); ?>" class="nav-link hr">
-                                <i class="fas fa-dolly-flatbed nav-icon"></i>
-                                <p>Barang Masuk</p>
-                            </a>
-                        </li> -->
 
                         <li class="nav-item has-treeview">
                             <a href="<?= base_url('admin/barang_pinjam'); ?>" class="nav-link hr">

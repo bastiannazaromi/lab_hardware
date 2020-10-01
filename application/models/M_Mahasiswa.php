@@ -13,6 +13,23 @@ class M_Mahasiswa extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function getSemester($semester)
+    {
+        if ($semester == null) {
+            $this->db->select('*');
+            $this->db->from('tb_mahasiswa');
+            $this->db->order_by('semester');
+            $this->db->order_by('nim');
+
+            return $this->db->get()->result_array();
+        } else {
+            $this->db->where('semester', $semester);
+            $this->db->order_by('nim');
+
+            return $this->db->get('tb_mahasiswa')->result_array();
+        }
+    }
+
     public function getOne($nim)
     {
         $this->db->where('nim', $nim);
