@@ -177,7 +177,7 @@ class Mahasiswa extends CI_Controller
 
                 $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diimport'));
             } else {
-                $this->session->set_flashdata('flash_error', flash_error('Gagal import !'));
+                $this->session->set_flashdata('flash_error', flash_error('Gagal import ! Data kosong / sudah ada dalam database'));
             }
             //delete file from server
             unlink(realpath('excel/' . $data_upload['file_name']));

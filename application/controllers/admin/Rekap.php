@@ -42,7 +42,7 @@ class Rekap extends CI_Controller
         $this->db->where('id', $id);
         $this->db->update('tb_pinjaman', $data);
 
-        $barang = $this->stok->getOne($nama_barang);
+        $barang = $this->stok->getNama($nama_barang);
         $dipinjam = $barang[0]['dipinjam'];
 
         $data2 = [

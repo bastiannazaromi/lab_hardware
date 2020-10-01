@@ -20,6 +20,12 @@ class M_Stok extends CI_Model
         return $this->db->get('tb_barang')->result_array();
     }
 
+    public function getNama($nama_barang)
+    {
+        $this->db->where('nama_barang', $nama_barang);
+        return $this->db->get('tb_barang')->result_array();
+    }
+
     public function tambah($data)
     {
         $this->db->insert('tb_barang', $data);

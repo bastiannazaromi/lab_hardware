@@ -18,7 +18,7 @@ class M_Pinjam extends CI_Model
 
     public function getOne($id)
     {
-        $this->db->where('nim', $id);
+        $this->db->where('id', $id);
         return $this->db->get('tb_pinjaman')->result_array();
     }
 

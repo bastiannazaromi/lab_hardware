@@ -43,14 +43,14 @@ class Barang_pinjam extends CI_Controller
             $this->db->where('id', $id);
             $this->db->update('tb_pinjaman', $data);
 
-            $barang = $this->stok->getOne($nama_barang);
+            $barang = $this->stok->getNama($nama_barang);
             $dipinjam = $barang[0]['dipinjam'];
 
             $data2 = [
                 'dipinjam' => $dipinjam - $jumlah
             ];
 
-            $this->db->where('id', $nama_barang);
+            $this->db->where('nama_barang', $nama_barang);
             $this->db->update('tb_barang', $data2);
         } else {
             $data = [
