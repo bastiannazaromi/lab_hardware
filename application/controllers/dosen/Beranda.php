@@ -15,7 +15,7 @@ class Beranda extends CI_Controller
 
         $this->load->model('M_Dosen', 'dosen');
 
-        if ($this->session->userdata('status') == 'mahasiswa') {
+        if ($this->session->userdata('status') == "Mahasiswa") {
             redirect('mahasiswa/beranda');
         }
     }

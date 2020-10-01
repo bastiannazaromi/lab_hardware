@@ -14,8 +14,9 @@ class Beranda extends CI_Controller
         }
 
         $this->load->model('M_Mahasiswa', 'mahasiswa');
+        $this->load->model('M_Pinjam', 'pinjam');
 
-        if ($this->session->userdata('status') == 'dosen') {
+        if ($this->session->userdata('status') == "Dosen") {
             redirect('dosen/beranda');
         }
     }
@@ -28,6 +29,7 @@ class Beranda extends CI_Controller
         $data['title'] = 'LAB HARDWARE';
 
         $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
+        $data['pinjaman'] = $this->pinjam->getAllMahasiswa($nim);
 
         $data['page'] = 'frontend/mahasiswa/beranda';
 
@@ -156,6 +158,19 @@ class Beranda extends CI_Controller
                 redirect('mahasiswa/beranda/profile', 'refresh');
             }
         }
+    }
+
+    public function cari_barang()
+    {
+        $kategori = $this->input->post('kategori');
+
+        $this->db->where('kategori', $kategori);
+        $this->db->order_by('nama_barang');
+        $a = $this->db->get('tb_barang')->result_array();
+
+        $data['hasil'] = $a;
+        $data['token'] = $this->security->get_csrf_hash();
+        echo json_encode($data);
     }
 }
         

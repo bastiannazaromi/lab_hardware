@@ -17,50 +17,30 @@ $(document).ready(function () {
 		}
 	});
 
+	var edit_brgs = $('.edit_brg');
+	var normals = $('.normal_e');
+	var stoks = $('.stok_e');
+	var rusaks = $('.rusak_e');
+	var pesan_rusaks = $('.pesan_rusak_e');
+	var edit_barangs = $('.edit_barang');
 
-	$("#normal_e").change(function () {
-		let stok = $("#stok_e").val();
-		let normal = $("#normal_e").val();
+	$(edit_brgs).each(function (i) {
+		$(normals[i]).change(function () {
+			let stok = $(stoks[i]).val();
+			let normal = $(normals[i]).val();
+			let rusak = stok - normal;
 
-		let rusak = stok - normal;
+			if (rusak < 0) {
+				$(rusaks[i]).val('');
+				$(pesan_rusaks[i]).text('Jumlah barang normal melebihi stok !');
+				$(edit_barangs[i]).attr('disabled', 'disabled');
+			} else {
+				$(rusaks[i]).val(rusak);
+				$(pesan_rusaks[i]).text('');
+				$(edit_barangs[i]).removeAttr('disabled');
+			}
+		});
 
-		if (rusak < 0) {
-			$("#rusak_e").val('');
-			$("#pesan_rusak_e").text('Jumlah barang normal melebihi stok !');
-			$("#tambah_barang_e").attr('disabled', 'disabled');
-		} else {
-			$("#rusak_e").val(rusak);
-			$("#pesan_rusak_e").text('');
-			$("#edit_barang").removeAttr('disabled');
-		}
 	});
-
-	var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>',
-		csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
-
-	var menunggus = $('.menunggu');
-	var dipinjams = $('.dipinjam');
-	var selesais = $('.selesai');
-
-	for (menunggu of menunggus) {
-		menunggu.addEventListener("change", function (event) {
-			let id = $(this).data('id');
-			console.log(id);
-		});
-	}
-
-	for (dipinjam of dipinjams) {
-		dipinjam.addEventListener("change", function (event) {
-			let id = $(this).data('id');
-			console.log(id);
-		});
-	}
-
-	for (selesai of selesais) {
-		selesai.addEventListener("change", function (event) {
-			let id = $(this).data('id');
-			console.log(id);
-		});
-	}
 
 });

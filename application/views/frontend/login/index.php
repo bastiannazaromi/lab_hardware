@@ -112,7 +112,7 @@ function ajax_login() {
                 }).then((result) => {
                     if (result.value) {
                         setTimeout(function() {
-                            if (data.role == 'dosen') {
+                            if (data.role == "Dosen") {
                                 document.location.href =
                                     "<?= base_url('dosen/beranda'); ?>";
                             } else {
@@ -121,6 +121,7 @@ function ajax_login() {
                             }
 
                         }, 500)
+
                     }
                 });
             } else {

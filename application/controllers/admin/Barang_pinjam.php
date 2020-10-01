@@ -14,6 +14,7 @@ class Barang_pinjam extends CI_Controller
         }
 
         $this->load->model('M_Pinjam', 'pinjam');
+        $this->load->model('M_Stok', 'stok');
     }
 
     public function index()
@@ -24,6 +25,41 @@ class Barang_pinjam extends CI_Controller
         $data['pinjam'] = $this->pinjam->getAll();
 
         $this->load->view('admin/backend/index', $data);
+    }
+
+    public function update()
+    {
+        $id = $this->input->post('id');
+        $id_brg = $this->input->post('id_brg');
+        $jumlah = $this->input->post('jumlah');
+        $status = $this->input->post('status');
+
+        if ($status == 'Selesai') {
+            $data = [
+                'tanggal_kembali' => date('Y-m-d H:i:s'),
+                'status' => $status
+            ];
+
+            $this->db->where('id', $id);
+            $this->db->update('tb_pinjaman', $data);
+
+            $barang = $this->stok->getOne($id_brg);
+            $dipinjam = $barang[0]['dipinjam'];
+
+            $data2 = [
+                'dipinjam' => $dipinjam - $jumlah
+            ];
+
+            $this->db->where('id', $id_brg);
+            $this->db->update('tb_barang', $data2);
+        } else {
+            $data = [
+                'status' => $status
+            ];
+
+            $this->db->where('id', $id);
+            $this->db->update('tb_pinjaman', $data);
+        }
     }
 
     public function multiple_delete()

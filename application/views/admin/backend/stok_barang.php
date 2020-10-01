@@ -63,9 +63,9 @@
                                     <td><?= $hasil['normal']; ?></td>
                                     <td><?= $hasil['rusak']; ?></td>
                                     <td><?= $hasil['dipinjam']; ?></td>
-                                    <td><?= $hasil['stok'] - $hasil['dipinjam']; ?></td>
+                                    <td><?= $hasil['normal'] - $hasil['dipinjam']; ?></td>
                                     <td>
-                                        <a href="#" class="badge badge-warning" data-toggle="modal"
+                                        <a href="#" class="badge badge-warning edit_brg" data-toggle="modal"
                                             data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
                                             Edit</a>
                                     </td>
@@ -80,21 +80,22 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>
                                         <center>
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Apakah anda yakin ingin menghapus data-data ini ?')"><i
                                                     class="fa fa-trash "></i></button>
                                         </center>
-                                    </th>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>

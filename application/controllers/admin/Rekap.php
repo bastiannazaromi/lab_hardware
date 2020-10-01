@@ -14,6 +14,7 @@ class Rekap extends CI_Controller
         }
 
         $this->load->model('M_Rekap', 'rekap');
+        $this->load->model('M_Stok', 'stok');
     }
 
     public function index()
@@ -24,6 +25,32 @@ class Rekap extends CI_Controller
         $data['rekap'] = $this->rekap->getAll();
 
         $this->load->view('admin/backend/index', $data);
+    }
+
+    public function update()
+    {
+        $id = $this->input->post('id');
+        $id_brg = $this->input->post('id_brg');
+        $jumlah = $this->input->post('jumlah');
+        $status = $this->input->post('status');
+
+        $data = [
+            'tanggal_kembali' => null,
+            'status' => $status
+        ];
+
+        $this->db->where('id', $id);
+        $this->db->update('tb_pinjaman', $data);
+
+        $barang = $this->stok->getOne($id_brg);
+        $dipinjam = $barang[0]['dipinjam'];
+
+        $data2 = [
+            'dipinjam' => $dipinjam + $jumlah
+        ];
+
+        $this->db->where('id', $id_brg);
+        $this->db->update('tb_barang', $data2);
     }
 
     public function multiple_delete()

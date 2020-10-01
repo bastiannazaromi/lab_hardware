@@ -41,19 +41,28 @@
                                                 <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
                                                     class="menunggu"
                                                     <?= $hasil['status'] == 'Menunggu' ? 'checked' : ''; ?>
-                                                    data-id="<?= $hasil['id']; ?>"> Menunggu
+                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id_brg="<?= $hasil['id_brg']; ?>"
+                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Menunggu">
+                                                Menunggu
                                             </label>
                                             <label class="badge badge-warning">
                                                 <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
                                                     class="dipinjam"
                                                     <?= $hasil['status'] == 'Dipinjam' ? 'checked' : ''; ?>
-                                                    data-id="<?= $hasil['id']; ?>"> Dipinjam
+                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id_brg="<?= $hasil['id_brg']; ?>"
+                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Dipinjam">
+                                                Dipinjam
                                             </label>
                                             <span class="badge badge-success">
                                                 <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
                                                     class="selesai"
                                                     <?= $hasil['status'] == 'Selesai' ? 'checked' : ''; ?>
-                                                    data-id="<?= $hasil['id']; ?>"> Selesai
+                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id_brg="<?= $hasil['id_brg']; ?>"
+                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Selesai">
+                                                Selesai
                                             </span>
                                         </div>
                                     </td>
@@ -68,20 +77,20 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>
                                         <center>
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Apakah anda yakin ingin menghapus data-data ini ?')"><i
                                                     class="fa fa-trash "></i></button>
                                         </center>
-                                    </th>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -93,3 +102,97 @@
     </div>
 
 </section>
+
+<script src="<?= base_url(); ?>assets/admin/plugins/jquery/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>',
+        csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+    var menunggus = $('.menunggu');
+    var dipinjams = $('.dipinjam');
+    var selesais = $('.selesai');
+
+    for (menunggu of menunggus) {
+        menunggu.addEventListener("change", function(event) {
+            let id = $(this).data('id');
+            let id_brg = $(this).data('id_brg');
+            let jumlah = $(this).data('jumlah');
+            let status = $(this).data('status');
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                id: id,
+                id_brg: id_brg,
+                jumlah: jumlah,
+                status: status
+            };
+
+            $.ajax({
+                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                type: 'post',
+                data: dataJson,
+                success: function() {
+                    document.location.href =
+                        `<?= base_url('admin/barang_pinjam'); ?>`;
+                }
+            });
+        });
+    }
+
+    for (dipinjam of dipinjams) {
+        dipinjam.addEventListener("change", function(event) {
+            let id = $(this).data('id');
+            let id_brg = $(this).data('id_brg');
+            let jumlah = $(this).data('jumlah');
+            let status = $(this).data('status');
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                id: id,
+                id_brg: id_brg,
+                jumlah: jumlah,
+                status: status
+            };
+
+            $.ajax({
+                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                type: 'post',
+                data: dataJson,
+                success: function() {
+                    document.location.href =
+                        `<?= base_url('admin/barang_pinjam'); ?>`;
+                }
+            });
+        });
+    }
+
+    for (selesai of selesais) {
+        selesai.addEventListener("change", function(event) {
+            let id = $(this).data('id');
+            let id_brg = $(this).data('id_brg');
+            let jumlah = $(this).data('jumlah');
+            let status = $(this).data('status');
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                id: id,
+                id_brg: id_brg,
+                jumlah: jumlah,
+                status: status
+            };
+
+            $.ajax({
+                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                type: 'post',
+                data: dataJson,
+                success: function() {
+                    document.location.href =
+                        `<?= base_url('admin/barang_pinjam'); ?>`;
+                }
+            });
+        });
+    }
+});
+</script>

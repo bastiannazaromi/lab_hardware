@@ -55,19 +55,19 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>
                                         <center>
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Apakah anda yakin ingin menghapus data-data ini ?')"><i
                                                     class="fa fa-trash "></i></button>
                                         </center>
-                                    </th>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>

@@ -40,7 +40,7 @@ function cek_biodata($no_unik)
     $CI->load->model('M_Dosen', 'dosen');
     $CI->load->model('M_Mahasiswa', 'mahasiswa');
 
-    if ($CI->session->userdata('status') == 'mahasiswa') {
+    if ($CI->session->userdata('status') == "Mahasiswa") {
         $data = $CI->mahasiswa->getOne($no_unik);
     } else {
         $data = $CI->dosen->getOne($no_unik);
@@ -53,7 +53,7 @@ function cek_biodata($no_unik)
     if ($foto == "default.jpg" || $no == null || $email == nulL) {
         $CI->session->set_flashdata('flash-error', 'Lengkapi profile Anda !!');
 
-        if ($CI->session->userdata('status') == 'mahasiswa') {
+        if ($CI->session->userdata('status') == "Mahasiswa") {
             redirect('mahasiswa/beranda/profile');
         } else {
             redirect('dosen/beranda/profile');

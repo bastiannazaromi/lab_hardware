@@ -20,6 +20,7 @@
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
                                     <th>Tanggal kembali</th>
+                                    <th>Action</th>
                                     <th>
                                         <center><input type="checkbox" id="check-all"></center>
                                     </th>
@@ -37,6 +38,28 @@
                                     <td><?= $hasil['tanggal_pinjam']; ?></td>
                                     <td><?= $hasil['tanggal_kembali']; ?></td>
                                     <td>
+                                        <div class="form-group" class="badge">
+                                            <label class="badge badge-warning">
+                                                <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
+                                                    class="dipinjam"
+                                                    <?= $hasil['status'] == 'Dipinjam' ? 'checked' : ''; ?>
+                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id_brg="<?= $hasil['id_brg']; ?>"
+                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Dipinjam">
+                                                Dipinjam
+                                            </label>
+                                            <span class="badge badge-success">
+                                                <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
+                                                    class="selesai"
+                                                    <?= $hasil['status'] == 'Selesai' ? 'checked' : ''; ?>
+                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id_brg="<?= $hasil['id_brg']; ?>"
+                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Selesai">
+                                                Selesai
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
                                         <center>
                                             <input type="checkbox" class="check-item" name="id[]"
                                                 value="<?= $hasil['id'] ?>">
@@ -47,20 +70,21 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>-</th>
-                                    <th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>
                                         <center>
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Apakah anda yakin ingin menghapus data-data ini ?')"><i
                                                     class="fa fa-trash "></i></button>
                                         </center>
-                                    </th>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -72,3 +96,43 @@
     </div>
 
 </section>
+
+<script src="<?= base_url(); ?>assets/admin/plugins/jquery/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>',
+        csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+    var menunggus = $('.menunggu');
+    var dipinjams = $('.dipinjam');
+    var selesais = $('.selesai');
+
+    for (dipinjam of dipinjams) {
+        dipinjam.addEventListener("change", function(event) {
+            let id = $(this).data('id');
+            let id_brg = $(this).data('id_brg');
+            let jumlah = $(this).data('jumlah');
+            let status = $(this).data('status');
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                id: id,
+                id_brg: id_brg,
+                jumlah: jumlah,
+                status: status
+            };
+
+            $.ajax({
+                url: "<?= base_url('admin/rekap/update'); ?>",
+                type: 'post',
+                data: dataJson,
+                success: function() {
+                    document.location.href =
+                        `<?= base_url('admin/rekap'); ?>`;
+                }
+            });
+        });
+    }
+});
+</script>

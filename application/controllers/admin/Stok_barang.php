@@ -44,12 +44,15 @@ class Stok_barang extends CI_Controller
             $this->load->view('admin/backend/index', $data);
         } else {
 
+            $stok = htmlspecialchars($this->input->post('stok', TRUE));
+            $normal = htmlspecialchars($this->input->post('normal', TRUE));
+
             $data = [
                 "kategori" => htmlspecialchars($this->input->post('kategori', TRUE)),
                 "nama_barang" => htmlspecialchars($this->input->post('nama', TRUE)),
-                "stok" => htmlspecialchars($this->input->post('stok', TRUE)),
-                "normal" => htmlspecialchars($this->input->post('normal', TRUE)),
-                "rusak" => htmlspecialchars($this->input->post('rusak', TRUE))
+                "stok" => $stok,
+                "normal" => $normal,
+                "rusak" => $stok - $normal
             ];
 
             $this->stok->tambah($data);
@@ -76,12 +79,15 @@ class Stok_barang extends CI_Controller
 
             $this->load->view('admin/backend/index', $data);
         } else {
+            $stok = htmlspecialchars($this->input->post('stok', TRUE));
+            $normal = htmlspecialchars($this->input->post('normal', TRUE));
+
             $data = [
                 "kategori" => htmlspecialchars($this->input->post('kategori', TRUE)),
                 "nama_barang" => htmlspecialchars($this->input->post('nama', TRUE)),
-                "stok" => htmlspecialchars($this->input->post('stok', TRUE)),
-                "normal" => htmlspecialchars($this->input->post('normal', TRUE)),
-                "rusak" => htmlspecialchars($this->input->post('rusak', TRUE))
+                "stok" => $stok,
+                "normal" => $normal,
+                "rusak" => $stok - $normal
             ];
 
             $this->stok->edit($data);
