@@ -157,16 +157,18 @@ class Mahasiswa extends CI_Controller
 
                     $cek = $this->db->get_where('tb_mahasiswa', ['nim' => str_replace('\'', '', $row['B'])])->result_array();
 
-                    if (!$cek) {
-                        array_push($data, array(
-                            'nim' => htmlspecialchars(str_replace('\'', '', $row['B'])),
-                            'password' => password_hash(str_replace('\'', '',  $row['B']), PASSWORD_DEFAULT),
-                            'nama' => htmlspecialchars($row['C']),
-                            'semester' => htmlspecialchars($row['D']),
-                            'kelas' => htmlspecialchars($row['E']),
-                            'foto' => 'default.jpg',
-                            'status' => 'mahasiswa'
-                        ));
+                    if ($row['A'] != null) {
+                        if (!$cek) {
+                            array_push($data, array(
+                                'nim' => htmlspecialchars(str_replace('\'', '', $row['B'])),
+                                'password' => password_hash(str_replace('\'', '',  $row['B']), PASSWORD_DEFAULT),
+                                'nama' => htmlspecialchars($row['C']),
+                                'semester' => htmlspecialchars($row['D']),
+                                'kelas' => htmlspecialchars($row['E']),
+                                'foto' => 'default.jpg',
+                                'status' => 'mahasiswa'
+                            ));
+                        }
                     }
                 }
                 $numrow++;
