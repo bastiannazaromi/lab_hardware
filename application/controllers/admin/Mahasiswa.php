@@ -184,8 +184,6 @@ class Mahasiswa extends CI_Controller
             //delete file from server
             unlink(realpath('excel/' . $data_upload['file_name']));
 
-            //upload success
-
             //redirect halaman
             $previous_url = $this->session->userdata('previous_url');
 

@@ -209,7 +209,7 @@
         <!-- /.content-wrapper -->
 
         <footer class="main-footer">
-            <strong>&copy; <a href="http://d3komputerphb.id" target='_blank'>Beranda Mahasiswa</a></strong>
+            <strong>&copy; <a href="http://hardware.d3komputerphb.id" target='_blank'>Beranda Mahasiswa</a></strong>
         </footer>
 
         <!-- Control Sidebar -->

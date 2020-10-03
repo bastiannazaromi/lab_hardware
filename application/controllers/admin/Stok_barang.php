@@ -48,17 +48,21 @@ class Stok_barang extends CI_Controller
             $normal = htmlspecialchars($this->input->post('normal', TRUE));
 
             $data = [
-                "kategori" => htmlspecialchars($this->input->post('kategori', TRUE)),
+                "kategori" => $this->input->post('kategori', TRUE),
                 "nama_barang" => htmlspecialchars($this->input->post('nama', TRUE)),
                 "stok" => $stok,
                 "normal" => $normal,
                 "rusak" => $stok - $normal
             ];
 
-            $this->stok->tambah($data);
-
-            $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
-            redirect('admin/stok_barang');
+            $hasil = $this->stok->tambah($data);
+            if ($hasil) {
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
+                redirect('admin/stok_barang');
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Barang gagal ditambahkan !'));
+                redirect('admin/stok_barang');
+            }
         }
     }
 
@@ -83,7 +87,7 @@ class Stok_barang extends CI_Controller
             $normal = htmlspecialchars($this->input->post('normal', TRUE));
 
             $data = [
-                "kategori" => htmlspecialchars($this->input->post('kategori', TRUE)),
+                "kategori" => $this->input->post('kategori', TRUE),
                 "nama_barang" => htmlspecialchars($this->input->post('nama', TRUE)),
                 "stok" => $stok,
                 "normal" => $normal,
@@ -132,24 +136,56 @@ class Stok_barang extends CI_Controller
             $data = array();
 
             $numrow = 1;
+            $status = 0;
             foreach ($sheet as $row) {
                 if ($numrow > 1) {
-                    array_push($data, array(
-                        'kategori' => htmlspecialchars(str_replace('\'', '', $row['B'])),
-                        'nama_barang' => htmlspecialchars(str_replace('\'', '',  $row['C'])),
-                        'stok' => htmlspecialchars(str_replace('\'', '',  $row['D'])),
-                        'normal' => htmlspecialchars(str_replace('\'', '',  $row['E'])),
-                        'rusak' => htmlspecialchars(str_replace('\'', '',  $row['F']))
-                    ));
+                    $cek = $this->db->get_where('tb_barang', ['nama_barang' => str_replace('\'', '', $row['C'])])->result_array();
+
+                    if ($row['A'] != null) {
+                        if (!$cek) {
+                            array_push($data, array(
+                                'kategori' => str_replace('\'', '', $row['B']),
+                                'nama_barang' => str_replace('\'', '',  $row['C']),
+                                'stok' => str_replace('\'', '',  $row['D']),
+                                'normal' => str_replace('\'', '',  $row['E']),
+                                'rusak' => str_replace('\'', '',  $row['F'])
+                            ));
+                        } else {
+                            $stok = $cek[0]['stok'];
+                            $normal = $cek[0]['normal'];
+                            $rusak = $cek[0]['rusak'];
+
+                            if ($stok != str_replace('\'', '',  $row['D']) || $normal != str_replace('\'', '',  $row['E']) || $rusak != str_replace('\'', '',  $row['F'])) {
+                                $update = [
+                                    "stok" => str_replace('\'', '',  $row['D']),
+                                    "normal" => str_replace('\'', '',  $row['E']),
+                                    "rusak" => str_replace('\'', '',  $row['F'])
+                                ];
+
+                                $this->db->where('nama_barang', str_replace('\'', '',  $row['C']));
+                                $this->db->update('tb_barang', $update);
+
+                                $status += $status + 1;
+                            }
+                        }
+                    }
                 }
                 $numrow++;
             }
-            $this->db->insert_batch('tb_barang', $data);
+            if (count($data) != 0) {
+                $this->db->insert_batch('tb_barang', $data);
+
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diimport'));
+            } else {
+                if ($status == 0) {
+                    $this->session->set_flashdata('flash_error', flash_error('Gagal import ! Data kosong / sudah ada dalam database'));
+                } else {
+                    $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diupdate'));
+                }
+            }
             //delete file from server
             unlink(realpath('excel/' . $data_upload['file_name']));
 
-            //upload success
-            $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil diimport'));
             //redirect halaman
             redirect('admin/stok_barang');
         }

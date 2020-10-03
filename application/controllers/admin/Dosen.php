@@ -140,25 +140,35 @@ class Dosen extends CI_Controller
             $numrow = 1;
             foreach ($sheet as $row) {
                 if ($numrow > 1) {
-                    array_push($data, array(
-                        'nidn_nipy' => htmlspecialchars(str_replace('\'', '', $row['B'])),
-                        'username' => htmlspecialchars(strtolower(str_replace(' ', '', $row['C']))),
-                        'password' => password_hash(strtolower(str_replace(' ', '', $row['C'])), PASSWORD_DEFAULT),
-                        'nama' => htmlspecialchars($row['C']),
-                        'email' => htmlspecialchars($row['D']),
-                        'no_telepon' => htmlspecialchars(str_replace('\'', '', $row['E'])),
-                        'foto' => 'default.jpg',
-                        'status' => 'dosen'
-                    ));
+                    $cek = $this->db->get_where('tb_dosen', ['nidn_nipy' => str_replace('\'', '', $row['B'])])->result_array();
+
+                    if ($row['A'] != null) {
+                        if (!$cek) {
+                            array_push($data, array(
+                                'nidn_nipy' => htmlspecialchars(str_replace('\'', '', $row['B'])),
+                                'username' => htmlspecialchars(strtolower(str_replace(' ', '', $row['C']))),
+                                'password' => password_hash(strtolower(str_replace(' ', '', $row['C'])), PASSWORD_DEFAULT),
+                                'nama' => htmlspecialchars($row['C']),
+                                'email' => htmlspecialchars($row['D']),
+                                'no_telepon' => htmlspecialchars(str_replace('\'', '', $row['E'])),
+                                'foto' => 'default.jpg',
+                                'status' => 'dosen'
+                            ));
+                        }
+                    }
                 }
                 $numrow++;
             }
-            $this->db->insert_batch('tb_dosen', $data);
+            if (count($data) != 0) {
+                $this->db->insert_batch('tb_dosen', $data);
+
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diimport'));
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Gagal import ! Data kosong / sudah ada dalam database'));
+            }
             //delete file from server
             unlink(realpath('excel/' . $data_upload['file_name']));
 
-            //upload success
-            $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diimport'));
             //redirect halaman
             redirect('admin/dosen');
         }

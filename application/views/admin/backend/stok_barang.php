@@ -127,9 +127,12 @@
                         <label for="kategori">Kategori</label>
                         <select class="custom-select" id="kategori" name="kategori">
                             <option value="">-- Pilih Kategori --</option>
-                            <option value="Mikrokontroller">Mikrokontroller</option>
+                            <option value="Mikrokontroller & Modul">Mikrokontroller & Modul</option>
                             <option value="Sensor">Sensor</option>
                             <option value="Aktuator">Aktuator</option>
+                            <option value="Toolkit">Toolkit</option>
+                            <option value="Jaringan">Jaringan</option>
+                            <option value="Kabel">Kabel</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -182,13 +185,22 @@
                         <label for="kategori">Kategori</label>
                         <select class="custom-select kategori_e" name="kategori">
                             <option value="">-- Pilih Kategori --</option>
-                            <option value="Mikrokontroller"
-                                <?php if ($dt['kategori'] == 'Mikrokontroller') echo 'selected="selected"'; ?>>
-                                Mikrokontroller</option>
+                            <option value="Mikrokontroller & Modul"
+                                <?php if ($dt['kategori'] == 'Mikrokontroller & Modul') echo 'selected="selected"'; ?>>
+                                Mikrokontroller & Modul</option>
                             <option value="Sensor"
                                 <?php if ($dt['kategori'] == 'Sensor') echo 'selected="selected"'; ?>>Sensor</option>
                             <option value="Aktuator"
                                 <?php if ($dt['kategori'] == 'Aktuator') echo 'selected="selected"'; ?>>Aktuator
+                            </option>
+                            <option value="Toolkit"
+                                <?php if ($dt['kategori'] == 'Toolkit') echo 'selected="selected"'; ?>>Toolkit
+                            </option>
+                            <option value="Jaringan"
+                                <?php if ($dt['kategori'] == 'Jaringan') echo 'selected="selected"'; ?>>Jaringan
+                            </option>
+                            <option value="Kabel" <?php if ($dt['kategori'] == 'Kabel') echo 'selected="selected"'; ?>>
+                                Kabel
                             </option>
                         </select>
                     </div>
