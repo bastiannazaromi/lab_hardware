@@ -26,25 +26,35 @@ class M_Stok extends CI_Model
         return $this->db->get('tb_barang')->result_array();
     }
 
+    public function getKategori()
+    {
+        $this->db->select('kategori');
+        $this->db->from('tb_barang');
+        $this->db->group_by('kategori');
+        $this->db->order_by('kategori');
+
+        return $this->db->get()->result_array();
+    }
+
     public function tambah($data)
     {
-        $this->db->insert('tb_barang', $data);
+        return $this->db->insert('tb_barang', $data);
     }
 
     public function edit($data)
     {
         $this->db->where('id', $this->input->post('id', TRUE));
-        $this->db->update('tb_barang', $data);
+        return $this->db->update('tb_barang', $data);
     }
 
     public function hapus($id)
     {
         // $this->db->where('id', $id);
-        $this->db->delete('tb_barang', ['id' => $id]);
+        return $this->db->delete('tb_barang', ['id' => $id]);
     }
     public function multiple_delete($id)
     {
         $this->db->where_in('id', $id);
-        $this->db->delete('tb_barang');
+        return $this->db->delete('tb_barang');
     }
 }

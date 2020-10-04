@@ -14,6 +14,7 @@ class Beranda extends CI_Controller
         }
 
         $this->load->model('M_Mahasiswa', 'mahasiswa');
+        $this->load->model('M_Stok', 'stok');
         $this->load->model('M_Pinjam', 'pinjam');
 
         if ($this->session->userdata('status') == "Dosen") {
@@ -29,6 +30,7 @@ class Beranda extends CI_Controller
         $data['title'] = 'LAB HARDWARE';
 
         $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
+        $data['kategori'] = $this->stok->getKategori();
         $data['pinjaman'] = $this->pinjam->getAllMahasiswa($nim);
 
         $data['page'] = 'frontend/mahasiswa/beranda';

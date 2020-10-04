@@ -55,8 +55,8 @@ class Stok_barang extends CI_Controller
                 "rusak" => $stok - $normal
             ];
 
-            $hasil = $this->stok->tambah($data);
-            if ($hasil) {
+            $query = $this->stok->tambah($data);
+            if ($query) {
                 $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
                 redirect('admin/stok_barang');
             } else {
@@ -94,18 +94,28 @@ class Stok_barang extends CI_Controller
                 "rusak" => $stok - $normal
             ];
 
-            $this->stok->edit($data);
+            $query = $this->stok->edit($data);
 
-            $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil diupdate'));
-            redirect('admin/stok_barang');
+            if ($query) {
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil diupdate'));
+                redirect('admin/stok_barang');
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Barang gagal diupdate'));
+                redirect('admin/stok_barang');
+            }
         }
     }
 
     public function hapus($id)
     {
-        $this->stok->hapus($id);
-        $this->session->set_flashdata('flash-sukses', 'Barang berhasil dihapus');
-        redirect('admin/barang');
+        $query = $this->stok->hapus($id);
+        if ($query) {
+            $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil dihapus'));
+            redirect('admin/stok_barang');
+        } else {
+            $this->session->set_flashdata('flash_error', flash_error('Barang gagal dihapus'));
+            redirect('admin/stok_barang');
+        }
     }
 
     public function import()
@@ -198,10 +208,15 @@ class Stok_barang extends CI_Controller
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
             redirect('admin/stok_barang');
         } else {
-            $this->stok->multiple_delete($id);
+            $query = $this->stok->multiple_delete($id);
 
-            $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil dihapus'));
-            redirect('admin/stok_barang');
+            if ($query) {
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil dihapus'));
+                redirect('admin/stok_barang');
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Barang gagal dihapus'));
+                redirect('admin/stok_barang');
+            }
         }
     }
 }

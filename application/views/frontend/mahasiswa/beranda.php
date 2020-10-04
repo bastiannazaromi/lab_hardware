@@ -21,8 +21,9 @@
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
-                                    <th>Tanggal kembali</th>
+                                    <th>Maximal Pengembalian</th>
                                     <th>Status</th>
+                                    <th>Keterangan</th>
                                     <th>Action</th>
                                     <th>
                                         <center><input type="checkbox" id="check-all"></center>
@@ -38,11 +39,19 @@
                                     <td><?= $hasil['jumlah']; ?></td>
                                     <td><?= $hasil['tanggal_pinjam']; ?></td>
                                     <td><?= $hasil['tanggal_kembali']; ?></td>
-                                    <td><?= $hasil['status']; ?></td>
                                     <td>
+                                        <div class="badge <?= $hasil['status'] == 'Selesai' ? 'btn-success' : 'badge-warning'; ?>"
+                                            role="alert">
+                                            <?= $hasil['status'];; ?>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <?php if ($hasil['status'] != "Selesai") : ?>
                                         <a href="#" class="badge badge-warning" data-toggle="modal"
                                             data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
                                             Edit</a>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <?php if ($hasil['status'] != "Selesai") : ?>
@@ -58,6 +67,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
@@ -103,9 +113,10 @@
                         <label for="kategori">Kategori</label>
                         <select class="custom-select" id="kategori" name="kategori">
                             <option value="">-- Pilih Kategori --</option>
-                            <option value="Mikrokontroller">Mikrokontroller</option>
-                            <option value="Sensor">Sensor</option>
-                            <option value="Aktuator">Aktuator</option>
+                            <?php foreach ($kategori as $ktg) : ?>
+                            <option value="<?= $ktg['kategori']; ?>"><?= $ktg['kategori']; ?></option>
+                            <?php endforeach; ?>
+
                         </select>
                     </div>
                     <div class="form-group">
@@ -123,12 +134,13 @@
                         <label for="jumlah">Jumlah</label>
                         <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" required
                             autocomplete="off">
-                        <input type="hidden" id="id_brg">
+                        <input type="text" id="nama_brg">
+                        <small class="text-danger pesan_jumlah"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" name="add" class="btn btn-primary">Tambah</button>
+                    <button type="submit" name="add" class="btn btn-primary">Pinjam</button>
                 </div>
             </div>
         </form>
@@ -175,7 +187,9 @@ $(document).ready(function() {
 
     $('#nama_barang').click(function() {
         let stok = $(this).find(':selected').data('stok');
+        let nama_barang = $(this).val();
         $('#stok').val(stok);
+        $('#nama_brg').val(nama_barang);
     });
 });
 </script>
