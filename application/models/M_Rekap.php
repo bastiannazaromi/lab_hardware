@@ -6,7 +6,7 @@ class M_Rekap extends CI_Model
 
     public function getAll()
     {
-        $this->db->select('tb_pinjaman.id, tb_pinjaman.jumlah, tb_pinjaman.nama_barang, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.tanggal_kembali, tb_mahasiswa.nim, tb_mahasiswa.nama');
+        $this->db->select('tb_pinjaman.id, tb_pinjaman.jumlah, tb_pinjaman.nama_barang, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_mahasiswa.nim, tb_mahasiswa.nama');
         $this->db->from('tb_pinjaman');
         $this->db->join('tb_mahasiswa', 'tb_pinjaman.nim = tb_mahasiswa.nim', 'left');
         $this->db->where('tb_pinjaman.status', 'Selesai');

@@ -19,6 +19,7 @@
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
+                                    <th>Max Pengembalian</th>
                                     <th>Action</th>
                                     <th>
                                         <center><input type="checkbox" id="check-all"></center>
@@ -35,6 +36,7 @@
                                     <td><?= $hasil['nama_barang']; ?></td>
                                     <td><?= $hasil['jumlah']; ?></td>
                                     <td><?= $hasil['tanggal_pinjam']; ?></td>
+                                    <td><?= date('d F Y', strtotime($hasil['max_kembali'])); ?></td>
                                     <td>
                                         <div class="form-group" class="badge">
                                             <label class="badge badge-danger">
@@ -68,8 +70,8 @@
                                     </td>
                                     <td>
                                         <center>
-                                            <input type="checkbox" class="check-item" name="id[]"
-                                                value="<?= $hasil['id'] ?>">
+                                            <input type="checkbox" class="check-item" name="nm_brg[]"
+                                                value="<?= $hasil['nama_barang'] ?>">
                                         </center>
                                     </td>
                                 </tr>
@@ -77,6 +79,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>

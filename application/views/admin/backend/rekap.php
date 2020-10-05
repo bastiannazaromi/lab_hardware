@@ -19,6 +19,7 @@
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
+                                    <th>Max Pengembalian</th>
                                     <th>Tanggal kembali</th>
                                     <th>Action</th>
                                     <th>
@@ -36,6 +37,7 @@
                                     <td><?= $hasil['nama_barang']; ?></td>
                                     <td><?= $hasil['jumlah']; ?></td>
                                     <td><?= $hasil['tanggal_pinjam']; ?></td>
+                                    <td><?= $hasil['max_kembali']; ?></td>
                                     <td><?= $hasil['tanggal_kembali']; ?></td>
                                     <td>
                                         <div class="form-group" class="badge">
@@ -70,6 +72,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>

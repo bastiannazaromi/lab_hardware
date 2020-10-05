@@ -11,9 +11,16 @@
                         <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalAdd"><i
                                 class="fa fa-shopping-cart"></i> Pinjam</button>
                     </div>
+                    <?php if (form_error('nama_barang')) : ?>
+                    <?= form_error('nama_barang', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+                    <?php if (form_error('jumlah')) : ?>
+                    <?= form_error('jumlah', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+
+                    <br>
                     <br>
                     <div class="table-responsive">
-                        <?php echo form_open('mahasiswa/beranda/multiple_delete'); ?>
                         <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>
@@ -22,12 +29,9 @@
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
                                     <th>Maximal Pengembalian</th>
-                                    <th>Status</th>
                                     <th>Keterangan</th>
+                                    <th>Status</th>
                                     <th>Action</th>
-                                    <th>
-                                        <center><input type="checkbox" id="check-all"></center>
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,55 +41,29 @@
                                     <th><?= $i++ ?></th>
                                     <td><?= $hasil['nama_barang']; ?></td>
                                     <td><?= $hasil['jumlah']; ?></td>
-                                    <td><?= $hasil['tanggal_pinjam']; ?></td>
-                                    <td><?= $hasil['tanggal_kembali']; ?></td>
+                                    <td><?= date('d F Y - H:i:s', strtotime($hasil['tanggal_pinjam'])); ?></td>
+                                    <td><?= date('d F Y', strtotime($hasil['max_kembali'])); ?></td>
+                                    <td></td>
                                     <td>
                                         <div class="badge <?= $hasil['status'] == 'Selesai' ? 'btn-success' : 'badge-warning'; ?>"
                                             role="alert">
                                             <?= $hasil['status'];; ?>
                                         </div>
                                     </td>
-                                    <td></td>
                                     <td>
-                                        <?php if ($hasil['status'] != "Selesai") : ?>
+                                        <?php if ($hasil['status'] == "Menunggu") : ?>
                                         <a href="#" class="badge badge-warning" data-toggle="modal"
                                             data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
                                             Edit</a>
+                                        <a href="<?= base_url() ?>mahasiswa/beranda/hapus/<?= $hasil['nama_barang']; ?>"
+                                            class="badge badge-danger delete-people tombol-hapus"><i
+                                                class="fa fa-trash"></i> Hapus</a>
                                         <?php endif; ?>
                                     </td>
-                                    <td>
-                                        <?php if ($hasil['status'] != "Selesai") : ?>
-                                        <center>
-                                            <input type="checkbox" class="check-item" name="id[]"
-                                                value="<?= $hasil['id'] ?>">
-                                        </center>
-                                    </td>
-
-                                    <?php endif; ?>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
-                            <tfoot>
-                                <tr class="table table-warning">
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>
-                                        <center>
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah anda yakin ingin menghapus data-data ini ?')"><i
-                                                    class="fa fa-trash "></i></button>
-                                        </center>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
-                        <?php echo form_close() ?>
                     </div>
                 </div>
             </div>
@@ -101,14 +79,14 @@
         <form action="<?= base_url('mahasiswa/beranda/tambah'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Pinjam Barang</h5>
+                    <h5 class="modal-title" id="pinjambarang">Pinjam Barang</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                        value="<?php echo $this->security->get_csrf_hash(); ?>">
+                        value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_pinjam">
                     <div class="form-group">
                         <label for="kategori">Kategori</label>
                         <select class="custom-select" id="kategori" name="kategori">
@@ -121,9 +99,8 @@
                     </div>
                     <div class="form-group">
                         <label for="nama_barang">Nama Barang</label>
-                        <select class="custom-select" id="nama_barang" name="semester">
+                        <select class="custom-select" id="nama_barang" name="nama_barang">
                             <option value="">-- Pilih Barang --</option>
-
                         </select>
                     </div>
                     <div class="form-group">
@@ -131,16 +108,15 @@
                         <input type="text" class="form-control" id="stok" name="stok" readonly autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="jumlah">Jumlah</label>
+                        <label for="jumlah">Jumlah Pinjam</label>
                         <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" required
                             autocomplete="off">
-                        <input type="text" id="nama_brg">
-                        <small class="text-danger pesan_jumlah"></small>
+                        <small class="text-danger" id="pesan_jumlah"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" name="add" class="btn btn-primary">Pinjam</button>
+                    <button type="submit" name="add" class="btn btn-primary" id="btn_pinjam">Pinjam</button>
                 </div>
             </div>
         </form>
@@ -151,10 +127,11 @@
 
 <script>
 $(document).ready(function() {
-    var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>',
-        csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
 
     $('#kategori').change(function() {
+        let csrfName = $("#csrf_pinjam").attr('name');
+        let csrfHash = $("#csrf_pinjam").val();
+
         var kategori = $(this).val();
         var option = [];
 
@@ -169,7 +146,8 @@ $(document).ready(function() {
             dataType: 'json',
             data: dataJson,
             success: function(result) {
-                csrfHash = result.token;
+                $("#csrf_pinjam").val(result.token);
+
                 var option = [];
                 var stok = [];
                 $(result.hasil).each(function(i) {
@@ -189,7 +167,21 @@ $(document).ready(function() {
         let stok = $(this).find(':selected').data('stok');
         let nama_barang = $(this).val();
         $('#stok').val(stok);
-        $('#nama_brg').val(nama_barang);
     });
+
+    $('#jumlah').change(function() {
+        let stok = $('#nama_barang').find(':selected').data('stok');
+        let jumlah = $(this).val();
+
+        let hasil = stok - jumlah;
+        if (hasil < 0) {
+            $('#pesan_jumlah').text("Jumlah barang pinjam melebihi stok barang");
+            $("#btn_pinjam").attr('disabled', 'disabled');
+        } else {
+            $('#pesan_jumlah').text("");
+            $("#btn_pinjam").removeAttr('disabled');
+        }
+    });
+
 });
 </script>

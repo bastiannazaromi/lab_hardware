@@ -174,6 +174,77 @@ class Beranda extends CI_Controller
         $data['token'] = $this->security->get_csrf_hash();
         echo json_encode($data);
     }
+
+    public function tambah()
+    {
+        $nim = $this->session->userdata('nim');
+
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
+        $this->form_validation->set_rules('jumlah', 'Jumlah Pinjam', 'required|numeric');
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'LAB HARDWARE';
+
+            $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
+            $data['kategori'] = $this->stok->getKategori();
+            $data['pinjaman'] = $this->pinjam->getAllMahasiswa($nim);
+
+            $data['page'] = 'frontend/mahasiswa/beranda';
+
+            $this->load->view('frontend/mahasiswa/index', $data);
+        } else {
+            $nama_barang = htmlspecialchars($this->input->post('nama_barang', TRUE));
+            $jumlah = htmlspecialchars($this->input->post('jumlah', TRUE));
+
+            $barang = $this->stok->getNama($nama_barang);
+            $dipinjam = $barang[0]['dipinjam'] + $jumlah;
+
+            $data_barang = [
+                "dipinjam" => $dipinjam
+            ];
+
+            $this->db->where('nama_barang', $nama_barang);
+            $this->db->update('tb_barang', $data_barang);
+
+            $dates = date('Y-m-d H:i:s');
+            $date = strtotime($dates);
+            $date_kembali = strtotime("+7 day", $date);
+
+            $data_pinjam = [
+                "nama_barang" => $nama_barang,
+                "nim" => $nim,
+                "jumlah" => $jumlah,
+                "tanggal_pinjam" => $dates,
+                "max_kembali" => date('Y-m-d', $date_kembali),
+                "status" => "Menunggu"
+            ];
+
+            $query = $this->pinjam->tambah($data_pinjam);
+            if ($query) {
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
+                redirect('mahasiswa/beranda');
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Barang gagal ditambahkan !'));
+                redirect('mahasiswa/beranda');
+            }
+        }
+    }
+
+    public function cek()
+    {
+        $date = date('Y-m-d H:i:s');
+        echo "tanggal pinjam : " . $date;
+        $date = strtotime($date);
+        $date_kembali = strtotime("+7 day", $date);
+        echo date('Y-m-d H:i:s', $date_kembali);
+    }
+
+    public function hapus($nm_brg)
+    {
+        $this->pinjam->hapus($nm_brg);
+        $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
+        redirect('mahasiswa/beranda');
+    }
 }
         
     /* End of file  Beranda.php */
