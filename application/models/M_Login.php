@@ -20,7 +20,7 @@ class M_Login extends CI_Model
                     'nim'           => $data[0]->nim,
                     'nama'          => $data[0]->nama,
                     'semester'      => $data[0]->semester,
-                    'status'        => $data[0]->status
+                    'status'        => "Mahasiswa"
                 );
                 if ($login) {
                     $this->session->set_userdata('user_login', $login);
@@ -43,7 +43,7 @@ class M_Login extends CI_Model
                         'id'            => $data[0]->id,
                         'nidn'          => $data[0]->nidn_nipy,
                         'nama'          => $data[0]->nama,
-                        'status'        => $data[0]->status
+                        'status'        => "Dosen"
                     );
                     if ($login) {
                         $this->session->set_userdata('user_login', $login);

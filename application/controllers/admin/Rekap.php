@@ -17,12 +17,13 @@ class Rekap extends CI_Controller
         $this->load->model('M_Stok', 'stok');
     }
 
-    public function index()
+    public function barang($role = null)
     {
         $data['title'] = 'Rekap Barang Dipinjam';
         $data['page'] = 'admin/backend/rekap';
 
-        $data['rekap'] = $this->rekap->getAll();
+        $data['rekap'] = $this->rekap->getAll($role);
+        $data['role'] = $role;
 
         $this->load->view('admin/backend/index', $data);
     }

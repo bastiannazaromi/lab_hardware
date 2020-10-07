@@ -212,11 +212,12 @@ class Beranda extends CI_Controller
 
             $data_pinjam = [
                 "nama_barang" => $nama_barang,
-                "nim" => $nim,
+                "id_user" => $nim,
                 "jumlah" => $jumlah,
                 "tanggal_pinjam" => $dates,
                 "max_kembali" => date('Y-m-d', $date_kembali),
-                "status" => "Menunggu"
+                "status" => "Menunggu",
+                "role" => 'mahasiswa'
             ];
 
             $query = $this->pinjam->tambah($data_pinjam);
@@ -337,9 +338,9 @@ class Beranda extends CI_Controller
         }
     }
 
-    public function hapus($nm_brg)
+    public function hapus($id)
     {
-        $this->pinjam->hapus($nm_brg);
+        $this->pinjam->hapus($id);
         $this->session->set_flashdata('flash_sukses', flash_sukses('Barang pinjam berhasil dihapus'));
         redirect('mahasiswa/beranda');
     }

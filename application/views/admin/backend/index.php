@@ -120,7 +120,7 @@
 
 
 
-                            <ul class="nav nav-treeview">
+                            <ul class="nav nav-treeview ml-3">
                                 <?php foreach (semester() as $hasil) : ?>
                                 <li class="nav-item">
                                     <a href="<?= base_url('admin/mahasiswa/semester/') . $hasil['semester']; ?>"
@@ -161,21 +161,62 @@
                                 <i class="fas fa-boxes nav-icon"></i>
                                 <p>Stok Barang</p>
                             </a>
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/barang_pinjam'); ?>" class="nav-link hr">
-                                <i class="fas fa-shopping-cart nav-icon"></i>
-                                <p>Barang Dipinjam</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/rekap'); ?>" class="nav-link hr">
-                                <i class="fas fa-history nav-icon"></i>
-                                <p>Rekap Peminjaman</p>
-                            </a>
                             <hr class="bg-light">
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link hr">
+                                <i class="nav-icon fas fa-shopping-cart"></i>
+                                <p>
+                                    Barang Dipinjam
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview ml-3">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/barang_pinjam/pinjaman/mahasiswa'); ?>"
+                                        class="nav-link hr">
+                                        <i class="fas fa-arrow-circle-right nav-icon"></i>
+                                        <p>Mahasiswa</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview ml-3">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/barang_pinjam/pinjaman/dosen'); ?>"
+                                        class="nav-link hr">
+                                        <i class="fas fa-arrow-circle-right nav-icon"></i>
+                                        <p>Dosen</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <hr class="bg-light">
+                            <a href="#" class="nav-link hr">
+                                <i class="nav-icon fas fa-history"></i>
+                                <p>
+                                    Rekap Peminjaman
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview ml-3">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/rekap/barang/mahasiswa'); ?>" class="nav-link hr">
+                                        <i class="fas fa-arrow-circle-right nav-icon"></i>
+                                        <p>Mahasiswa</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview ml-3">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/rekap/barang/dosen'); ?>" class="nav-link hr">
+                                        <i class="fas fa-arrow-circle-right nav-icon"></i>
+                                        <p>Dosen</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
 

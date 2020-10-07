@@ -14,6 +14,8 @@ class Beranda extends CI_Controller
         }
 
         $this->load->model('M_Dosen', 'dosen');
+        $this->load->model('M_Stok', 'stok');
+        $this->load->model('M_Pinjam', 'pinjam');
 
         if ($this->session->userdata('status') == "Mahasiswa") {
             redirect('mahasiswa/beranda');
@@ -28,7 +30,8 @@ class Beranda extends CI_Controller
         $data['title'] = 'LAB HARDWARE';
 
         $data['dosen'] = $this->dosen->getOne($nidn);
-
+        $data['kategori'] = $this->stok->getKategori();
+        $data['pinjaman'] = $this->pinjam->getAllDosen($nidn);
         $data['page'] = 'frontend/dosen/beranda';
 
         $this->load->view('frontend/dosen/index', $data);
@@ -162,6 +165,150 @@ class Beranda extends CI_Controller
                 redirect('dosen/beranda/profile', 'refresh');
             }
         }
+    }
+
+    public function cari_barang()
+    {
+        $kategori = $this->input->post('kategori');
+
+        $this->db->where('kategori', $kategori);
+        $this->db->order_by('nama_barang');
+        $a = $this->db->get('tb_barang')->result_array();
+
+        $data['hasil'] = $a;
+        $data['token'] = $this->security->get_csrf_hash();
+        echo json_encode($data);
+    }
+
+    public function tambah()
+    {
+        $nidn = $this->session->userdata('nidn');
+
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
+        $this->form_validation->set_rules('jumlah', 'Jumlah Pinjam', 'required|numeric');
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'LAB HARDWARE';
+
+            $data['mahasiswa'] = $this->dosen->getOne($nidn);
+            $data['kategori'] = $this->stok->getKategori();
+            $data['pinjaman'] = $this->pinjam->getAllDosen($nidn);
+
+            $data['page'] = 'frontend/dosen/beranda';
+
+            $this->load->view('frontend/dosen/index', $data);
+        } else {
+            $nama_barang = htmlspecialchars($this->input->post('nama_barang', TRUE));
+            $jumlah = htmlspecialchars($this->input->post('jumlah', TRUE));
+
+            $barang = $this->stok->getNama($nama_barang);
+            $dipinjam = $barang[0]['dipinjam'] + $jumlah;
+
+            $data_barang = [
+                "dipinjam" => $dipinjam
+            ];
+
+            $this->db->where('nama_barang', $nama_barang);
+            $this->db->update('tb_barang', $data_barang);
+
+            $dates = date('Y-m-d H:i:s');
+            $date = strtotime($dates);
+            $date_kembali = strtotime("+7 day", $date);
+
+            $data_pinjam = [
+                "nama_barang" => $nama_barang,
+                "id_user" => $nidn,
+                "jumlah" => $jumlah,
+                "tanggal_pinjam" => $dates,
+                "max_kembali" => date('Y-m-d', $date_kembali),
+                "status" => "Menunggu",
+                "role" => "Dosen"
+            ];
+
+            $query = $this->pinjam->tambah($data_pinjam);
+            if ($query) {
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
+                redirect('dosen/beranda');
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Barang gagal ditambahkan !'));
+                redirect('dosen/beranda');
+            }
+        }
+    }
+
+    public function edit()
+    {
+        $nidn = $this->session->userdata('nidn');
+
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
+        $this->form_validation->set_rules('jumlah', 'Jumlah Pinjam', 'required|numeric');
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'LAB HARDWARE';
+
+            $data['mahasiswa'] = $this->mahasiswa->getOne($nidn);
+            $data['kategori'] = $this->stok->getKategori();
+            $data['pinjaman'] = $this->pinjam->getAllDosen($nidn);
+
+            $data['page'] = 'frontend/dosen/beranda';
+
+            $this->load->view('frontend/dosen/index', $data);
+        } else {
+            $nama_barang = htmlspecialchars($this->input->post('nama_barang', TRUE));
+            $jumlah = htmlspecialchars($this->input->post('jumlah', TRUE));
+
+            $barang_pinjam = $this->pinjam->getOne($this->input->post('id', TRUE));
+            $jumlahOld = $barang_pinjam[0]['jumlah'];
+            $nama_barang_old = $barang_pinjam[0]['nama_barang'];
+
+            $barang = $this->stok->getNama($nama_barang_old);
+            $dipinjamOld = $barang[0]['dipinjam'];
+
+            $data_barangOld = [
+                "dipinjam" => $dipinjamOld - $jumlahOld
+            ];
+
+            $this->db->where('nama_barang', $nama_barang_old);
+            $this->db->update('tb_barang', $data_barangOld);
+
+            $barangNew = $this->stok->getNama($nama_barang);
+            $dipinjamNew = $barangNew[0]['dipinjam'] + $jumlah;
+
+            $data_barangNew = [
+                "dipinjam" => $dipinjamNew
+            ];
+
+            $this->db->where('nama_barang', $nama_barang);
+            $this->db->update('tb_barang', $data_barangNew);
+
+            $dates = date('Y-m-d H:i:s');
+            $date = strtotime($dates);
+            $date_kembali = strtotime("+7 day", $date);
+
+            $data_pinjam = [
+                "nama_barang" => $nama_barang,
+                "jumlah" => $jumlah,
+                "tanggal_pinjam" => $dates,
+                "max_kembali" => date('Y-m-d', $date_kembali),
+                "status" => "Menunggu"
+            ];
+
+            $query = $this->pinjam->edit($data_pinjam);
+            if ($query) {
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil diedit'));
+                redirect('dosen/beranda');
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Barang gagal diedit !'));
+                redirect('dosen/beranda');
+            }
+        }
+    }
+
+    public function hapus($id)
+    {
+        $this->pinjam->hapus($id);
+        $this->session->set_flashdata('flash_sukses', flash_sukses('Barang pinjam berhasil dihapus'));
+        redirect('dosen/beranda');
     }
 }
         

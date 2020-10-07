@@ -17,12 +17,13 @@ class Barang_pinjam extends CI_Controller
         $this->load->model('M_Stok', 'stok');
     }
 
-    public function index()
+    public function pinjaman($role = null)
     {
         $data['title'] = 'List Barang Dipinjam';
         $data['page'] = 'admin/backend/barang_pinjam';
 
-        $data['pinjam'] = $this->pinjam->getAll();
+        $data['pinjam'] = $this->pinjam->getAll($role);
+        $data['role'] = $role;
 
         $this->load->view('admin/backend/index', $data);
     }

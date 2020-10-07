@@ -14,7 +14,7 @@
                             <thead class="bg-light text-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>NIM</th>
+                                    <th>ID User</th>
                                     <th>Nama</th>
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
@@ -31,7 +31,7 @@
                                 foreach ($pinjam as $hasil) : ?>
                                 <tr>
                                     <th><?= $i++ ?></th>
-                                    <td><?= $hasil['nim']; ?></td>
+                                    <td><?= $hasil['id_user']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
                                     <td><?= $hasil['nama_barang']; ?></td>
                                     <td><?= $hasil['jumlah']; ?></td>
@@ -138,7 +138,7 @@ $(document).ready(function() {
                 data: dataJson,
                 success: function() {
                     document.location.href =
-                        `<?= base_url('admin/barang_pinjam'); ?>`;
+                        `<?= base_url('admin/barang_pinjam/pinjaman/') . $role; ?>`;
                 }
             });
         });
@@ -165,7 +165,7 @@ $(document).ready(function() {
                 data: dataJson,
                 success: function() {
                     document.location.href =
-                        `<?= base_url('admin/barang_pinjam'); ?>`;
+                        `<?= base_url('admin/barang_pinjam/pinjaman/') . $role; ?>`;
                 }
             });
         });
@@ -192,7 +192,7 @@ $(document).ready(function() {
                 data: dataJson,
                 success: function() {
                     document.location.href =
-                        `<?= base_url('admin/barang_pinjam'); ?>`;
+                        `<?= base_url('admin/barang_pinjam/pinjaman/') . $role; ?>`;
                 }
             });
         });
