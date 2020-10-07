@@ -151,3 +151,46 @@ function semester()
 
     return $CI->db->get()->result_array();
 }
+
+function tempoTgl($maxTgl, $tglKembali)
+{
+    if (!$tglKembali) {
+        $tanggal = date('Y-m-d H:i:s');
+        $waktu = strtotime($tanggal);
+        $today = date('Y-m-d', $waktu);
+
+        $currentDate  = date_create($today);
+        $maxDate = date_create($maxTgl);
+        $diff  = date_diff($currentDate, $maxDate);
+
+        $bulan = $diff->m;
+        $hari = $diff->d;
+        if ($currentDate <= $maxDate) {
+            if ($bulan != 0) {
+                if ($hari != 0) {
+                    return '<div class="badge badge-warning"> - ' . $hari . ' hari ' . $bulan . ' bulan untuk pengembalian</div>';
+                } else {
+                    return '<div class="badge badge-warning"> - ' . $bulan . ' bulan untuk pengembalian</div>';
+                }
+            } else {
+                if ($hari != 0) {
+                    return '<div class="badge badge-warning"> - ' . $hari . ' hari untuk pengembalian</div>';;
+                } else {
+                    return '<div class="badge badge-danger">Hari ini terakhir dikembalikan !</div>';
+                }
+            }
+        } else {
+            if ($bulan != 0) {
+                if ($hari != 0) {
+                    return '<div class="badge badge-warning">Sudah + ' . $hari . ' hari ' . $bulan . ' bulan dari maximal pengembalian !';
+                } else {
+                    return '<div class="badge badge-warning">Sudah + ' . $bulan . ' bulan dari maximal pengembalian !';
+                }
+            } else {
+                return '<div class="badge badge-warning">Sudah + ' . $hari . ' hari dari maximal pengembalian !';
+            }
+        }
+    } else {
+        return '<div class="badge badge-success">Sudah dikembalikan</div>';
+    }
+}

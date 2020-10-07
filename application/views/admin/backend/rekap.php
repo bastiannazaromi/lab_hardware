@@ -9,7 +9,7 @@
                 <div class="card-body">
 
                     <div class="table-responsive">
-                        <?php echo form_open('admin/barang_pinjam/multiple_delete'); ?>
+                        <?php echo form_open('admin/rekap/multiple_delete'); ?>
                         <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>

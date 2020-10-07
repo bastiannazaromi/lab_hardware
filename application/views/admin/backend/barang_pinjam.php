@@ -70,8 +70,8 @@
                                     </td>
                                     <td>
                                         <center>
-                                            <input type="checkbox" class="check-item" name="nm_brg[]"
-                                                value="<?= $hasil['nama_barang'] ?>">
+                                            <input type="checkbox" class="check-item" name="id[]"
+                                                value="<?= $hasil['id'] ?>">
                                         </center>
                                     </td>
                                 </tr>

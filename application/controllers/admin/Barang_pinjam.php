@@ -64,12 +64,12 @@ class Barang_pinjam extends CI_Controller
 
     public function multiple_delete()
     {
-        $nm_brg = $this->input->post('nm_brg');
-        if ($nm_brg == NULL) {
+        $id = $this->input->post('id');
+        if ($id == NULL) {
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
             redirect('admin/barang_pinjam');
         } else {
-            $this->pinjam->multiple_delete($nm_brg);
+            $this->pinjam->multiple_delete($id);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil dihapus'));
             redirect('admin/barang_pinjam');

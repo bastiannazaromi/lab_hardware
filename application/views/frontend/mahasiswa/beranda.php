@@ -29,6 +29,7 @@
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
                                     <th>Maximal Pengembalian</th>
+                                    <th>Tanggal Kembali</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -43,19 +44,20 @@
                                     <td><?= $hasil['jumlah']; ?></td>
                                     <td><?= date('d F Y - H:i:s', strtotime($hasil['tanggal_pinjam'])); ?></td>
                                     <td><?= date('d F Y', strtotime($hasil['max_kembali'])); ?></td>
-                                    <td></td>
+                                    <td><?= $hasil['tanggal_kembali']; ?></td>
+                                    <td><?= tempoTgl($hasil['max_kembali'], $hasil['tanggal_kembali']); ?></td>
                                     <td>
                                         <div class="badge <?= $hasil['status'] == 'Selesai' ? 'btn-success' : 'badge-warning'; ?>"
                                             role="alert">
-                                            <?= $hasil['status'];; ?>
+                                            <?= $hasil['status']; ?>
                                         </div>
                                     </td>
                                     <td>
                                         <?php if ($hasil['status'] == "Menunggu") : ?>
-                                        <a href="#" class="badge badge-warning" data-toggle="modal"
+                                        <a href="#" class="badge badge-warning edit_brg" data-toggle="modal"
                                             data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
                                             Edit</a>
-                                        <a href="<?= base_url() ?>mahasiswa/beranda/hapus/<?= $hasil['nama_barang']; ?>"
+                                        <a href="<?= base_url() ?>mahasiswa/beranda/hapus/<?= $hasil['id']; ?>"
                                             class="badge badge-danger delete-people tombol-hapus"><i
                                                 class="fa fa-trash"></i> Hapus</a>
                                         <?php endif; ?>
@@ -123,10 +125,72 @@
     </div>
 </div>
 
+<!-- Modal Edit-->
+<?php foreach ($pinjaman as $dt) : ?>
+<div class="modal fade" id="modalEdit<?= $dt['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="<?= base_url('mahasiswa/beranda/edit'); ?>" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editpinjam">Edit Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="<?= $dt['id']; ?>" name="id">
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                        value="<?php echo $this->security->get_csrf_hash(); ?>" class="csrf_edit_pinjam">
+                    <div class="form-group">
+                        <label for="kategori">Kategori</label>
+                        <select class="custom-select kategori_e" name="kategori"
+                            data-nm_brg="<?= $dt['nama_barang']; ?>" data-kategori="<?= $dt['kategori']; ?>"
+                            data-stok="<?= $dt['normal'] - $dt['dipinjam'] + $dt['jumlah']; ?>"
+                            data-jumlah="<?= $dt['jumlah']; ?>">
+                            <option value="">-- Pilih Kategori --</option>
+                            <?php foreach ($kategori as $ktg) : ?>
+                            <option value="<?= $ktg['kategori']; ?>"
+                                <?php if ($ktg['kategori'] == $dt['kategori']) echo 'selected="selected"'; ?>>
+                                <?= $ktg['kategori']; ?></option>
+                            <?php endforeach; ?>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_barang">Nama Barang</label>
+                        <select class="custom-select nama_barang_e" name="nama_barang">
+                            <option value="">-- Pilih Nama Barang --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stok">Stok</label>
+                        <input type="text" class="form-control stok_e" name="stok" readonly autocomplete="off"
+                            value="<?= $dt['normal'] - $dt['dipinjam'] + $dt['jumlah']; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah Pinjam</label>
+                        <input type="number" class="form-control jumlah_e" name="jumlah" min="1" required
+                            autocomplete="off" value="<?= $dt['jumlah']; ?>">
+                        <small class="text-danger pesan_edit"></small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="edit" class="btn btn-warning edit_barang">Edit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endforeach; ?>
+
 <script src="<?= base_url(); ?>assets/admin/plugins/jquery/jquery.min.js"></script>
 
 <script>
 $(document).ready(function() {
+
+    // modal add
 
     $('#kategori').change(function() {
         let csrfName = $("#csrf_pinjam").attr('name');
@@ -183,5 +247,137 @@ $(document).ready(function() {
         }
     });
 
+    // modal edit
+    let edit_brgs = $('.edit_brg');
+    let csrfHashs = ($('.csrf_edit_pinjam'));
+    let kategoris = $('.kategori_e');
+    let nama_barangs = $('.nama_barang_e');
+    let stoks = $('.stok_e');
+    let jumlahs = $('.jumlah_e');
+    let pesan_edits = $('.pesan_edit');
+    let edit_barangs = $('.edit_barang');
+    let nm_brg = "";
+    let csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>',
+        csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+    $(edit_brgs).each(function(i) {
+
+        $(edit_brgs[i]).click(function() {
+            nm_brg = $(kategoris[i]).data('nm_brg');
+
+            var kategori = $(kategoris[i]).data('kategori');
+            var option = [];
+
+            $(kategoris[i]).val(kategori);
+            $(stoks[i]).val($(kategoris[i]).data('stok'));
+            $(jumlahs[i]).val($(kategoris[i]).data('jumlah'));
+            $(pesan_edits[i]).text("");
+            $(edit_barangs[i]).removeAttr('disabled');
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                kategori: kategori
+            };
+
+            $.ajax({
+                url: "<?= base_url('mahasiswa/beranda/cari_barang'); ?>",
+                type: 'post',
+                dataType: 'json',
+                data: dataJson,
+                success: function(result) {
+                    $(csrfHashs).val(result.token);
+                    csrfHash = result.token;
+                    $("#csrf_pinjam").val(result.token);
+
+                    var option = [];
+                    var stok = [];
+                    $(result.hasil).each(function(i) {
+                        let select = [];
+                        if (result.hasil[i].nama_barang == nm_brg) {
+                            select[i] = 'selected="selected"';
+                        } else {
+                            select[i] = '';
+                        }
+                        stok[i] = result.hasil[i].normal - result.hasil[
+                                i]
+                            .dipinjam;
+                        option.push('<option value="' + result.hasil[i]
+                            .nama_barang +
+                            '" data-stok="' + stok[i] +
+                            '"' + select[i] + '>' +
+                            result.hasil[i].nama_barang +
+                            '</option>');
+                    });
+
+                    $(nama_barangs[i]).html(option.join(''));
+                }
+            });
+
+        });
+
+        $(kategoris[i]).change(function() {
+            csrfName = $(csrfHashs[i]).attr('name');
+            csrfHash = $(csrfHashs[i]).val();
+
+            var kategori = $(this).val();
+            var option = [];
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                kategori: kategori
+            };
+
+            $.ajax({
+                url: "<?= base_url('mahasiswa/beranda/cari_barang'); ?>",
+                type: 'post',
+                dataType: 'json',
+                data: dataJson,
+                success: function(result) {
+                    $(csrfHashs).val(result.token);
+                    $("#csrf_pinjam").val(result.token);
+                    csrfHash = result.token;
+
+                    var option = [];
+                    var stok = [];
+                    $(result.hasil).each(function(i) {
+                        stok[i] = result.hasil[i].normal - result.hasil[
+                                i]
+                            .dipinjam;
+                        option.push('<option value="' + result.hasil[i]
+                            .nama_barang +
+                            '" data-stok="' + stok[i] + '">' +
+                            result.hasil[i].nama_barang +
+                            '</option>');
+                    });
+
+                    $(nama_barangs[i]).html(option.join(''));
+                    $(stoks[i]).val('');
+                    $(jumlahs[i]).val('');
+                }
+            });
+
+        });
+
+        $(nama_barangs[i]).click(function() {
+            let stok = $(this).find(':selected').data('stok');
+            let nama_barang = $(this).val();
+            $(stoks[i]).val(stok);
+        });
+
+        $(jumlahs[i]).change(function() {
+            let stok = $(nama_barangs[i]).find(':selected').data('stok');
+            let jumlah = $(this).val();
+
+            let hasil = stok - jumlah;
+            if (hasil < 0) {
+                $(pesan_edits[i]).text("Jumlah barang pinjam melebihi stok barang");
+                $(edit_barangs[i]).attr('disabled', 'disabled');
+            } else {
+                $(pesan_edits[i]).text("");
+                $(edit_barangs[i]).removeAttr('disabled');
+            }
+        });
+
+    });
 });
 </script>

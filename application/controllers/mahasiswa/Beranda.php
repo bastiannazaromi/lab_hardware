@@ -230,19 +230,117 @@ class Beranda extends CI_Controller
         }
     }
 
+    public function edit()
+    {
+        $nim = $this->session->userdata('nim');
+
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
+        $this->form_validation->set_rules('jumlah', 'Jumlah Pinjam', 'required|numeric');
+
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'LAB HARDWARE';
+
+            $data['mahasiswa'] = $this->mahasiswa->getOne($nim);
+            $data['kategori'] = $this->stok->getKategori();
+            $data['pinjaman'] = $this->pinjam->getAllMahasiswa($nim);
+
+            $data['page'] = 'frontend/mahasiswa/beranda';
+
+            $this->load->view('frontend/mahasiswa/index', $data);
+        } else {
+            $nama_barang = htmlspecialchars($this->input->post('nama_barang', TRUE));
+            $jumlah = htmlspecialchars($this->input->post('jumlah', TRUE));
+
+            $barang_pinjam = $this->pinjam->getOne($this->input->post('id', TRUE));
+            $jumlahOld = $barang_pinjam[0]['jumlah'];
+            $nama_barang_old = $barang_pinjam[0]['nama_barang'];
+
+            $barang = $this->stok->getNama($nama_barang_old);
+            $dipinjamOld = $barang[0]['dipinjam'];
+
+            $data_barangOld = [
+                "dipinjam" => $dipinjamOld - $jumlahOld
+            ];
+
+            $this->db->where('nama_barang', $nama_barang_old);
+            $this->db->update('tb_barang', $data_barangOld);
+
+            $barangNew = $this->stok->getNama($nama_barang);
+            $dipinjamNew = $barangNew[0]['dipinjam'] + $jumlah;
+
+            $data_barangNew = [
+                "dipinjam" => $dipinjamNew
+            ];
+
+            $this->db->where('nama_barang', $nama_barang);
+            $this->db->update('tb_barang', $data_barangNew);
+
+            $dates = date('Y-m-d H:i:s');
+            $date = strtotime($dates);
+            $date_kembali = strtotime("+7 day", $date);
+
+            $data_pinjam = [
+                "nama_barang" => $nama_barang,
+                "jumlah" => $jumlah,
+                "tanggal_pinjam" => $dates,
+                "max_kembali" => date('Y-m-d', $date_kembali),
+                "status" => "Menunggu"
+            ];
+
+            $query = $this->pinjam->edit($data_pinjam);
+            if ($query) {
+                $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil diedit'));
+                redirect('mahasiswa/beranda');
+            } else {
+                $this->session->set_flashdata('flash_error', flash_error('Barang gagal diedit !'));
+                redirect('mahasiswa/beranda');
+            }
+        }
+    }
+
     public function cek()
     {
-        $date = date('Y-m-d H:i:s');
-        echo "tanggal pinjam : " . $date;
-        $date = strtotime($date);
-        $date_kembali = strtotime("+7 day", $date);
-        echo date('Y-m-d H:i:s', $date_kembali);
+        $tanggal = date('Y-m-d H:i:s');
+        $waktu = strtotime($tanggal);
+        $today = date('Y-m-d', $waktu);
+
+        $currentDate  = date_create($today);
+        $maxDate = date_create('2020-09-25');
+        $diff  = date_diff($currentDate, $maxDate);
+
+        $bulan = $diff->m;
+        $hari = $diff->d;
+        if ($currentDate <= $maxDate) {
+            if ($bulan != 0) {
+                if ($hari != 0) {
+                    echo "- " . $hari . " hari " . $bulan . " bulan untuk pengembalian";
+                } else {
+                    echo "- " . $bulan . " bulan untuk pengembalian";
+                }
+            } else {
+                if ($hari != 0) {
+                    echo "- " . $hari . " hari untuk pengembalian";
+                } else {
+                    echo "Hari ini terakhir dikembalikan !";
+                }
+            }
+        } else {
+            if ($bulan != 0) {
+                if ($hari != 0) {
+                    echo "Sudah + " . $hari . " hari " . $bulan . " bulan dari maximal pengembalian !";
+                } else {
+                    echo "Sudah + " . $bulan . " bulan dari maximal pengembalian !";
+                }
+            } else {
+                echo "Sudah + " . $hari . " hari dari maximal pengembalian !";
+            }
+        }
     }
 
     public function hapus($nm_brg)
     {
         $this->pinjam->hapus($nm_brg);
-        $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
+        $this->session->set_flashdata('flash_sukses', flash_sukses('Barang pinjam berhasil dihapus'));
         redirect('mahasiswa/beranda');
     }
 }
