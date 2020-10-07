@@ -182,12 +182,12 @@ function tempoTgl($maxTgl, $tglKembali)
         } else {
             if ($bulan != 0) {
                 if ($hari != 0) {
-                    return '<div class="badge badge-warning">Sudah + ' . $hari . ' hari ' . $bulan . ' bulan dari maximal pengembalian !';
+                    return '<div class="badge badge-danger">Sudah + ' . $hari . ' hari ' . $bulan . ' bulan dari maximal pengembalian !';
                 } else {
-                    return '<div class="badge badge-warning">Sudah + ' . $bulan . ' bulan dari maximal pengembalian !';
+                    return '<div class="badge badge-danger">Sudah + ' . $bulan . ' bulan dari maximal pengembalian !';
                 }
             } else {
-                return '<div class="badge badge-warning">Sudah + ' . $hari . ' hari dari maximal pengembalian !';
+                return '<div class="badge badge-danger">Sudah + ' . $hari . ' hari dari maximal pengembalian !';
             }
         }
     } else {
