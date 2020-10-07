@@ -13,7 +13,7 @@
                                 enctype="multipart/form-data">
                                 <input type="hidden" value="<?= $mahasiswa[0]['id']; ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                                    value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_login">
+                                    value="<?php echo $this->security->get_csrf_hash(); ?>">
 
                                 <div class="form-group">
                                     <label for="nim">NIM</label>
@@ -59,7 +59,7 @@
                         <div class="card-body ">
                             <form action="<?= base_url('mahasiswa/beranda/updatePass'); ?>" method="post">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                                    value="<?php echo $this->security->get_csrf_hash(); ?>" id="csrf_login">
+                                    value="<?php echo $this->security->get_csrf_hash(); ?>">
 
                                 <div class="form-group">
                                     <label for="pas_lama">Password Lama</label>
