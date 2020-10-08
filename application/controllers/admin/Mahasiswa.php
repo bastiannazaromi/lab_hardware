@@ -165,8 +165,7 @@ class Mahasiswa extends CI_Controller
                                 'nama' => htmlspecialchars($row['C']),
                                 'semester' => htmlspecialchars($row['D']),
                                 'kelas' => htmlspecialchars($row['E']),
-                                'foto' => 'default.jpg',
-                                'status' => 'mahasiswa'
+                                'foto' => 'default.jpg'
                             ));
                         }
                     }

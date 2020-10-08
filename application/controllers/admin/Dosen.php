@@ -47,8 +47,7 @@ class Dosen extends CI_Controller
                 "password" => password_hash($this->input->post('username', TRUE), PASSWORD_DEFAULT),
                 "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
                 "username" => htmlspecialchars($this->input->post('username', TRUE)),
-                "foto" => 'default.jpg',
-                "status" => 'dosen'
+                "foto" => 'default.jpg'
             ];
 
             $this->dosen->tambah($data);
@@ -151,8 +150,7 @@ class Dosen extends CI_Controller
                                 'nama' => htmlspecialchars($row['C']),
                                 'email' => htmlspecialchars($row['D']),
                                 'no_telepon' => htmlspecialchars(str_replace('\'', '', $row['E'])),
-                                'foto' => 'default.jpg',
-                                'status' => 'dosen'
+                                'foto' => 'default.jpg'
                             ));
                         }
                     }
