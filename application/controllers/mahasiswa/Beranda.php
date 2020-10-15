@@ -301,41 +301,14 @@ class Beranda extends CI_Controller
 
     public function cek()
     {
-        $tanggal = date('Y-m-d H:i:s');
-        $waktu = strtotime($tanggal);
-        $today = date('Y-m-d', $waktu);
-
-        $currentDate  = date_create($today);
-        $maxDate = date_create('2020-09-25');
-        $diff  = date_diff($currentDate, $maxDate);
-
-        $bulan = $diff->m;
-        $hari = $diff->d;
-        if ($currentDate <= $maxDate) {
-            if ($bulan != 0) {
-                if ($hari != 0) {
-                    echo "- " . $hari . " hari " . $bulan . " bulan untuk pengembalian";
-                } else {
-                    echo "- " . $bulan . " bulan untuk pengembalian";
-                }
-            } else {
-                if ($hari != 0) {
-                    echo "- " . $hari . " hari untuk pengembalian";
-                } else {
-                    echo "Hari ini terakhir dikembalikan !";
-                }
-            }
-        } else {
-            if ($bulan != 0) {
-                if ($hari != 0) {
-                    echo "Sudah + " . $hari . " hari " . $bulan . " bulan dari maximal pengembalian !";
-                } else {
-                    echo "Sudah + " . $bulan . " bulan dari maximal pengembalian !";
-                }
-            } else {
-                echo "Sudah + " . $hari . " hari dari maximal pengembalian !";
-            }
+        $today = new DateTime("2020-12-12");
+        $end = new DateTime("2020-10-15");
+        if ($today >= $end)
+        {
+            $d = $today->diff($end);
+            echo $d->days." hari";
         }
+        
     }
 
     public function hapus($id)

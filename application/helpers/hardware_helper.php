@@ -194,3 +194,34 @@ function tempoTgl($maxTgl, $tglKembali)
         return '<div class="badge badge-success">Sudah dikembalikan</div>';
     }
 }
+
+function denda($maxTgl, $tglKembali)
+{
+    if (!$tglKembali) {
+        $tanggal = date('Y-m-d H:i:s');
+        $waktu = strtotime($tanggal);
+        $today = date('Y-m-d', $waktu);
+
+        $currentDate = new DateTime($today);
+        $end = new DateTime($maxTgl);
+        if ($currentDate >= $end)
+        {
+            $d = $currentDate->diff($end);
+            return '<div class="badge badge-danger">Rp. '. number_format($d->days * 1000) . '</div>';
+        }
+        else{
+            return '<div class="badge badge-success">-</div>';
+        }
+    } else {
+        $currentDate = new DateTime($tglKembali);
+        $end = new DateTime($maxTgl);
+        if ($currentDate >= $end)
+        {
+            $d = $currentDate->diff($end);
+            return '<div class="badge badge-danger">Rp. '. number_format($d->days * 1000) . '</div>';
+        }
+        else{
+            return '<div class="badge badge-success">-</div>';
+        }
+    }
+}
