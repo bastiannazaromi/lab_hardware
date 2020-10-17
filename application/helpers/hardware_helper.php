@@ -168,30 +168,30 @@ function tempoTgl($maxTgl, $tglKembali)
         if ($currentDate <= $maxDate) {
             if ($bulan != 0) {
                 if ($hari != 0) {
-                    return '<div class="badge badge-warning"> - ' . $hari . ' hari ' . $bulan . ' bulan untuk pengembalian</div>';
+                    return ' - ' . $hari . ' hari ' . $bulan . ' bulan untuk pengembalian';
                 } else {
-                    return '<div class="badge badge-warning"> - ' . $bulan . ' bulan untuk pengembalian</div>';
+                    return ' - ' . $bulan . ' bulan untuk pengembalian';
                 }
             } else {
                 if ($hari != 0) {
-                    return '<div class="badge badge-warning"> - ' . $hari . ' hari untuk pengembalian</div>';;
+                    return ' - ' . $hari . ' hari untuk pengembalian';;
                 } else {
-                    return '<div class="badge badge-danger">Hari ini terakhir dikembalikan !</div>';
+                    return 'Hari ini terakhir dikembalikan !';
                 }
             }
         } else {
             if ($bulan != 0) {
                 if ($hari != 0) {
-                    return '<div class="badge badge-danger">Sudah + ' . $hari . ' hari ' . $bulan . ' bulan dari maximal pengembalian !';
+                    return 'Sudah + ' . $hari . ' hari ' . $bulan . ' bulan dari maximal pengembalian !';
                 } else {
-                    return '<div class="badge badge-danger">Sudah + ' . $bulan . ' bulan dari maximal pengembalian !';
+                    return 'Sudah + ' . $bulan . ' bulan dari maximal pengembalian !';
                 }
             } else {
-                return '<div class="badge badge-danger">Sudah + ' . $hari . ' hari dari maximal pengembalian !';
+                return 'Sudah + ' . $hari . ' hari dari maximal pengembalian !';
             }
         }
     } else {
-        return '<div class="badge badge-success">Sudah dikembalikan</div>';
+        return 'Sudah dikembalikan';
     }
 }
 
@@ -207,10 +207,10 @@ function denda($maxTgl, $tglKembali)
         if ($currentDate >= $end)
         {
             $d = $currentDate->diff($end);
-            return '<div class="badge badge-danger">Rp. '. number_format($d->days * 1000) . '</div>';
+            return 'Rp. '. number_format($d->days * 1000);
         }
         else{
-            return '<div class="badge badge-success">-</div>';
+            return '-';
         }
     } else {
         $currentDate = new DateTime($tglKembali);
@@ -218,10 +218,10 @@ function denda($maxTgl, $tglKembali)
         if ($currentDate >= $end)
         {
             $d = $currentDate->diff($end);
-            return '<div class="badge badge-danger">Rp. '. number_format($d->days * 1000) . '</div>';
+            return 'Rp. '. number_format($d->days * 1000);
         }
         else{
-            return '<div class="badge badge-success">-</div>';
+            return '-';
         }
     }
 }

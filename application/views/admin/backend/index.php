@@ -19,6 +19,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/datatable/dataTables.bootstrap4.min.css') ?>" type="text/css">
+    <link rel="stylesheet" href="<?= base_url('assets/datatable/buttons.bootstrap4.min.css') ?>" type="text/css">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -164,6 +165,14 @@
                             <hr class="bg-light">
                         </li>
 
+                        <?php
+                            $CI =& get_instance();
+                        
+                            $CI->load->model('M_Pinjam', 'pinjam');
+                            $lbMhs = count($CI->pinjam->getLewatBatas('mahasiswa'));
+                            $lbDsn = count($CI->pinjam->getLewatBatas('dosen'));
+                        ?>
+
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link hr">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
@@ -180,6 +189,13 @@
                                         <p>Mahasiswa</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/barang_pinjam/lewat_batas/mahasiswa'); ?>"
+                                        class="nav-link hr">
+                                        <i class="fas fa-circle-notch nav-icon"></i>
+                                        <p>Lewat Batas <sup>( <?= $lbMhs ; ?> )</sup></p>
+                                    </a>
+                                </li>
                             </ul>
                             <ul class="nav nav-treeview ml-3">
                                 <li class="nav-item">
@@ -187,6 +203,13 @@
                                         class="nav-link hr">
                                         <i class="fas fa-arrow-circle-right nav-icon"></i>
                                         <p>Dosen</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/barang_pinjam/lewat_batas/dosen'); ?>"
+                                        class="nav-link hr">
+                                        <i class="fas fa-circle-notch nav-icon"></i>
+                                        <p>Lewat Batas <sup>( <?= $lbDsn ; ?> )</sup></p>
                                     </a>
                                 </li>
                             </ul>
@@ -278,6 +301,15 @@
     <script src="<?php echo base_url(); ?>assets/datatable/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/datatable/dataTables.bootstrap4.min.js"></script>
 
+    <script src="<?php echo base_url(); ?>assets/datatable/dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datatable/buttons.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datatable/jszip.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datatable/pdfmake.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datatable/vfs_fonts.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datatable/buttons.html5.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datatable/buttons.print.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/datatable/buttons.colVis.min.js"></script>
+
     <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
     <!-- panggil adapter jquery ckeditor -->
     <script src="<?php echo base_url(); ?>assets/ckeditor/adapters/jquery.js"></script>
@@ -313,6 +345,38 @@
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
+});
+
+$(document).ready(function() {
+    var table = $('#examples').DataTable({
+        lengthChange: false,
+        buttons: [{
+                extend: 'print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excel',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdf',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ],
+        columnDefs: [{
+            visible: false
+        }]
+    });
+
+    table.buttons().container()
+        .appendTo('#examples_wrapper .col-md-6:eq(0)');
 });
 
 $(document).ready(function() {

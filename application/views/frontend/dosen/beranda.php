@@ -31,7 +31,7 @@
                                     <th>Maximal Pengembalian</th>
                                     <th>Tanggal Kembali</th>
                                     <th>Keterangan</th>
-                                    <th>Status</th>
+                                    <th>Denda</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -47,9 +47,8 @@
                                     <td><?= $hasil['tanggal_kembali']; ?></td>
                                     <td><?= tempoTgl($hasil['max_kembali'], $hasil['tanggal_kembali']); ?></td>
                                     <td>
-                                        <div class="badge <?= $hasil['status'] == 'Selesai' ? 'btn-success' : 'badge-warning'; ?>"
-                                            role="alert">
-                                            <?= $hasil['status']; ?>
+                                        <div class="badge badge-warning">
+                                            <?= denda($hasil['max_kembali'], $hasil['tanggal_kembali']); ?>
                                         </div>
                                     </td>
                                     <td>

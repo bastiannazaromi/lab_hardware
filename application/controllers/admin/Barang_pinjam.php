@@ -28,6 +28,17 @@ class Barang_pinjam extends CI_Controller
         $this->load->view('admin/backend/index', $data);
     }
 
+    public function lewat_batas($role = null)
+    {
+        $data['title'] = 'List Barang Lewat Batas';
+        $data['page'] = 'admin/backend/lewat_batas';
+
+        $data['pinjam'] = $this->pinjam->getLewatBatas($role);
+        $data['role'] = $role;
+
+        $this->load->view('admin/backend/index', $data);
+    }
+
     public function update()
     {
         $id = $this->input->post('id');

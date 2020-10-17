@@ -9,28 +9,28 @@
                 <div class="card-body">
 
                     <div class="table-responsive">
-                        <?php echo form_open('admin/rekap/multiple_delete'); ?>
-                        <table id="examples" class="table table-bordered table-hover">
+                        <?php echo form_open('admin/barang_pinjam/multiple_delete'); ?>
+                        <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>
-                                    <th>No</th>
+                                    <th>#</th>
                                     <th>ID User</th>
                                     <th>Nama</th>
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
                                     <th>Max Pengembalian</th>
-                                    <th>Tanggal kembali</th>
+                                    <th>Keterangan</th>
                                     <th>Denda</th>
                                     <th>Action</th>
                                     <th>
-                                        All <center><input type="checkbox" id="check-all"></center>
+                                        <center><input type="checkbox" id="check-all"></center>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i = 1;
-                                foreach ($rekap as $hasil) : ?>
+                                foreach ($pinjam as $hasil) : ?>
                                 <tr>
                                     <th><?= $i++ ?></th>
                                     <td><?= $hasil['id_user']; ?></td>
@@ -38,13 +38,24 @@
                                     <td><?= $hasil['nama_barang']; ?></td>
                                     <td><?= $hasil['jumlah']; ?></td>
                                     <td><?= $hasil['tanggal_pinjam']; ?></td>
-                                    <td><?= $hasil['max_kembali']; ?></td>
-                                    <td><?= $hasil['tanggal_kembali']; ?></td>
+                                    <td><?= date('d F Y', strtotime($hasil['max_kembali'])); ?></td>
+                                    <td>
+                                        <?= tempoTgl($hasil['max_kembali'], $hasil['tanggal_kembali']); ?>
+                                    </td>
                                     <td>
                                         <?= denda($hasil['max_kembali'], $hasil['tanggal_kembali']); ?>
                                     </td>
                                     <td>
                                         <div class="form-group" class="badge">
+                                            <label class="badge badge-danger">
+                                                <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
+                                                    class="menunggu"
+                                                    <?= $hasil['status'] == 'Menunggu' ? 'checked' : ''; ?>
+                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-nama_barang="<?= $hasil['nama_barang']; ?>"
+                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Menunggu">
+                                                Menunggu
+                                            </label>
                                             <label class="badge badge-warning">
                                                 <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
                                                     class="dipinjam"
@@ -116,6 +127,33 @@ $(document).ready(function() {
     var dipinjams = $('.dipinjam');
     var selesais = $('.selesai');
 
+    for (menunggu of menunggus) {
+        menunggu.addEventListener("change", function(event) {
+            let id = $(this).data('id');
+            let nama_barang = $(this).data('nama_barang');
+            let jumlah = $(this).data('jumlah');
+            let status = $(this).data('status');
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                id: id,
+                nama_barang: nama_barang,
+                jumlah: jumlah,
+                status: status
+            };
+
+            $.ajax({
+                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                type: 'post',
+                data: dataJson,
+                success: function() {
+                    document.location.href =
+                        `<?= base_url('admin/barang_pinjam/lewat_batas/') . $role; ?>`;
+                }
+            });
+        });
+    }
+
     for (dipinjam of dipinjams) {
         dipinjam.addEventListener("change", function(event) {
             let id = $(this).data('id');
@@ -132,12 +170,39 @@ $(document).ready(function() {
             };
 
             $.ajax({
-                url: "<?= base_url('admin/rekap/update'); ?>",
+                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
                 type: 'post',
                 data: dataJson,
                 success: function() {
                     document.location.href =
-                        `<?= base_url('admin/rekap/barang/') . $role; ?>`;
+                        `<?= base_url('admin/barang_pinjam/lewat_batas/') . $role; ?>`;
+                }
+            });
+        });
+    }
+
+    for (selesai of selesais) {
+        selesai.addEventListener("change", function(event) {
+            let id = $(this).data('id');
+            let nama_barang = $(this).data('nama_barang');
+            let jumlah = $(this).data('jumlah');
+            let status = $(this).data('status');
+
+            var dataJson = {
+                [csrfName]: csrfHash,
+                id: id,
+                nama_barang: nama_barang,
+                jumlah: jumlah,
+                status: status
+            };
+
+            $.ajax({
+                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                type: 'post',
+                data: dataJson,
+                success: function() {
+                    document.location.href =
+                        `<?= base_url('admin/barang_pinjam/lewat_batas/') . $role; ?>`;
                 }
             });
         });

@@ -19,7 +19,7 @@ class Rekap extends CI_Controller
 
     public function barang($role = null)
     {
-        $data['title'] = 'Rekap Barang Dipinjam';
+        $data['title'] = 'Rekap barang dipinjam ' . $role;
         $data['page'] = 'admin/backend/rekap';
 
         $data['rekap'] = $this->rekap->getAll($role);
