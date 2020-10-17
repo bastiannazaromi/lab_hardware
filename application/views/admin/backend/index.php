@@ -59,12 +59,12 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                         aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="<?= base_url('admin/admin/profile'); ?>">
+                        <a class="dropdown-item" href="<?= base_url('belakang/profile'); ?>">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?= base_url('admin/auth/logout'); ?>" data-toggle="modal"
+                        <a class="dropdown-item" href="<?= base_url('belakang/logout'); ?>" data-toggle="modal"
                             data-target="#logoutModal">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
@@ -78,7 +78,7 @@
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="<?= base_url('user/beranda'); ?>" class="brand-link ml-2">
+            <a href="<?= base_url('dashboard'); ?>" class="brand-link ml-2">
                 <span class="brand-text font-weight-light">LAB HARDWARE</span>
             </a>
 
@@ -91,7 +91,7 @@
                             class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="<?= base_url('admin/admin/profile'); ?>"
+                        <a href="<?= base_url('belakang/profile'); ?>"
                             class="d-block"><?= nama($this->session->userdata('id')); ?></a>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item mb-3">
-                            <a href="<?= base_url('admin/dashboard'); ?>" class="nav-link">
+                            <a href="<?= base_url('belakang/dashboard'); ?>" class="nav-link">
                                 <i class="fas fa-fire nav-icon"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -332,7 +332,7 @@
                 <div class="modal-body">Pilih "Logout" untuk keluar dari halaman</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="<?= base_url('admin/Auth/logout'); ?>">Logout</a>
+                    <a class="btn btn-primary" href="<?= base_url('belakang/logout'); ?>">Logout</a>
                 </div>
             </div>
         </div>

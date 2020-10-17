@@ -16,6 +16,12 @@ class Admin extends CI_Controller
         $this->load->model('M_Admin', 'admin');
     }
 
+    
+    public function cek()
+    {
+        echo dekrip('MytQdGhSYUlCQSsvekpwSGs4eWpKZw');
+    }
+
     public function index()
     {
         $this->cek_level();

@@ -8,9 +8,9 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         if (!empty($this->session->userdata('data_login'))) {
-            if ($this->uri->segment(3) != 'logout') {
+            if ($this->uri->segment(2) != 'logout') {
                 $this->session->set_flashdata('flash-error', 'Anda Sudah Login');
-                redirect('admin/dashboard');
+                redirect('belakang/dashboard');
             }
         }
     }

@@ -95,7 +95,7 @@ function ajax_login() {
     };
 
     $.ajax({
-        url: "<?= base_url('admin/Auth/login'); ?>",
+        url: "<?= base_url('belakang/login'); ?>",
         type: "POST",
         data: dataJson,
         dataType: 'json',
@@ -109,7 +109,8 @@ function ajax_login() {
                 }).then((result) => {
                     if (result.value) {
                         setTimeout(function() {
-                            document.location.href = "<?= base_url('admin/dashboard'); ?>";
+                            document.location.href =
+                                "<?= base_url('belakang/dashboard'); ?>";
                         }, 500)
                     }
                 });
