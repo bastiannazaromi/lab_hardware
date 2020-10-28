@@ -9,9 +9,9 @@
                             src="<?= base_url('assets/uploads/profile/' . $admin[0]['foto']); ?>" alt="Card image cap"
                             width="150" height="150" style="display: block; margin: 0 auto;" id="gambar_nodin">
                         <div class="card-body">
-                            <form action="<?= base_url('admin/admin/updateFoto'); ?>" method="post"
+                            <form action="<?= base_url('belakang/updateFoto'); ?>" method="post"
                                 enctype="multipart/form-data">
-                                <input type="hidden" value="<?= $admin[0]['id']; ?>" name="id">
+                                <input type="hidden" value="<?= enkrip($admin[0]['id']); ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>">
                                 <div class="form-group">
@@ -45,8 +45,8 @@
                             <h3 class="text-center">Update Password</h3>
                         </div>
                         <div class="card-body ">
-                            <form action="<?= base_url('admin/admin/updatePass'); ?>" method="post">
-                                <input type="hidden" value="<?= $admin[0]['id']; ?>" name="id">
+                            <form action="<?= base_url('belakang/updatePass'); ?>" method="post">
+                                <input type="hidden" value="<?= enkrip($admin[0]['id']); ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>">
                                 <div class="form-group">

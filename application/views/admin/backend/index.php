@@ -111,7 +111,7 @@
                         </li>
 
                         <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link hr">
+                            <a href="" class="nav-link hr">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     List Mahasiswa
@@ -119,12 +119,10 @@
                                 </p>
                             </a>
 
-
-
                             <ul class="nav nav-treeview ml-3">
                                 <?php foreach (semester() as $hasil) : ?>
                                 <li class="nav-item">
-                                    <a href="<?= base_url('admin/mahasiswa/semester/') . $hasil['semester']; ?>"
+                                    <a href="<?= base_url('belakang/mahasiswa/semester/') . enkrip($hasil['semester']); ?>"
                                         class="nav-link">
                                         <i class="far fa-user nav-icon"></i>
                                         <p>Semester <?= $hasil['semester']; ?></p>
@@ -137,7 +135,7 @@
 
                         <li class="nav-item has-treeview">
                             <hr class="bg-light">
-                            <a href="<?= base_url('admin/dosen'); ?>" class="nav-link hr">
+                            <a href="<?= base_url('belakang/dosen'); ?>" class="nav-link hr">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     List Dosen
@@ -147,7 +145,7 @@
 
                         <?php if (level($this->session->userdata('id')) == "Super Admin") : ?>
                         <li class="nav-item has-treeview">
-                            <a href="<?= base_url('admin/admin'); ?>" class="nav-link hr">
+                            <a href="<?= base_url('belakang/admin'); ?>" class="nav-link hr">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     List Admin
@@ -158,7 +156,7 @@
 
                         <li class="nav-item has-treeview">
                             <hr class="bg-light">
-                            <a href="<?= base_url('admin/stok_barang'); ?>" class="nav-link hr">
+                            <a href="<?= base_url('belakang/stok'); ?>" class="nav-link hr">
                                 <i class="fas fa-boxes nav-icon"></i>
                                 <p>Stok Barang</p>
                             </a>
@@ -183,15 +181,13 @@
                             </a>
                             <ul class="nav nav-treeview ml-3">
                                 <li class="nav-item">
-                                    <a href="<?= base_url('admin/barang_pinjam/pinjaman/mahasiswa'); ?>"
-                                        class="nav-link hr">
+                                    <a href="<?= base_url('belakang/pinjaman/mahasiswa'); ?>" class="nav-link hr">
                                         <i class="fas fa-arrow-circle-right nav-icon"></i>
                                         <p>Mahasiswa</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= base_url('admin/barang_pinjam/lewat_batas/mahasiswa'); ?>"
-                                        class="nav-link hr">
+                                    <a href="<?= base_url('belakang/lewat_batas/mahasiswa'); ?>" class="nav-link hr">
                                         <i class="fas fa-circle-notch nav-icon"></i>
                                         <p>Lewat Batas <sup>( <?= $lbMhs ; ?> )</sup></p>
                                     </a>
@@ -199,15 +195,13 @@
                             </ul>
                             <ul class="nav nav-treeview ml-3">
                                 <li class="nav-item">
-                                    <a href="<?= base_url('admin/barang_pinjam/pinjaman/dosen'); ?>"
-                                        class="nav-link hr">
+                                    <a href="<?= base_url('belakang/pinjaman/dosen'); ?>" class="nav-link hr">
                                         <i class="fas fa-arrow-circle-right nav-icon"></i>
                                         <p>Dosen</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= base_url('admin/barang_pinjam/lewat_batas/dosen'); ?>"
-                                        class="nav-link hr">
+                                    <a href="<?= base_url('belakang/lewat_batas/dosen'); ?>" class="nav-link hr">
                                         <i class="fas fa-circle-notch nav-icon"></i>
                                         <p>Lewat Batas <sup>( <?= $lbDsn ; ?> )</sup></p>
                                     </a>
@@ -226,7 +220,7 @@
                             </a>
                             <ul class="nav nav-treeview ml-3">
                                 <li class="nav-item">
-                                    <a href="<?= base_url('admin/rekap/barang/mahasiswa'); ?>" class="nav-link hr">
+                                    <a href="<?= base_url('belakang/rekap/mahasiswa'); ?>" class="nav-link hr">
                                         <i class="fas fa-arrow-circle-right nav-icon"></i>
                                         <p>Mahasiswa</p>
                                     </a>
@@ -234,7 +228,7 @@
                             </ul>
                             <ul class="nav nav-treeview ml-3">
                                 <li class="nav-item">
-                                    <a href="<?= base_url('admin/rekap/barang/dosen'); ?>" class="nav-link hr">
+                                    <a href="<?= base_url('belakang/rekap/dosen'); ?>" class="nav-link hr">
                                         <i class="fas fa-arrow-circle-right nav-icon"></i>
                                         <p>Dosen</p>
                                     </a>
@@ -286,6 +280,7 @@
 
     <!-- jQuery -->
     <script src="<?= base_url(); ?>assets/admin/plugins/jquery/jquery.min.js"></script>
+
     <!-- Bootstrap 4 -->
     <script src="<?= base_url(); ?>assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
@@ -298,6 +293,14 @@
 
     <script src="<?php echo base_url(); ?>assets/js/script_hardware.js"></script>
 
+    <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
+    <!-- panggil adapter jquery ckeditor -->
+    <script src="<?php echo base_url(); ?>assets/ckeditor/adapters/jquery.js"></script>
+    <!-- setup selector -->
+    <script>
+    $('textarea.texteditor').ckeditor();
+    </script>
+
     <script src="<?php echo base_url(); ?>assets/datatable/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/datatable/dataTables.bootstrap4.min.js"></script>
 
@@ -309,14 +312,6 @@
     <script src="<?php echo base_url(); ?>assets/datatable/buttons.html5.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/datatable/buttons.print.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/datatable/buttons.colVis.min.js"></script>
-
-    <script src="<?php echo base_url(); ?>assets/ckeditor/ckeditor.js"></script>
-    <!-- panggil adapter jquery ckeditor -->
-    <script src="<?php echo base_url(); ?>assets/ckeditor/adapters/jquery.js"></script>
-    <!-- setup selector -->
-    <script>
-    $('textarea.texteditor').ckeditor();
-    </script>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -343,6 +338,20 @@
 </html>
 
 <script>
+function bacaGambar(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('#gambar_nodin').attr('src', e.target.result);
+        }, reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#image").change(function() {
+    bacaGambar(this);
+});
+
 $(document).ready(function() {
     $('#example').DataTable();
 });
@@ -386,21 +395,5 @@ $(document).ready(function() {
         else
             $(".check-item").prop("checked", false);
     });
-});
-
-function bacaGambar(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-            $('#gambar_nodin').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-$("#image").change(function() {
-    bacaGambar(this);
 });
 </script>

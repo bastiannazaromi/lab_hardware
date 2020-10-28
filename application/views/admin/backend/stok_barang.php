@@ -34,7 +34,7 @@
                     <br>
                     <br>
                     <div class="table-responsive">
-                        <?php echo form_open('admin/stok_barang/multiple_delete'); ?>
+                        <?php echo form_open('belakang/stok/hapus'); ?>
                         <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>
@@ -66,13 +66,14 @@
                                     <td><?= $hasil['normal'] - $hasil['dipinjam']; ?></td>
                                     <td>
                                         <a href="#" class="badge badge-warning edit_brg" data-toggle="modal"
-                                            data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
+                                            data-target="#modalEdit<?= enkrip($hasil['id']); ?>"><i
+                                                class="fa fa-edit"></i>
                                             Edit</a>
                                     </td>
                                     <td>
                                         <center>
                                             <input type="checkbox" class="check-item" name="id[]"
-                                                value="<?= $hasil['id'] ?>">
+                                                value="<?= enkrip($hasil['id']) ?>">
                                         </center>
                                     </td>
                                 </tr>
@@ -112,7 +113,7 @@
 <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/stok_barang/tambah'); ?>" method="post">
+        <form action="<?= base_url('belakang/stok/tambah'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Barang</h5>
@@ -166,10 +167,10 @@
 
 <!-- Modal Edit-->
 <?php foreach ($stok as $dt) : ?>
-<div class="modal fade" id="modalEdit<?= $dt['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modalEdit<?= enkrip($dt['id']); ?>" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/stok_barang/edit'); ?>" method="post">
+        <form action="<?= base_url('belakang/stok/edit'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Barang</h5>
@@ -178,7 +179,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" value="<?= $dt['id']; ?>" name="id">
+                    <input type="hidden" value="<?= enkrip($dt['id']); ?>" name="id">
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                         value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="form-group">
@@ -240,7 +241,7 @@
 <div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/stok_barang/import'); ?>" method="post" enctype="multipart/form-data">
+        <form action="<?= base_url('belakang/stok/import'); ?>" method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Import Barang</h5>

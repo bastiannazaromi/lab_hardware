@@ -10,7 +10,7 @@
                         <div class="card-body">
                             <form action="<?= base_url('dosen/beranda/profile'); ?>" method="post"
                                 enctype="multipart/form-data">
-                                <input type="hidden" value="<?= $dosen[0]['id']; ?>" name="id">
+                                <input type="hidden" value="<?= enkrip($dosen[0]['id']); ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>">
 

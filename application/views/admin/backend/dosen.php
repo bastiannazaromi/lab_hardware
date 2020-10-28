@@ -31,7 +31,7 @@
                     <br>
                     <br>
                     <div class="table-responsive">
-                        <?php echo form_open('admin/dosen/multiple_delete'); ?>
+                        <?php echo form_open('belakang/dosen/multiple_delete'); ?>
                         <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>
@@ -54,18 +54,19 @@
                                     <td><?= $hasil['nidn_nipy']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
                                     <td><?= $hasil['username']; ?></td>
-                                    <td><a href="<?= base_url() ?>admin/dosen/resetPassword/<?= $hasil['id']; ?>"
+                                    <td><a href="<?= base_url() ?>belakang/dosen/resetPassword/<?= enkrip($hasil['id']); ?>"
                                             class="badge badge-success delete-people"><i class="fa fa-edit"></i>
                                             Reset</a>
                                     <td>
                                         <a href="#" class="badge badge-warning" data-toggle="modal"
-                                            data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
+                                            data-target="#modalEdit<?= enkrip($hasil['id']); ?>"><i
+                                                class="fa fa-edit"></i>
                                             Edit</a>
                                     </td>
                                     <td>
                                         <center>
                                             <input type="checkbox" class="check-item" name="id[]"
-                                                value="<?= $hasil['id'] ?>">
+                                                value="<?= enkrip($hasil['id']) ?>">
                                         </center>
                                     </td>
                                 </tr>
@@ -102,10 +103,10 @@
 <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/dosen/tambah'); ?>" method="post">
+        <form action="<?= base_url('belakang/dosen/tambah'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Dosen</h5>
+                    <h5 class="modal-title">Tambah Dosen</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
@@ -115,16 +116,15 @@
                         value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="form-group">
                         <label for="nidn">NIDN / NIPY</label>
-                        <input type="text" class="form-control" id="nidn" name="nidn" required autocomplete="off">
+                        <input type="text" class="form-control" name="nidn" required autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama Dosen</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required autocomplete="off">
+                        <input type="text" class="form-control" name="nama" required autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required
-                            autocomplete="off">
+                        <input type="text" class="form-control" name="username" required autocomplete="off">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -138,35 +138,35 @@
 
 <!-- Modal Edit-->
 <?php foreach ($dosen as $dt) : ?>
-<div class="modal fade" id="modalEdit<?= $dt['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modalEdit<?= enkrip($dt['id']); ?>" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/dosen/edit'); ?>" method="post">
+        <form action="<?= base_url('belakang/dosen/edit'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Mahasiswa</h5>
+                    <h5 class="modal-title">Edit Mahasiswa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" value="<?= $dt['id']; ?>" name="id">
+                    <input type="hidden" value="<?= enkrip($dt['id']); ?>" name="id">
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                         value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="form-group">
                         <label for="nidn">NIDN / NIPY</label>
-                        <input type="text" class="form-control" id="nidn" name="nidn" required autocomplete="off"
+                        <input type="text" class="form-control" name="nidn" required autocomplete="off"
                             value="<?= $dt['nidn_nipy']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama Dosen</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required autocomplete="off"
+                        <input type="text" class="form-control" name="nama" required autocomplete="off"
                             value="<?= $dt['nama']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required
-                            autocomplete="off" value="<?= $dt['username']; ?>">
+                        <input type="text" class="form-control" name="username" required autocomplete="off"
+                            value="<?= $dt['username']; ?>">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -183,10 +183,10 @@
 <div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/dosen/import'); ?>" method="post" enctype="multipart/form-data">
+        <form action="<?= base_url('belakang/dosen/import'); ?>" method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Dosen</h5>
+                    <h5 class="modal-title">Import Dosen</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>

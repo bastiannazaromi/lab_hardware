@@ -12,7 +12,7 @@
                 <div class="icon">
                     <i class="fas fa-user fa-2x"></i>
                 </div>
-                <a href="<?= base_url('admin/mahasiswa/semester'); ?>" class="small-box-footer">Detail <i
+                <a href="<?= base_url('belakang/mahasiswa'); ?>" class="small-box-footer">Detail <i
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <div class="icon">
                     <i class="fas fa-user fa-2x"></i>
                 </div>
-                <a href="<?= base_url('admin/dosen'); ?>" class="small-box-footer">Detail <i
+                <a href="<?= base_url('belakang/dosen'); ?>" class="small-box-footer">Detail <i
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 <div class="icon">
                     <i class="fas fa-shopping-cart fa-2x"></i>
                 </div>
-                <a href="<?= base_url('admin/barang_pinjam/pinjaman/mahasiswa'); ?>" class="small-box-footer">Detail <i
+                <a href="<?= base_url('belakang/pinjaman/mahasiswa'); ?>" class="small-box-footer">Detail <i
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
@@ -60,7 +60,7 @@
                 <div class="icon">
                     <i class="fas fa-shopping-cart fa-2x"></i>
                 </div>
-                <a href="<?= base_url('admin/barang_pinjam/pinjaman/dosen'); ?>" class="small-box-footer">Detail <i
+                <a href="<?= base_url('belakang/pinjaman/dosen'); ?>" class="small-box-footer">Detail <i
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
@@ -76,7 +76,7 @@
                 <div class="icon">
                     <i class="fas fa-shopping-cart fa-2x"></i>
                 </div>
-                <a href="<?= base_url('admin/barang_pinjam/lewat_batas/mahasiswa'); ?>" class="small-box-footer">Detail
+                <a href="<?= base_url('belakang/lewat_batas/mahasiswa'); ?>" class="small-box-footer">Detail
                     <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
@@ -92,7 +92,7 @@
                 <div class="icon">
                     <i class="fas fa-shopping-cart fa-2x"></i>
                 </div>
-                <a href="<?= base_url('admin/barang_pinjam/lewat_batas/dosen'); ?>" class="small-box-footer">Detail <i
+                <a href="<?= base_url('belakang/lewat_batas/dosen'); ?>" class="small-box-footer">Detail <i
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
@@ -109,7 +109,7 @@
                 <div class="icon">
                     <i class="fas fa-user fa-2x"></i>
                 </div>
-                <a href="<?= base_url('admin/admin'); ?>" class="small-box-footer">Detail <i
+                <a href="<?= base_url('belakang/admin'); ?>" class="small-box-footer">Detail <i
                         class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>

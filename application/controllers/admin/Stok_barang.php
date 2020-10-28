@@ -10,7 +10,7 @@ class Stok_barang extends CI_Controller
         parent::__construct();
         if (empty($this->session->userdata('data_login'))) {
             $this->session->set_flashdata('flash-error', 'Anda Belum Login');
-            redirect('admin/auth', 'refresh');
+            redirect('belakang/login', 'refresh');
         }
 
         $this->load->model('M_Stok', 'stok');
@@ -58,10 +58,10 @@ class Stok_barang extends CI_Controller
             $query = $this->stok->tambah($data);
             if ($query) {
                 $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
-                redirect('admin/stok_barang');
+                redirect('belakang/stok');
             } else {
                 $this->session->set_flashdata('flash_error', flash_error('Barang gagal ditambahkan !'));
-                redirect('admin/stok_barang');
+                redirect('belakang/stok');
             }
         }
     }
@@ -98,23 +98,23 @@ class Stok_barang extends CI_Controller
 
             if ($query) {
                 $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil diupdate'));
-                redirect('admin/stok_barang');
+                redirect('belakang/stok');
             } else {
                 $this->session->set_flashdata('flash_error', flash_error('Barang gagal diupdate'));
-                redirect('admin/stok_barang');
+                redirect('belakang/stok');
             }
         }
     }
 
     public function hapus($id)
     {
-        $query = $this->stok->hapus($id);
+        $query = $this->stok->hapus(dekrip($id));
         if ($query) {
             $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil dihapus'));
-            redirect('admin/stok_barang');
+            redirect('belakang/stok');
         } else {
             $this->session->set_flashdata('flash_error', flash_error('Barang gagal dihapus'));
-            redirect('admin/stok_barang');
+            redirect('belakang/stok');
         }
     }
 
@@ -134,7 +134,7 @@ class Stok_barang extends CI_Controller
             //upload gagal
             $this->session->set_flashdata('flash_error', flash_error($this->upload->display_errors()));
             //redirect halaman
-            redirect('admin/mahasiswa');
+            redirect('belakang/stok');
         } else {
 
             $data_upload = $this->upload->data();
@@ -197,7 +197,7 @@ class Stok_barang extends CI_Controller
             unlink(realpath('excel/' . $data_upload['file_name']));
 
             //redirect halaman
-            redirect('admin/stok_barang');
+            redirect('belakang/stok');
         }
     }
 
@@ -206,16 +206,16 @@ class Stok_barang extends CI_Controller
         $id = $this->input->post('id');
         if ($id == NULL) {
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
-            redirect('admin/stok_barang');
+            redirect('belakang/stok');
         } else {
             $query = $this->stok->multiple_delete($id);
 
             if ($query) {
                 $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil dihapus'));
-                redirect('admin/stok_barang');
+                redirect('belakang/stok');
             } else {
                 $this->session->set_flashdata('flash_error', flash_error('Barang gagal dihapus'));
-                redirect('admin/stok_barang');
+                redirect('belakang/stok');
             }
         }
     }

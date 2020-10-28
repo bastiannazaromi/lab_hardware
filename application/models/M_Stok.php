@@ -43,7 +43,7 @@ class M_Stok extends CI_Model
 
     public function edit($data)
     {
-        $this->db->where('id', $this->input->post('id', TRUE));
+        $this->db->where('id', dekrip($this->input->post('id', TRUE)));
         return $this->db->update('tb_barang', $data);
     }
 
@@ -54,7 +54,9 @@ class M_Stok extends CI_Model
     }
     public function multiple_delete($id)
     {
-        $this->db->where_in('id', $id);
-        return $this->db->delete('tb_barang');
+        foreach ($id as $id_new) {
+            $this->db->where('id', dekrip($id_new));
+            return $this->db->delete('tb_barang');
+        }
     }
 }

@@ -43,7 +43,7 @@ class M_Mahasiswa extends CI_Model
 
     public function edit($data)
     {
-        $this->db->where('id', $this->input->post('id', TRUE));
+        $this->db->where('id', dekrip($this->input->post('id', TRUE)));
         $this->db->update('tb_mahasiswa', $data);
     }
 
@@ -61,15 +61,15 @@ class M_Mahasiswa extends CI_Model
     public function multiple_delete($id)
     {
         foreach ($id as $id_new) {
-            $this->db->where('id', $id_new);
+            $this->db->where('id', dekrip($id_new));
             $data = $this->db->get('tb_mahasiswa')->result_array();
 
             if ($data[0]['foto'] != "default.jpg") {
                 unlink(FCPATH . 'assets/uploads/profile/' . $data[0]['foto']);
             }
-        }
 
-        $this->db->where_in('id', $id);
-        $this->db->delete('tb_mahasiswa');
+            $this->db->where('id', dekrip($id_new));
+            $this->db->delete('tb_mahasiswa');
+        }
     }
 }

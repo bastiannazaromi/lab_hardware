@@ -25,13 +25,16 @@
                     <?= form_error('nama', '<small class="text-danger">', '</small>'); ?> <br>
                     <?php endif; ?>
                     <?php if (form_error('semester')) : ?>
-                    <?= form_error('semester', '<small class="text-danger">', '</small>'); ?>
+                    <?= form_error('semester', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+                    <?php if (form_error('kelas')) : ?>
+                    <?= form_error('kelas', '<small class="text-danger">', '</small>'); ?>
                     <?php endif; ?>
 
                     <br>
                     <br>
                     <div class="table-responsive">
-                        <?php echo form_open('admin/mahasiswa/multiple_delete'); ?>
+                        <?php echo form_open('belakang/mahasiswa/hapus'); ?>
                         <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>
@@ -56,18 +59,19 @@
                                     <td><?= $hasil['nama']; ?></td>
                                     <td><?= $hasil['semester']; ?></td>
                                     <td><?= $hasil['kelas']; ?></td>
-                                    <td><a href="<?= base_url() ?>admin/mahasiswa/resetPassword/<?= $hasil['id']; ?>"
+                                    <td><a href="<?= base_url() ?>belakang/mahasiswa/resetPassword/<?= enkrip($hasil['id']); ?>"
                                             class="badge badge-success delete-people"><i class="fa fa-edit"></i>
                                             Reset</a>
                                     <td>
                                         <a href="#" class="badge badge-warning" data-toggle="modal"
-                                            data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
+                                            data-target="#modalEdit<?= enkrip($hasil['id']); ?>"><i
+                                                class="fa fa-edit"></i>
                                             Edit</a>
                                     </td>
                                     <td>
                                         <center>
                                             <input type="checkbox" class="check-item" name="id[]"
-                                                value="<?= $hasil['id'] ?>">
+                                                value="<?= enkrip($hasil['id']); ?>">
                                         </center>
                                     </td>
                                 </tr>
@@ -105,10 +109,10 @@
 <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/mahasiswa/tambah'); ?>" method="post">
+        <form action="<?= base_url('belakang/mahasiswa/tambah'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Mahasiswa</h5>
+                    <h5 class="modal-title">Tambah Mahasiswa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
@@ -118,15 +122,15 @@
                         value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="form-group">
                         <label for="nim">NIM</label>
-                        <input type="text" class="form-control" id="nim" name="nim" required autocomplete="off">
+                        <input type="text" class="form-control" name="nim" required autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama Mahasiswa</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required autocomplete="off">
+                        <input type="text" class="form-control" name="nama" required autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="semester">Semester</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="semester">
+                        <select class="custom-select" name="semester">
                             <option value="">-- Pilih Semester --</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -169,34 +173,34 @@
 
 <!-- Modal Edit-->
 <?php foreach ($mahasiswa as $dt) : ?>
-<div class="modal fade" id="modalEdit<?= $dt['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modalEdit<?= enkrip($dt['id']); ?>" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/mahasiswa/edit'); ?>" method="post">
+        <form action="<?= base_url('belakang/mahasiswa/edit'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Mahasiswa</h5>
+                    <h5 class="modal-title">Edit Mahasiswa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" value="<?= $dt['id']; ?>" name="id">
+                    <input type="hidden" value="<?= enkrip($dt['id']); ?>" name="id">
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                         value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="form-group">
                         <label for="nim">NIM</label>
-                        <input type="text" class="form-control" id="nim" name="nim" required autocomplete="off"
+                        <input type="text" class="form-control" name="nim" required autocomplete="off"
                             value="<?= $dt['nim']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama Mahasiswa</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required autocomplete="off"
+                        <input type="text" class="form-control" name="nama" required autocomplete="off"
                             value="<?= $dt['nama']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="semester">Semester</label>
-                        <select class="custom-select" id="inputGroupSelect02" name="semester">
+                        <select class="custom-select" name="semester">
                             <option value="">-- Pilih Semester --</option>
                             <option value="1" <?php if ($dt['semester'] == '1') echo 'selected="selected"'; ?>>1
                             </option>
@@ -214,7 +218,7 @@
                     </div>
                     <div class="form-group">
                         <label for="kelas">Kelas</label>
-                        <select class="custom-select" id="kelas" name="kelas">
+                        <select class="custom-select" name="kelas">
                             <option value="">-- Pilih Kelas --</option>
                             <option value="A" <?php if ($dt['kelas'] == 'A') echo 'selected="selected"'; ?>>A</option>
                             <option value="B" <?php if ($dt['kelas'] == 'B') echo 'selected="selected"'; ?>>B</option>
@@ -248,10 +252,10 @@
 <div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/mahasiswa/import'); ?>" method="post" enctype="multipart/form-data">
+        <form action="<?= base_url('belakang/mahasiswa/import'); ?>" method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Mahasiswa</h5>
+                    <h5 class="modal-title">Import Mahasiswa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>

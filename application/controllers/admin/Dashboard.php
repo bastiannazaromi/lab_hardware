@@ -10,7 +10,7 @@ class Dashboard extends CI_Controller
         parent::__construct();
         if (empty($this->session->userdata('data_login'))) {
             $this->session->set_flashdata('flash-error', 'Anda Belum Login');
-            redirect('admin/auth', 'refresh');
+            redirect('belakang/login', 'refresh');
         }
 
         $this->load->model('M_Mahasiswa', 'mahasiswa');

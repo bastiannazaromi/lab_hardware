@@ -9,7 +9,7 @@
                 <div class="card-body">
 
                     <div class="table-responsive">
-                        <?php echo form_open('admin/barang_pinjam/multiple_delete'); ?>
+                        <?php echo form_open('belakang/pinjaman/hapus'); ?>
                         <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>
@@ -48,28 +48,28 @@
                                     <td>
                                         <div class="form-group" class="badge">
                                             <label class="badge badge-danger">
-                                                <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
+                                                <input type="radio" name="edit_status_ <?= enkrip($hasil['id']); ?>"
                                                     class="menunggu"
                                                     <?= $hasil['status'] == 'Menunggu' ? 'checked' : ''; ?>
-                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id="<?= enkrip($hasil['id']); ?>"
                                                     data-nama_barang="<?= $hasil['nama_barang']; ?>"
                                                     data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Menunggu">
                                                 Menunggu
                                             </label>
                                             <label class="badge badge-warning">
-                                                <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
+                                                <input type="radio" name="edit_status_ <?= enkrip($hasil['id']); ?>"
                                                     class="dipinjam"
                                                     <?= $hasil['status'] == 'Dipinjam' ? 'checked' : ''; ?>
-                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id="<?= enkrip($hasil['id']); ?>"
                                                     data-nama_barang="<?= $hasil['nama_barang']; ?>"
                                                     data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Dipinjam">
                                                 Dipinjam
                                             </label>
                                             <span class="badge badge-success">
-                                                <input type="radio" name="edit_status_ <?= $hasil['id']; ?>"
+                                                <input type="radio" name="edit_status_ <?= enkrip($hasil['id']); ?>"
                                                     class="selesai"
                                                     <?= $hasil['status'] == 'Selesai' ? 'checked' : ''; ?>
-                                                    data-id="<?= $hasil['id']; ?>"
+                                                    data-id="<?= enkrip($hasil['id']); ?>"
                                                     data-nama_barang="<?= $hasil['nama_barang']; ?>"
                                                     data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Selesai">
                                                 Selesai
@@ -79,7 +79,7 @@
                                     <td>
                                         <center>
                                             <input type="checkbox" class="check-item" name="id[]"
-                                                value="<?= $hasil['id'] ?>">
+                                                value="<?= enkrip($hasil['id']) ?>">
                                         </center>
                                     </td>
                                 </tr>
@@ -143,12 +143,12 @@ $(document).ready(function() {
             };
 
             $.ajax({
-                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                url: "<?= base_url('belakang/pinjaman/update'); ?>",
                 type: 'post',
                 data: dataJson,
                 success: function() {
                     document.location.href =
-                        `<?= base_url('admin/barang_pinjam/lewat_batas/') . $role; ?>`;
+                        `<?= base_url('belakang/lewat_batas/') . $role; ?>`;
                 }
             });
         });
@@ -170,12 +170,12 @@ $(document).ready(function() {
             };
 
             $.ajax({
-                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                url: "<?= base_url('belakang/pinjaman/update'); ?>",
                 type: 'post',
                 data: dataJson,
                 success: function() {
                     document.location.href =
-                        `<?= base_url('admin/barang_pinjam/lewat_batas/') . $role; ?>`;
+                        `<?= base_url('belakang/lewat_batas/') . $role; ?>`;
                 }
             });
         });
@@ -197,12 +197,12 @@ $(document).ready(function() {
             };
 
             $.ajax({
-                url: "<?= base_url('admin/barang_pinjam/update'); ?>",
+                url: "<?= base_url('belakang/pinjaman/update'); ?>",
                 type: 'post',
                 data: dataJson,
                 success: function() {
                     document.location.href =
-                        `<?= base_url('admin/barang_pinjam/lewat_batas/') . $role; ?>`;
+                        `<?= base_url('belakang/lewat_batas/') . $role; ?>`;
                 }
             });
         });

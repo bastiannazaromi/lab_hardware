@@ -21,7 +21,7 @@ class Mahasiswa extends CI_Controller
         $data['title'] = 'List Mahasiswa';
         $data['page'] = 'admin/backend/mahasiswa';
 
-        $data['mahasiswa'] = $this->mahasiswa->getSemester($semester);
+        $data['mahasiswa'] = $this->mahasiswa->getSemester(dekrip($semester));
 
         $this->session->set_userdata('previous_url', current_url());
 
@@ -98,7 +98,7 @@ class Mahasiswa extends CI_Controller
 
     public function resetPassword($id)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', dekrip($id));
 
         $data = $this->db->get('tb_mahasiswa')->result_array();
 
@@ -106,7 +106,7 @@ class Mahasiswa extends CI_Controller
             "password" => password_hash($data[0]['nim'], PASSWORD_DEFAULT)
         ];
 
-        $this->mahasiswa->resetPassword($data, $id);
+        $this->mahasiswa->resetPassword($data, dekrip($id));
 
         $this->session->set_flashdata('flash_sukses', flash_sukses('Password berhasil direset !'));
 
@@ -117,7 +117,7 @@ class Mahasiswa extends CI_Controller
 
     public function hapus($id)
     {
-        $this->mahasiswa->hapus($id);
+        $this->mahasiswa->hapus(dekrip($id));
         $this->session->set_flashdata('flash-sukses', 'Data berhasil dihapus');
         $previous_url = $this->session->userdata('previous_url');
 
@@ -193,6 +193,7 @@ class Mahasiswa extends CI_Controller
     public function multiple_delete()
     {
         $id = $this->input->post('id');
+        
         if ($id == NULL) {
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
             $previous_url = $this->session->userdata('previous_url');

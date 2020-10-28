@@ -95,7 +95,7 @@ function ajax_login() {
     };
 
     $.ajax({
-        url: "<?= base_url('belakang/login'); ?>",
+        url: "<?= base_url('belakang/prosesLogin'); ?>",
         type: "POST",
         data: dataJson,
         dataType: 'json',

@@ -96,7 +96,7 @@ class M_Pinjam extends CI_Model
     {
         foreach ($id as $newId) {
 
-            $this->db->where('id', $newId);
+            $this->db->where('id', dekrip($newId));
             $data = $this->db->get('tb_pinjaman')->result_array();
             $jumlah = $data[0]['jumlah'];
 
@@ -110,9 +110,10 @@ class M_Pinjam extends CI_Model
 
             $this->db->where('nama_barang', $data2[0]['nama_barang']);
             $this->db->update('tb_barang', $dt_update);
+
+            $this->db->where('id', dekrip($newId));
+            $this->db->delete('tb_pinjaman');
         }
-        $this->db->where_in('id', $id);
-        $this->db->delete('tb_pinjaman');
     }
 
     public function getAllMahasiswa($id_user)

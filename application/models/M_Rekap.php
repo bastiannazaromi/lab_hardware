@@ -29,12 +29,6 @@ class M_Rekap extends CI_Model
         }
     }
 
-    public function getOne($id)
-    {
-        $this->db->where('nim', $id);
-        return $this->db->get('tb_pinjaman')->result_array();
-    }
-
     public function edit($data)
     {
         $this->db->where('id', $this->input->post('id', TRUE));
@@ -48,7 +42,11 @@ class M_Rekap extends CI_Model
     }
     public function multiple_delete($id)
     {
-        $this->db->where_in('id', $id);
-        $this->db->delete('tb_pinjaman');
+        foreach ($id as $newId)
+        {
+            $this->db->where('id', dekrip($newId));
+            $this->db->delete('tb_pinjaman');
+        }
+        
     }
 }

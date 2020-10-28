@@ -26,7 +26,7 @@ class M_Dosen extends CI_Model
 
     public function edit($data)
     {
-        $this->db->where('id', $this->input->post('id', TRUE));
+        $this->db->where('id', dekrip($this->input->post('id', TRUE)));
         $this->db->update('tb_dosen', $data);
     }
 
@@ -39,20 +39,20 @@ class M_Dosen extends CI_Model
     public function hapus($id)
     {
         // $this->db->where('id', $id);
-        $this->db->delete('tb_dosen', ['id' => $id]);
+        $this->db->delete('tb_dosen', ['id' => dekrip($id)]);
     }
     public function multiple_delete($id)
     {
         foreach ($id as $id_new) {
-            $this->db->where('id', $id_new);
+            $this->db->where('id', dekrip($id_new));
             $data = $this->db->get('tb_dosen')->result_array();
 
             if ($data[0]['foto'] != "default.jpg") {
                 unlink(FCPATH . 'assets/uploads/profile/' . $data[0]['foto']);
             }
+            $this->db->where_in('id', dekrip($id_new));
+            $this->db->delete('tb_dosen');
         }
-
-        $this->db->where_in('id', $id);
-        $this->db->delete('tb_dosen');
+        
     }
 }

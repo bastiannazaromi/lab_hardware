@@ -10,8 +10,19 @@
                     </div>
                     <br>
                     <br>
+
+                    <?php if (form_error('username')) : ?>
+                    <?= form_error('username', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+                    <?php if (form_error('nama')) : ?>
+                    <?= form_error('nama', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+                    <?php if (form_error('level')) : ?>
+                    <?= form_error('level', '<small class="text-danger">', '</small>'); ?> <br>
+                    <?php endif; ?>
+
                     <div class="table-responsive">
-                        <?php echo form_open('admin/admin/multiple_delete'); ?>
+                        <?php echo form_open('belakang/admin/hapus'); ?>
                         <table id="example" class="table table-bordered table-hover">
                             <thead class="bg-light text-dark">
                                 <tr>
@@ -34,19 +45,20 @@
                                     <td><?= $hasil['nama']; ?></td>
                                     <td><?= $hasil['username']; ?></td>
                                     <td><?= $hasil['level']; ?></td>
-                                    <td><a href="<?= base_url() ?>admin/admin/resetPassword/<?= $hasil['id']; ?>"
+                                    <td><a href="<?= base_url() ?>belakang/admin/resetPassword/<?= enkrip($hasil['id']); ?>"
                                             class="badge badge-success delete-people"><i class="fa fa-edit"></i>
                                             Reset</a>
                                     <td>
                                         <a href="#" class="badge badge-warning" data-toggle="modal"
-                                            data-target="#modalEdit<?= $hasil['id']; ?>"><i class="fa fa-edit"></i>
+                                            data-target="#modalEdit<?= enkrip($hasil['id']); ?>"><i
+                                                class="fa fa-edit"></i>
                                             Edit</a>
                                     </td>
                                     <td>
                                         <?php if ($hasil['id'] != $this->session->userdata('id')) : ?>
                                         <center>
                                             <input type="checkbox" class="check-item" name="id[]"
-                                                value="<?= $hasil['id'] ?>">
+                                                value="<?= enkrip($hasil['id']) ?>">
                                         </center>
                                         <?php endif; ?>
                                     </td>
@@ -84,7 +96,7 @@
 <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/admin/tambah'); ?>" method="post">
+        <form action="<?= base_url('belakang/admin/tambah'); ?>" method="post">
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                 value="<?php echo $this->security->get_csrf_hash(); ?>">
             <div class="modal-content">
@@ -126,10 +138,10 @@
 
 <!-- Modal Edit-->
 <?php foreach ($admin as $dt) : ?>
-<div class="modal fade" id="modalEdit<?= $dt['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modalEdit<?= enkrip($dt['id']); ?>" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="<?= base_url('admin/admin/edit'); ?>" method="post">
+        <form action="<?= base_url('belakang/admin/edit'); ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Mahasiswa</h5>
@@ -138,7 +150,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" value="<?= $dt['id']; ?>" name="id">
+                    <input type="hidden" value="<?= enkrip($dt['id']); ?>" name="id">
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                         value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="form-group">

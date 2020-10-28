@@ -10,7 +10,7 @@ class Dosen extends CI_Controller
         parent::__construct();
         if (empty($this->session->userdata('data_login'))) {
             $this->session->set_flashdata('flash-error', 'Anda Belum Login');
-            redirect('admin/auth', 'refresh');
+            redirect('belakang/login', 'refresh');
         }
 
         $this->load->model('M_Dosen', 'dosen');
@@ -53,7 +53,7 @@ class Dosen extends CI_Controller
             $this->dosen->tambah($data);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil ditambahkan'));
-            redirect('admin/dosen');
+            redirect('belakang/dosen');
         }
     }
 
@@ -82,13 +82,13 @@ class Dosen extends CI_Controller
             $this->dosen->edit($data);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil diupdate'));
-            redirect('admin/dosen');
+            redirect('belakang/dosen');
         }
     }
 
     public function resetPassword($id)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', dekrip($id));
 
         $data = $this->db->get('tb_dosen')->result_array();
 
@@ -96,17 +96,17 @@ class Dosen extends CI_Controller
             "password" => password_hash($data[0]['username'], PASSWORD_DEFAULT)
         ];
 
-        $this->dosen->resetPassword($data, $id);
+        $this->dosen->resetPassword($data, dekrip($id));
 
         $this->session->set_flashdata('flash_sukses', flash_sukses('Password berhasil direset !'));
-        redirect('admin/dosen');
+        redirect('belakang/dosen');
     }
 
     public function hapus($id)
     {
         $this->dosen->hapus($id);
         $this->session->set_flashdata('flash-sukses', 'Data berhasil dihapus');
-        redirect('admin/dosen');
+        redirect('belakang/dosen');
     }
 
     public function import()
@@ -125,7 +125,7 @@ class Dosen extends CI_Controller
             //upload gagal
             $this->session->set_flashdata('flash_error', flash_error($this->upload->display_errors()));
             //redirect halaman
-            redirect('admin/dosen');
+            redirect('belakang/dosen');
         } else {
 
             $data_upload = $this->upload->data();
@@ -168,7 +168,7 @@ class Dosen extends CI_Controller
             unlink(realpath('excel/' . $data_upload['file_name']));
 
             //redirect halaman
-            redirect('admin/dosen');
+            redirect('belakang/dosen');
         }
     }
 
@@ -177,12 +177,12 @@ class Dosen extends CI_Controller
         $id = $this->input->post('id');
         if ($id == NULL) {
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
-            redirect('admin/dosen');
+            redirect('belakang/dosen');
         } else {
             $this->dosen->multiple_delete($id);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Data berhasil dihapus'));
-            redirect('admin/dosen');
+            redirect('belakang/dosen');
         }
     }
 }

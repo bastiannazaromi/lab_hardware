@@ -10,7 +10,7 @@ class Rekap extends CI_Controller
         parent::__construct();
         if (empty($this->session->userdata('data_login'))) {
             $this->session->set_flashdata('flash-error', 'Anda Belum Login');
-            redirect('admin/auth', 'refresh');
+            redirect('belakang/login', 'refresh');
         }
 
         $this->load->model('M_Rekap', 'rekap');
@@ -25,12 +25,14 @@ class Rekap extends CI_Controller
         $data['rekap'] = $this->rekap->getAll($role);
         $data['role'] = $role;
 
+        $this->session->set_userdata('previous_url', current_url());
+
         $this->load->view('admin/backend/index', $data);
     }
 
     public function update()
     {
-        $id = $this->input->post('id');
+        $id = dekrip($this->input->post('id'));
         $nama_barang = $this->input->post('nama_barang');
         $jumlah = $this->input->post('jumlah');
         $status = $this->input->post('status');
@@ -59,12 +61,16 @@ class Rekap extends CI_Controller
         $id = $this->input->post('id');
         if ($id == NULL) {
             $this->session->set_flashdata('flash_error', flash_error('Pilih data yang akan dihapus !'));
-            redirect('admin/rekap');
+            $previous_url = $this->session->userdata('previous_url');
+
+            redirect($previous_url);
         } else {
             $this->rekap->multiple_delete($id);
 
             $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil dihapus'));
-            redirect('admin/rekap');
+            $previous_url = $this->session->userdata('previous_url');
+
+            redirect($previous_url);
         }
     }
 }

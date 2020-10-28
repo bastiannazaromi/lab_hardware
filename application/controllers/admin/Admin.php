@@ -10,7 +10,7 @@ class Admin extends CI_Controller
         parent::__construct();
         if (empty($this->session->userdata('data_login'))) {
             $this->session->set_flashdata('flash-error', 'Anda Belum Login');
-            redirect('admin/auth', 'refresh');
+            redirect('belakang/login', 'refresh');
         }
 
         $this->load->model('M_Admin', 'admin');
@@ -45,7 +45,7 @@ class Admin extends CI_Controller
 
     public function updateFoto()
     {
-        $id = $this->input->post('id');
+        $id = dekrip($this->input->post('id'));
 
         $config['upload_path']          = './assets/uploads/profile';
         $config['allowed_types']        = 'png|jpg|jpeg';
@@ -67,7 +67,7 @@ class Admin extends CI_Controller
 
             $this->session->set_flashdata('flash-sukses', 'Profil berhasil diupdate');
 
-            redirect('admin/admin/profile', 'refresh');
+            redirect('belakang/profile', 'refresh');
         } else {
             $upload_data = $this->upload->data();
 
@@ -86,7 +86,7 @@ class Admin extends CI_Controller
 
             $this->session->set_flashdata('flash-sukses', 'Profil berhasil diupdate');
 
-            redirect('admin/admin/profile', 'refresh');
+            redirect('belakang/profile', 'refresh');
         }
     }
 
@@ -108,14 +108,14 @@ class Admin extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Profil Admin';
 
-            $id = $this->input->post('id');
+            $id = dekrip($this->input->post('id'));
             $data['admin'] = $this->admin->getOne($id);
 
             $data['page'] = 'admin/backend/profile';
 
             $this->load->view('admin/backend/index', $data);
         } else {
-            $id = $this->input->post('id');
+            $id = dekrip($this->input->post('id'));
             $admin = $this->admin->getOne($id);
 
             $pas_lama = $this->input->post('pas_lama', TRUE);
@@ -123,18 +123,18 @@ class Admin extends CI_Controller
 
             if (password_verify($pas_lama, $admin[0]['password'])) {
                 $data = [
-                    "password" =>  password_hash($pas_baru, PASSWORD_DEFAULT)
+                    "password" => password_hash($pas_baru, PASSWORD_DEFAULT)
                 ];
 
                 $this->admin->resetPassword($data, $admin[0]['id']);
 
                 $this->session->set_flashdata('flash-sukses', 'Password berhasil diupdate');
 
-                redirect('admin/admin/profile', 'refresh');
+                redirect('belakang/profile', 'refresh');
             } else {
                 $this->session->set_flashdata('flash-error', 'Password lama salah');
 
-                redirect('admin/admin/profile', 'refresh');
+                redirect('belakang/profile', 'refresh');
             }
         }
     }
@@ -143,18 +143,33 @@ class Admin extends CI_Controller
     {
         $this->cek_level();
 
-        $data = [
-            "username" => htmlspecialchars($this->input->post('username', TRUE)),
-            "password" => password_hash('admin', PASSWORD_DEFAULT),
-            "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
-            "level" => htmlspecialchars($this->input->post('level', TRUE)),
-            "foto" => 'default.jpg'
-        ];
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|min_length[5]');
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('level', 'Level', 'required|alpha');
 
-        $this->admin->tambah($data);
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'List Mahasiswa';
 
-        $this->session->set_flashdata('flash-sukses', 'Data berhasil ditambahkan');
-        redirect('admin/admin');
+            $data['admin'] = $this->admin->getAll();
+
+            $data['page'] = 'admin/backend/admin';
+
+            $this->load->view('admin/backend/index', $data);
+        } else {
+
+            $data = [
+                "username" => htmlspecialchars($this->input->post('username', TRUE)),
+                "password" => password_hash('admin', PASSWORD_DEFAULT),
+                "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
+                "level" => htmlspecialchars($this->input->post('level', TRUE)),
+                "foto" => 'default.jpg'
+            ];
+    
+            $this->admin->tambah($data);
+    
+            $this->session->set_flashdata('flash-sukses', 'Data berhasil ditambahkan');
+            redirect('belakang/admin');
+        }
     }
 
     public function edit()
@@ -164,31 +179,30 @@ class Admin extends CI_Controller
         $data = [
             "username" => htmlspecialchars($this->input->post('username', TRUE)),
             "nama" => htmlspecialchars($this->input->post('nama', TRUE)),
-            "level" => htmlspecialchars($this->input->post('level', TRUE)),
-            "foto" => 'default.jpg'
+            "level" => htmlspecialchars($this->input->post('level', TRUE))
         ];
 
         $this->admin->edit($data);
 
         $this->session->set_flashdata('flash-sukses', 'Data berhasil diupdate');
-        redirect('admin/admin');
+        redirect('belakang/admin');
     }
 
     public function resetPassword($id)
     {
         $this->cek_level();
 
-        $this->db->where('id', $id);
+        $this->db->where('id', dekrip($id));
         $data = $this->db->get('tb_admin')->result_array();
 
         $data = [
             "password" => password_hash('admin', PASSWORD_DEFAULT)
         ];
 
-        $this->admin->resetPassword($data, $id);
+        $this->admin->resetPassword($data, dekrip($id));
 
         $this->session->set_flashdata('flash-sukses', 'Password berhasil direset');
-        redirect('admin/admin');
+        redirect('belakang/admin');
     }
 
     public function multiple_delete()
@@ -198,19 +212,21 @@ class Admin extends CI_Controller
         $id = $this->input->post('id');
         if ($id == NULL) {
             $this->session->set_flashdata('flash-error', 'Pilih data yang akan dihapus !');
-            redirect('admin/admin');
-        } else {
+            redirect('belakang/admin');
+        }
+        else {
             $this->admin->multiple_delete($id);
 
-            $this->session->set_flashdata('flash-sukses', 'Data berhasil di hapus');
-            redirect('admin/admin');
+            $this->session->set_flashdata('flash-sukses', 'Data berhasil dihapus');
+            
+            redirect('belakang/admin');
         }
     }
 
     public function cek_level()
     {
         if (level($this->session->userdata('id')) != 'Super Admin') {
-            redirect('admin/dashboard');
+            redirect('belakang/dashboard');
         }
     }
 }
