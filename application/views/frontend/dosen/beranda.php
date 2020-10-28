@@ -189,8 +189,6 @@
 <script>
 $(document).ready(function() {
 
-    // modal add
-
     $('#kategori').change(function() {
         let csrfName = $("#csrf_pinjam").attr('name');
         let csrfHash = $("#csrf_pinjam").val();
@@ -213,6 +211,8 @@ $(document).ready(function() {
 
                 var option = [];
                 var stok = [];
+                option.push('<option value="">-- Pilih Barang --</option>');
+
                 $(result.hasil).each(function(i) {
                     stok[i] = result.hasil[i].normal - result.hasil[i].dipinjam;
                     option.push('<option value="' + result.hasil[i].nama_barang +
@@ -246,7 +246,6 @@ $(document).ready(function() {
         }
     });
 
-    // modal edit
     let edit_brgs = $('.edit_brg');
     let csrfHashs = ($('.csrf_edit_pinjam'));
     let kategoris = $('.kategori_e');
@@ -338,6 +337,9 @@ $(document).ready(function() {
 
                     var option = [];
                     var stok = [];
+
+                    option.push('<option value="">-- Pilih Barang --</option>');
+
                     $(result.hasil).each(function(i) {
                         stok[i] = result.hasil[i].normal - result.hasil[
                                 i]

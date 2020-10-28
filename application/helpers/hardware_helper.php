@@ -1,7 +1,7 @@
 <?php
 
 function enkrip($string){
-	$bumbu = md5(str_replace("=", "", base64_encode("bunghasta.com")));
+	$bumbu = md5(str_replace("=", "", base64_encode("maykomputer.com")));
 	$katakata = false;
 	$metodeenkrip = "AES-256-CBC";
 	$kunci = hash('sha256', $bumbu);
@@ -14,7 +14,7 @@ function enkrip($string){
 }
 
 function dekrip($string){
-	$bumbu = md5(str_replace("=", "", base64_encode("bunghasta.com")));
+	$bumbu = md5(str_replace("=", "", base64_encode("maykomputer.com")));
 	$katakata = false;
 	$metodeenkrip = "AES-256-CBC";
 	$kunci = hash('sha256', $bumbu);

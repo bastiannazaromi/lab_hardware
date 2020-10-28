@@ -14,14 +14,15 @@ class Stok_barang extends CI_Controller
         }
 
         $this->load->model('M_Stok', 'stok');
+        $this->load->model('M_Kategori', 'kategori');
     }
 
     public function index()
     {
         $data['title'] = 'Stok Barang';
         $data['page'] = 'admin/backend/stok_barang';
-
         $data['stok'] = $this->stok->getAll();
+        $data['kategori'] = $this->kategori->getAll();
 
         $this->load->view('admin/backend/index', $data);
     }

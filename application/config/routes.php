@@ -104,5 +104,10 @@ $route['belakang/rekap/dosen'] = 'admin/rekap/barang/dosen';
 $route['belakang/rekap/update'] = 'admin/rekap/update';
 $route['belakang/rekap/hapus'] = 'admin/rekap/multiple_delete';
 
+$route['belakang/kategori'] = 'admin/kategori';
+$route['belakang/kategori/hapus'] = 'admin/kategori/multiple_delete';
+$route['belakang/kategori/tambah'] = 'admin/kategori/tambah';
+$route['belakang/kategori/edit'] = 'admin/kategori/edit';
+
 $route['mahasiswa'] = 'mahasiswa/beranda';
 $route['dosen'] = 'dosen/beranda';

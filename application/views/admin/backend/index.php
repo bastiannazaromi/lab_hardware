@@ -156,6 +156,14 @@
 
                         <li class="nav-item has-treeview">
                             <hr class="bg-light">
+                            <a href="<?= base_url('belakang/kategori'); ?>" class="nav-link hr">
+                                <i class="fas fa-boxes nav-icon"></i>
+                                <p>Kategori Barang</p>
+                            </a>
+                            <hr class="bg-light">
+                        </li>
+
+                        <li class="nav-item has-treeview">
                             <a href="<?= base_url('belakang/stok'); ?>" class="nav-link hr">
                                 <i class="fas fa-boxes nav-icon"></i>
                                 <p>Stok Barang</p>
