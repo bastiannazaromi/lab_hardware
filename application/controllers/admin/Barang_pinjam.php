@@ -13,6 +13,12 @@ class Barang_pinjam extends CI_Controller
             redirect('belakang/login', 'refresh');
         }
 
+        $this->u2		= $this->uri->segment(2);
+        $this->u3		= $this->uri->segment(3);
+        $this->u4		= $this->uri->segment(4);
+        $this->u5		= $this->uri->segment(5);
+        $this->u6		= $this->uri->segment(6);
+
         $this->load->model('M_Pinjam', 'pinjam');
         $this->load->model('M_Stok', 'stok');
     }
@@ -23,6 +29,7 @@ class Barang_pinjam extends CI_Controller
         $data['page'] = 'admin/backend/barang_pinjam';
 
         $data['pinjam'] = $this->pinjam->getAll($role);
+
         $data['role'] = $role;
 
         $this->session->set_userdata('previous_url', current_url());
@@ -39,6 +46,22 @@ class Barang_pinjam extends CI_Controller
         $data['role'] = $role;
 
         $this->session->set_userdata('previous_url', current_url());
+
+        $this->load->view('admin/backend/index', $data);
+    }
+
+    public function cek()
+    {
+        $id = dekrip($this->u4);
+        $tgl = dekrip($this->u5);
+        $role = dekrip($this->u6);
+        
+        $data['title'] = 'List Barang Dipinjam';
+        $data['page'] = 'admin/backend/cek_barang';
+        $data['pinjam'] = $this->pinjam->getSpesifik($role, $id, $tgl);
+        $data['role'] = $role;
+        $this->session->set_userdata('previous_url', current_url());
+        $data['previous_url'] = $this->session->userdata('previous_url');
 
         $this->load->view('admin/backend/index', $data);
     }

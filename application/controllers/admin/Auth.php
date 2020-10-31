@@ -58,7 +58,7 @@ class Auth extends CI_Controller
     public function logout()
     {
         $this->session->sess_destroy($this->session->userdata('data_login'));
-        redirect('admin/auth', 'refresh');
+        redirect('belakang/dashboard', 'refresh');
     }
 }
 

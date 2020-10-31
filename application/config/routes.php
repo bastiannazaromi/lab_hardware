@@ -99,6 +99,8 @@ $route['belakang/lewat_batas/dosen'] = 'admin/barang_pinjam/lewat_batas/dosen';
 $route['belakang/pinjaman/update'] = 'admin/barang_pinjam/update';
 $route['belakang/pinjaman/hapus'] = 'admin/barang_pinjam/multiple_delete';
 
+$route['belakang/pinjaman/cek/(:any)/(:any)/(:any)'] = 'admin/barang_pinjam/cek/$1/$2/$3';
+
 $route['belakang/rekap/mahasiswa'] = 'admin/rekap/barang/mahasiswa';
 $route['belakang/rekap/dosen'] = 'admin/rekap/barang/dosen';
 $route['belakang/rekap/update'] = 'admin/rekap/update';
@@ -109,5 +111,4 @@ $route['belakang/kategori/hapus'] = 'admin/kategori/multiple_delete';
 $route['belakang/kategori/tambah'] = 'admin/kategori/tambah';
 $route['belakang/kategori/edit'] = 'admin/kategori/edit';
 
-$route['mahasiswa'] = 'mahasiswa/beranda';
-$route['dosen'] = 'dosen/beranda';
+$route['dashboard'] = 'login';

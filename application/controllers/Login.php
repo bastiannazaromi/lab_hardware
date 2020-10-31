@@ -11,9 +11,9 @@ class Login extends CI_Controller
             if ($this->uri->segment(2) != 'logout') {
                 $this->session->set_flashdata('flash-error', 'Anda Sudah Login');
                 if ($this->session->userdata('status') == "Mahasiswa") {
-                    redirect('mahasiswa/beranda');
+                    redirect('dashboard/mahasiswa');
                 } else {
-                    redirect('dosen/beranda');
+                    redirect('dashboard/dosen');
                 }
             }
         }
