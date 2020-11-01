@@ -112,3 +112,14 @@ $route['belakang/kategori/tambah'] = 'admin/kategori/tambah';
 $route['belakang/kategori/edit'] = 'admin/kategori/edit';
 
 $route['dashboard'] = 'login';
+$route['dashboard/login'] = 'login';
+$route['dashboard/login/proses'] = 'login/login';
+$route['dashboard/mahasiswa'] = 'mahasiswa/beranda';
+$route['dashboard/dosen'] = 'dosen/beranda';
+
+$route['dashboard/dosen/profile'] = 'dosen/beranda/profile';
+$route['dashboard/mahasiswa/profile'] = 'mahasiswa/beranda/profile';
+$route['dashboard/dosen/updatePass'] = 'dosen/beranda/updatePass';
+$route['dashboard/mahasiswa/updatePass'] = 'mahasiswa/beranda/updatePass';
+
+$route['dashboard/logout'] = 'login/logout';

@@ -9,9 +9,9 @@
                             alt="Card image cap" width="150" height="150" style="display: block; margin: 0 auto;"
                             id="gambar_nodin">
                         <div class="card-body">
-                            <form action="<?= base_url('mahasiswa/beranda/profile'); ?>" method="post"
+                            <form action="<?= base_url('dashboard/mahasiswa/profile'); ?>" method="post"
                                 enctype="multipart/form-data">
-                                <input type="hidden" value="<?= $mahasiswa[0]['id']; ?>" name="id">
+                                <input type="hidden" value="<?= enkrip($mahasiswa[0]['id']); ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>">
 
@@ -57,7 +57,8 @@
                             <h3 class="text-center">Update Password</h3>
                         </div>
                         <div class="card-body ">
-                            <form action="<?= base_url('mahasiswa/beranda/updatePass'); ?>" method="post">
+                            <form action="<?= base_url('dashboard/mahasiswa/updatePass'); ?>" method="post">
+                                <input type="hidden" value="<?= enkrip($mahasiswa[0]['id']); ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>">
 

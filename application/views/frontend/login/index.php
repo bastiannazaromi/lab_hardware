@@ -97,7 +97,7 @@ function ajax_login() {
     };
 
     $.ajax({
-        url: "<?= base_url('login/login'); ?>",
+        url: "<?= base_url('dashboard/login/proses'); ?>",
         type: "POST",
         data: dataJson,
         dataType: 'json',
@@ -114,10 +114,10 @@ function ajax_login() {
                         setTimeout(function() {
                             if (data.role == "Dosen") {
                                 document.location.href =
-                                    "<?= base_url('dosen/beranda'); ?>";
+                                    "<?= base_url('dashboard/dosen'); ?>";
                             } else {
                                 document.location.href =
-                                    "<?= base_url('mahasiswa/beranda'); ?>";
+                                    "<?= base_url('dashboard/mahasiswa'); ?>";
                             }
 
                         }, 500)

@@ -8,7 +8,7 @@
                             src="<?= base_url('assets/uploads/profile/' . $dosen[0]['foto']); ?>" alt="Card image cap"
                             width="150" height="150" style="display: block; margin: 0 auto;" id="gambar_nodin">
                         <div class="card-body">
-                            <form action="<?= base_url('dosen/beranda/profile'); ?>" method="post"
+                            <form action="<?= base_url('dashboard/dosen/profile'); ?>" method="post"
                                 enctype="multipart/form-data">
                                 <input type="hidden" value="<?= enkrip($dosen[0]['id']); ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
@@ -63,6 +63,7 @@
                         </div>
                         <div class="card-body ">
                             <form action="<?= base_url('dosen/beranda/updatePass'); ?>" method="post">
+                                <input type="hidden" value="<?= enkrip($dosen[0]['id']); ?>" name="id">
                                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                                     value="<?php echo $this->security->get_csrf_hash(); ?>">
 

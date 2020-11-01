@@ -18,7 +18,7 @@ class Beranda extends CI_Controller
         $this->load->model('M_Pinjam', 'pinjam');
 
         if ($this->session->userdata('status') == "Dosen") {
-            redirect('dosen/beranda');
+            redirect('dashboard/dosen');
         }
     }
 
@@ -66,14 +66,15 @@ class Beranda extends CI_Controller
 
     private function _update()
     {
-        $nim = $this->input->post('nim');
+        $id = dekrip($this->input->post('id', TRUE));
+        $nim = $this->session->userdata('nim');
         $mahasiswa = $this->mahasiswa->getOne($nim);
 
         $config['upload_path']          = './assets/uploads/profile';
         $config['allowed_types']        = 'png|jpg|jpeg';
         $config['max_size']             = 2048; // 2 mb
         $config['remove_spaces']        = TRUE;
-        $config['file_name']            = $nim . "_" . $_FILES["foto_profil"]['name'];;
+        $config['file_name']            = $nim . "_" . $_FILES["foto_profil"]['name'];
         // $config['max_width']            = 390; //354
         // $config['max_height']           = 500; // 472
 
@@ -85,12 +86,12 @@ class Beranda extends CI_Controller
                 "email" => $this->input->post('email')
             ];
 
-            $this->db->where('nim', $nim);
+            $this->db->where('id', $id);
             $this->db->update('tb_mahasiswa', $data);
 
             $this->session->set_flashdata('foto', $this->upload->display_errors());
 
-            redirect('mahasiswa/beranda/profile', 'refresh');
+            redirect('dashboard/mahasiswa/profile', 'refresh');
         } else {
             $upload_data = $this->upload->data();
 
@@ -104,12 +105,12 @@ class Beranda extends CI_Controller
                 unlink(FCPATH . 'assets/uploads/profile/' . $mahasiswa[0]['foto']);
             }
 
-            $this->db->where('nim', $nim);
+            $this->db->where('id', $id);
             $this->db->update('tb_mahasiswa', $data);
 
             $this->session->set_flashdata('flash-sukses', 'Profile berhasil diupdate');
 
-            redirect('mahasiswa/beranda/profile', 'refresh');
+            redirect('dashboard/mahasiswa/profile', 'refresh');
         }
     }
 
@@ -138,6 +139,7 @@ class Beranda extends CI_Controller
 
             $this->load->view('frontend/mahasiswa/index', $data);
         } else {
+            $id = dekrip($this->input->post('id', TRUE));
             $nim = $this->session->userdata('nim');
             $mahasiswa = $this->mahasiswa->getOne($nim);
 
@@ -149,15 +151,15 @@ class Beranda extends CI_Controller
                     "password" =>  password_hash($pas_baru, PASSWORD_DEFAULT)
                 ];
 
-                $this->mahasiswa->resetPassword($data, $mahasiswa[0]['id']);
+                $this->mahasiswa->resetPassword($data, $id);
 
                 $this->session->set_flashdata('flash-sukses', 'Password berhasil diupdate');
 
-                redirect('mahasiswa/beranda/profile', 'refresh');
+                redirect('dashboard/mahasiswa/profile', 'refresh');
             } else {
                 $this->session->set_flashdata('flash-error', 'Password lama salah');
 
-                redirect('mahasiswa/beranda/profile', 'refresh');
+                redirect('dashboard/mahasiswa/profile', 'refresh');
             }
         }
     }

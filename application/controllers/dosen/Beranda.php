@@ -18,7 +18,7 @@ class Beranda extends CI_Controller
         $this->load->model('M_Pinjam', 'pinjam');
 
         if ($this->session->userdata('status') == "Mahasiswa") {
-            redirect('mahasiswa/beranda');
+            redirect('dashboard/mahasiswa');
         }
     }
 
@@ -69,7 +69,8 @@ class Beranda extends CI_Controller
 
     private function _update()
     {
-        $nidn = $this->input->post('nidn');
+        $id = dekrip($this->input->post('id', TRUE));
+        $nidn = $this->session->userdata('nidn');
         $dosen = $this->dosen->getOne($nidn);
 
         $config['upload_path']          = './assets/uploads/profile';
@@ -94,7 +95,7 @@ class Beranda extends CI_Controller
 
             $this->session->set_flashdata('foto', $this->upload->display_errors());
 
-            redirect('dosen/beranda/profile', 'refresh');
+            redirect('dashboard/dosen/profile', 'refresh');
         } else {
             $upload_data = $this->upload->data();
 
@@ -109,12 +110,12 @@ class Beranda extends CI_Controller
                 unlink(FCPATH . 'assets/uploads/profile/' . $dosen[0]['foto']);
             }
 
-            $this->db->where('nidn_nipy', $nidn);
+            $this->db->where('id', $id);
             $this->db->update('tb_dosen', $data);
 
             $this->session->set_flashdata('flash-sukses', 'Profile berhasil diupdate');
 
-            redirect('dosen/beranda/profile', 'refresh');
+            redirect('dashboard/dosen/profile', 'refresh');
         }
     }
 
@@ -143,6 +144,7 @@ class Beranda extends CI_Controller
 
             $this->load->view('frontend/dosen/index', $data);
         } else {
+            $id = dekrip($this->input->post('id', TRUE));
             $nidn = $this->session->userdata('nidn');
             $dosen = $this->dosen->getOne($nidn);
 
@@ -154,15 +156,15 @@ class Beranda extends CI_Controller
                     "password" =>  password_hash($pas_baru, PASSWORD_DEFAULT)
                 ];
 
-                $this->dosen->resetPassword($data, $dosen[0]['id']);
+                $this->dosen->resetPassword($data, $id);
 
                 $this->session->set_flashdata('flash-sukses', 'Password berhasil diupdate');
 
-                redirect('dosen/beranda/profile', 'refresh');
+                redirect('dashboard/dosen/profile', 'refresh');
             } else {
                 $this->session->set_flashdata('flash-error', 'Password lama salah');
 
-                redirect('dosen/beranda/profile', 'refresh');
+                redirect('dashboard/dosen/profile', 'refresh');
             }
         }
     }
