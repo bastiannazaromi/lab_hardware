@@ -5,9 +5,8 @@
                 <div class="col-md-4">
                     <div class="card">
                         <img class="rounded-circle img-thumbnail mt-3"
-                            src="<?= base_url('assets/uploads/profile/' . $mahasiswa[0]['foto']); ?>"
-                            alt="Card image cap" width="150" height="150" style="display: block; margin: 0 auto;"
-                            id="gambar_nodin">
+                            src="<?= base_url('upload/profile/' . $mahasiswa[0]['foto']); ?>" alt="Card image cap"
+                            width="150" height="150" style="display: block; margin: 0 auto;" id="gambar_nodin">
                         <div class="card-body">
                             <form action="<?= base_url('dashboard/mahasiswa/profile'); ?>" method="post"
                                 enctype="multipart/form-data">

@@ -8,7 +8,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="<?= base_url('assets/uploads/poltek.ico'); ?>">
+    <link rel="shortcut icon" href="<?= base_url('upload/poltek.ico'); ?>">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/admin/plugins/fontawesome-free/css/all.min.css">
@@ -87,7 +87,7 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="<?= base_url('assets/uploads/profile/' . foto($this->session->userdata('id'))); ?>"
+                        <img src="<?= base_url('upload/profile/' . foto($this->session->userdata('id'))); ?>"
                             class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
@@ -275,7 +275,8 @@
         <!-- /.content-wrapper -->
 
         <footer class="main-footer">
-            <strong>&copy; <a href="http://hardware.d3komputerphb.id" target='_blank'>Beranda Mahasiswa</a></strong>
+            <strong>&copy; <a href="http://hardware.d3komputerphb.id" target='_blank'>Lab Hardware D3 Teknik Komputer
+                    PHB</a></strong>
         </footer>
 
         <!-- Control Sidebar -->

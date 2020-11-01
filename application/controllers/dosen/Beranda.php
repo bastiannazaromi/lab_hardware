@@ -73,7 +73,7 @@ class Beranda extends CI_Controller
         $nidn = $this->session->userdata('nidn');
         $dosen = $this->dosen->getOne($nidn);
 
-        $config['upload_path']          = './assets/uploads/profile';
+        $config['upload_path']          = './upload/profile';
         $config['allowed_types']        = 'png|jpg|jpeg';
         $config['max_size']             = 2048; // 2 mb
         $config['remove_spaces']        = TRUE;
@@ -107,7 +107,7 @@ class Beranda extends CI_Controller
             ];
 
             if ($dosen[0]['foto'] != "default.jpg") {
-                unlink(FCPATH . 'assets/uploads/profile/' . $dosen[0]['foto']);
+                unlink(FCPATH . 'upload/profile/' . $dosen[0]['foto']);
             }
 
             $this->db->where('id', $id);

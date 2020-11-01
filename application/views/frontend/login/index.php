@@ -8,7 +8,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="<?= base_url('assets/uploads/poltek.ico'); ?>">
+    <link rel="shortcut icon" href="<?= base_url('upload/poltek.ico'); ?>">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/admin/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -24,8 +24,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><img src="<?= base_url('assets/uploads/poltek.png'); ?>" style="margin-bottom:10px"
-                    class="img-fluid" width="120" /></a><br />
+            <a href="#"><img src="<?= base_url('upload/poltek.png'); ?>" style="margin-bottom:10px" class="img-fluid"
+                    width="120" /></a><br />
             <a href="#"><b>LAB HARDWARE</b><br />DIII Teknik Komputer</a>
         </div>
         <!-- /.login-logo -->

@@ -40,7 +40,7 @@ class M_Admin extends CI_Model
             $data = $this->db->get('tb_admin')->result_array();
 
             if ($data[0]['foto'] != "default.jpg") {
-                unlink(FCPATH . 'assets/uploads/profile/' . $data[0]['foto']);
+                unlink(FCPATH . 'upload/profile/' . $data[0]['foto']);
             }
             $this->db->where('id', dekrip($id_new));
             $this->db->delete('tb_admin');

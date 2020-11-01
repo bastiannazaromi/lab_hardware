@@ -70,7 +70,7 @@ class Beranda extends CI_Controller
         $nim = $this->session->userdata('nim');
         $mahasiswa = $this->mahasiswa->getOne($nim);
 
-        $config['upload_path']          = './assets/uploads/profile';
+        $config['upload_path']          = './upload/profile';
         $config['allowed_types']        = 'png|jpg|jpeg';
         $config['max_size']             = 2048; // 2 mb
         $config['remove_spaces']        = TRUE;
@@ -102,7 +102,7 @@ class Beranda extends CI_Controller
             ];
 
             if ($mahasiswa[0]['foto'] != "default.jpg") {
-                unlink(FCPATH . 'assets/uploads/profile/' . $mahasiswa[0]['foto']);
+                unlink(FCPATH . 'upload/profile/' . $mahasiswa[0]['foto']);
             }
 
             $this->db->where('id', $id);
