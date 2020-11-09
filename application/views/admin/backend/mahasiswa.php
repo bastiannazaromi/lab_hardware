@@ -41,6 +41,8 @@
                                     <th>#</th>
                                     <th>NIM</th>
                                     <th>Nama</th>
+                                    <th>No. HP</th>
+                                    <th>Email</th>
                                     <th>Semester</th>
                                     <th>Kelas</th>
                                     <th>Password</th>
@@ -57,6 +59,8 @@
                                     <th><?= $i++ ?></th>
                                     <td><?= $hasil['nim']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
+                                    <td><?= $hasil['no_telepon']; ?></td>
+                                    <td><?= $hasil['email']; ?></td>
                                     <td><?= $hasil['semester']; ?></td>
                                     <td><?= $hasil['kelas']; ?></td>
                                     <td><a href="<?= base_url() ?>belakang/mahasiswa/resetPassword/<?= enkrip($hasil['id']); ?>"
@@ -79,6 +83,8 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
+                                    <td>-</td>
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>

@@ -16,6 +16,7 @@
                                     <th>No</th>
                                     <th>ID User</th>
                                     <th>Nama</th>
+                                    <th>No. HP</th>
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
                                     <th>Tanggal Pinjam</th>
@@ -35,6 +36,7 @@
                                     <th><?= $i++ ?></th>
                                     <td><?= $hasil['id_user']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
+                                    <td><?= $hasil['no_telepon']; ?></td>
                                     <td><?= $hasil['nama_barang']; ?></td>
                                     <td><?= $hasil['jumlah']; ?></td>
                                     <td><?= $hasil['tanggal_pinjam']; ?></td>
@@ -76,6 +78,7 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>

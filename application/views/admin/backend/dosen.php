@@ -39,6 +39,8 @@
                                     <th>NIDN / NIPY</th>
                                     <th>Nama</th>
                                     <th>Username</th>
+                                    <th>No. HP</th>
+                                    <th>Email</th>
                                     <th>Password</th>
                                     <th>Action</th>
                                     <th>
@@ -54,6 +56,8 @@
                                     <td><?= $hasil['nidn_nipy']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
                                     <td><?= $hasil['username']; ?></td>
+                                    <td><?= $hasil['no_telepon']; ?></td>
+                                    <td><?= $hasil['email']; ?></td>
                                     <td><a href="<?= base_url() ?>belakang/dosen/resetPassword/<?= enkrip($hasil['id']); ?>"
                                             class="badge badge-success delete-people"><i class="fa fa-edit"></i>
                                             Reset</a>
@@ -74,6 +78,8 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
+                                    <td>-</td>
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>

@@ -15,6 +15,8 @@
                                     <th>#</th>
                                     <th>ID User</th>
                                     <th>Nama</th>
+                                    <th>No. HP</th>
+                                    <th>Email</th>
                                     <th>Tanggal Pinjam</th>
                                     <th>Action</th>
                                 </tr>
@@ -26,6 +28,8 @@
                                     <th><?= $i++ ?></th>
                                     <td><?= $hasil['id_user']; ?></td>
                                     <td><?= $hasil['nama']; ?></td>
+                                    <td><?= $hasil['no_telepon']; ?></td>
+                                    <td><?= $hasil['email']; ?></td>
                                     <td><?= $hasil['tanggal_pinjam']; ?></td>
                                     <td>
                                         <a href="<?= base_url() ?>belakang/pinjaman/cek/<?= enkrip($hasil['id_user']) . '/' . enkrip($hasil['tanggal_pinjam']) . '/' . enkrip($role) ; ?>"
