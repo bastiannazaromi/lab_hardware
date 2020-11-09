@@ -52,23 +52,18 @@
 
             <ul class="navbar-nav ml-auto">
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <span class="mr-2 d-lg-inline text-dark"><?= $this->session->userdata('nama'); ?></span>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('dashboard/dosen/profile'); ?>">
+                        <i class="fas fa-user fa-sm fa-fw text-gray-400"></i>
+
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                        aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="<?= base_url('dashboard/dosen/profile'); ?>">
-                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Profile
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?= base_url('dashboard/logout'); ?>" data-toggle="modal"
-                            data-target="#logoutModal">
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout
-                        </a>
-                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('dashboard/logout'); ?>" data-toggle="modal"
+                        data-target="#logoutModal">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
+
+                    </a>
                 </li>
 
             </ul>
