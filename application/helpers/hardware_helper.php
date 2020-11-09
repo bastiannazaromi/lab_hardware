@@ -231,10 +231,10 @@ function denda($maxTgl, $tglKembali)
         if ($currentDate >= $end)
         {
             $d = $currentDate->diff($end);
-            return 'Rp. '. number_format($d->days * 1000);
+            return $d->days * 1000;
         }
         else{
-            return '-';
+            return 0;
         }
     } else {
         $currentDate = new DateTime($tglKembali);
@@ -242,10 +242,10 @@ function denda($maxTgl, $tglKembali)
         if ($currentDate >= $end)
         {
             $d = $currentDate->diff($end);
-            return 'Rp. '. number_format($d->days * 1000);
+            return $d->days * 1000;
         }
         else{
-            return '-';
+            return 0;
         }
     }
 }

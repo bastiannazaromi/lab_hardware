@@ -47,15 +47,6 @@
                                     </td>
                                     <td>
                                         <div class="form-group" class="badge">
-                                            <label class="badge badge-danger">
-                                                <input type="radio" name="edit_status_ <?= enkrip($hasil['id']); ?>"
-                                                    class="menunggu"
-                                                    <?= $hasil['status'] == 'Menunggu' ? 'checked' : ''; ?>
-                                                    data-id="<?= enkrip($hasil['id']); ?>"
-                                                    data-nama_barang="<?= $hasil['nama_barang']; ?>"
-                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Menunggu">
-                                                Menunggu
-                                            </label>
                                             <label class="badge badge-warning">
                                                 <input type="radio" name="edit_status_ <?= enkrip($hasil['id']); ?>"
                                                     class="dipinjam"

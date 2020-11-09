@@ -11,7 +11,7 @@ class M_Pinjam extends CI_Model
             $this->db->select('tb_pinjaman.id, tb_pinjaman.tanggal_pinjam, tb_mahasiswa.nim as id_user, tb_mahasiswa.nama');
             $this->db->from('tb_pinjaman');
             $this->db->join('tb_mahasiswa', 'tb_pinjaman.id_user = tb_mahasiswa.nim', 'left');
-            $this->db->where('tb_pinjaman.status !=', 'Selesai');
+            $this->db->where('tb_pinjaman.status', 'Dipinjam');
             $this->db->where('tb_pinjaman.role', $role);
             $this->db->where('tb_pinjaman.max_kembali >= ', $today);
             $this->db->group_by('tb_pinjaman.tanggal_pinjam');
@@ -24,7 +24,7 @@ class M_Pinjam extends CI_Model
             $this->db->select('tb_pinjaman.id, tb_pinjaman.tanggal_pinjam, tb_dosen.nidn_nipy as id_user, tb_dosen.nama');
             $this->db->from('tb_pinjaman');
             $this->db->join('tb_dosen', 'tb_pinjaman.id_user = tb_dosen.nidn_nipy', 'left');
-            $this->db->where('tb_pinjaman.status !=', 'Selesai');
+            $this->db->where('tb_pinjaman.status', 'Dipinjam');
             $this->db->where('tb_pinjaman.role', $role);
             $this->db->where('tb_pinjaman.max_kembali >= ', $today);
             $this->db->group_by('tb_pinjaman.tanggal_pinjam');
@@ -43,7 +43,7 @@ class M_Pinjam extends CI_Model
             $this->db->select('tb_pinjaman.id, tb_pinjaman.tanggal_pinjam, tb_mahasiswa.nim as id_user, tb_mahasiswa.nama');
             $this->db->from('tb_pinjaman');
             $this->db->join('tb_mahasiswa', 'tb_pinjaman.id_user = tb_mahasiswa.nim', 'left');
-            $this->db->where('tb_pinjaman.status !=', 'Selesai');
+            $this->db->where('tb_pinjaman.status', 'Dipinjam');
             $this->db->where('tb_pinjaman.role', $role);
             $this->db->where('tb_pinjaman.max_kembali < ', $today);
             $this->db->group_by('tb_pinjaman.tanggal_pinjam');
@@ -56,7 +56,7 @@ class M_Pinjam extends CI_Model
             $this->db->select('tb_pinjaman.id, tb_pinjaman.tanggal_pinjam, tb_dosen.nidn_nipy as id_user, tb_dosen.nama');
             $this->db->from('tb_pinjaman');
             $this->db->join('tb_dosen', 'tb_pinjaman.id_user = tb_dosen.nidn_nipy', 'left');
-            $this->db->where('tb_pinjaman.status !=', 'Selesai');
+            $this->db->where('tb_pinjaman.status', 'Dipinjam');
             $this->db->where('tb_pinjaman.role', $role);
             $this->db->where('tb_pinjaman.max_kembali < ', $today);
             $this->db->group_by('tb_pinjaman.tanggal_pinjam');
@@ -74,7 +74,7 @@ class M_Pinjam extends CI_Model
             $this->db->select('tb_pinjaman.id, tb_pinjaman.jumlah, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_pinjaman.nama_barang, tb_mahasiswa.nim as id_user, tb_mahasiswa.nama');
             $this->db->from('tb_pinjaman');
             $this->db->join('tb_mahasiswa', 'tb_pinjaman.id_user = tb_mahasiswa.nim', 'left');
-            $this->db->where('tb_pinjaman.status !=', 'Selesai');
+            $this->db->where('tb_pinjaman.status =', 'Dipinjam');
             $this->db->where('tb_pinjaman.role', $role);
             $this->db->where('tb_pinjaman.id_user', $id);
             $this->db->where('tb_pinjaman.tanggal_pinjam', $tgl);
@@ -84,7 +84,7 @@ class M_Pinjam extends CI_Model
             $this->db->select('tb_pinjaman.id, tb_pinjaman.jumlah, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_pinjaman.nama_barang, tb_dosen.nidn_nipy as id_user, tb_dosen.nama');
             $this->db->from('tb_pinjaman');
             $this->db->join('tb_dosen', 'tb_pinjaman.id_user = tb_dosen.nidn_nipy', 'left');
-            $this->db->where('tb_pinjaman.status !=', 'Selesai');
+            $this->db->where('tb_pinjaman.status', 'Dipinjam');
             $this->db->where('tb_pinjaman.role', $role);
             $this->db->where('tb_pinjaman.id_user', $id);
             $this->db->where('tb_pinjaman.tanggal_pinjam', $tgl);
@@ -101,7 +101,7 @@ class M_Pinjam extends CI_Model
 
     public function edit($data)
     {
-        $this->db->where('id', $this->input->post('id', TRUE));
+        $this->db->where('id', dekrip($this->input->post('id', TRUE)));
         return $this->db->update('tb_pinjaman', $data);
     }
 
@@ -151,32 +151,86 @@ class M_Pinjam extends CI_Model
 
     public function getAllMahasiswa($id_user)
     {
-        $this->db->select('tb_pinjaman.id, tb_pinjaman.nama_barang, tb_pinjaman.jumlah, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_barang.stok, tb_barang.kategori, tb_barang.normal, tb_barang.dipinjam, tb_mahasiswa.nim, tb_mahasiswa.nama');
+        $this->db->select('tb_pinjaman.id, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_mahasiswa.nim, tb_mahasiswa.nama');
         $this->db->from('tb_pinjaman');
-        $this->db->join('tb_barang', 'tb_barang.nama_barang = tb_pinjaman.nama_barang', 'left');
         $this->db->join('tb_mahasiswa', 'tb_pinjaman.id_user = tb_mahasiswa.nim', 'left');
         $this->db->where('tb_pinjaman.id_user', $id_user);
+        $this->db->where('tb_pinjaman.status !=', 'Menunggu');
 
         $this->db->order_by('tanggal_pinjam', 'desc');
+        $this->db->group_by('tb_pinjaman.tanggal_pinjam');
 
         return $this->db->get()->result_array();
     }
 
     public function getAllDosen($id_user)
     {
-        $this->db->select('tb_pinjaman.id, tb_pinjaman.nama_barang, tb_pinjaman.jumlah, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_barang.stok, tb_barang.kategori, tb_barang.normal, tb_barang.dipinjam, tb_dosen.nidn_nipy, tb_dosen.nama');
+        $this->db->select('tb_pinjaman.id, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_dosen.nidn_nipy, tb_dosen.nama');
         $this->db->from('tb_pinjaman');
-        $this->db->join('tb_barang', 'tb_barang.nama_barang = tb_pinjaman.nama_barang', 'left');
         $this->db->join('tb_dosen', 'tb_pinjaman.id_user = tb_dosen.nidn_nipy', 'left');
         $this->db->where('tb_pinjaman.id_user', $id_user);
+        $this->db->where('tb_pinjaman.status !=', 'Menunggu');
 
         $this->db->order_by('tanggal_pinjam', 'desc');
+        $this->db->group_by('tb_pinjaman.tanggal_pinjam');
 
         return $this->db->get()->result_array();
+    }
+
+    public function getSpesifikUser($role, $id, $tgl)
+    {
+        if ($role == 'mahasiswa') {
+            $this->db->select('tb_pinjaman.id, tb_pinjaman.jumlah, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_pinjaman.nama_barang, tb_barang.dipinjam, tb_mahasiswa.nim as id_user, tb_mahasiswa.nama');
+            $this->db->from('tb_pinjaman');
+            $this->db->join('tb_mahasiswa', 'tb_pinjaman.id_user = tb_mahasiswa.nim', 'left');
+            $this->db->join('tb_barang', 'tb_barang.nama_barang = tb_pinjaman.nama_barang', 'left');
+            $this->db->where('tb_pinjaman.role', $role);
+            $this->db->where('tb_pinjaman.id_user', $id);
+            $this->db->where('tb_pinjaman.tanggal_pinjam', $tgl);
+
+            return $this->db->get()->result_array();
+        } else {
+            $this->db->select('tb_pinjaman.id, tb_pinjaman.jumlah, tb_pinjaman.status, tb_pinjaman.tanggal_pinjam, tb_pinjaman.max_kembali, tb_pinjaman.tanggal_kembali, tb_pinjaman.nama_barang, tb_barang.dipinjam, tb_dosen.nidn_nipy as id_user, tb_dosen.nama');
+            $this->db->from('tb_pinjaman');
+            $this->db->join('tb_dosen', 'tb_pinjaman.id_user = tb_dosen.nidn_nipy', 'left');
+            $this->db->join('tb_barang', 'tb_barang.nama_barang = tb_pinjaman.nama_barang', 'left');
+            $this->db->where('tb_pinjaman.role', $role);
+            $this->db->where('tb_pinjaman.id_user', $id);
+            $this->db->where('tb_pinjaman.tanggal_pinjam', $tgl);
+
+            return $this->db->get()->result_array();
+        }
     }
 
     public function tambah($data)
     {
         return $this->db->insert('tb_pinjaman', $data);
+    }
+
+    public function getKeranjang($role)
+    {
+        if ($role == 'mahasiswa') {
+            $this->db->select('tb_pinjaman.id, tb_pinjaman.nama_barang, tb_pinjaman.jumlah, tb_pinjaman.status, tb_mahasiswa.nim as id_user, tb_mahasiswa.nama, tb_barang.stok, tb_barang.kategori, tb_barang.normal, tb_barang.dipinjam');
+            $this->db->from('tb_pinjaman');
+            $this->db->join('tb_mahasiswa', 'tb_pinjaman.id_user = tb_mahasiswa.nim', 'left');
+            $this->db->join('tb_barang', 'tb_barang.nama_barang = tb_pinjaman.nama_barang', 'left');
+            $this->db->where('tb_pinjaman.status', 'Menunggu');
+            $this->db->where('tb_pinjaman.role', $role);
+
+            $this->db->order_by('tanggal_pinjam', 'desc');
+
+            return $this->db->get()->result_array();
+        } else {
+            $this->db->select('tb_pinjaman.id, tb_pinjaman.nama_barang, tb_pinjaman.jumlah, tb_pinjaman.status, tb_dosen.nidn_nipy as id_user, tb_dosen.nama, tb_barang.stok, tb_barang.kategori, tb_barang.normal, tb_barang.dipinjam');
+            $this->db->from('tb_pinjaman');
+            $this->db->join('tb_dosen', 'tb_pinjaman.id_user = tb_dosen.nidn_nipy', 'left');
+            $this->db->join('tb_barang', 'tb_barang.nama_barang = tb_pinjaman.nama_barang', 'left');
+            $this->db->where('tb_pinjaman.status', 'Menunggu');
+            $this->db->where('tb_pinjaman.role', $role);
+
+            $this->db->order_by('tanggal_pinjam', 'desc');
+
+            return $this->db->get()->result_array();
+        }
     }
 }

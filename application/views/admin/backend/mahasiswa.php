@@ -265,7 +265,7 @@
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                         value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <div class="form-group">
-                        <label for="nim">Upload File</label>
+                        <label for="fileExcel">Upload File</label>
                         <input type="file" class="form-control" name="fileExcel" required autocomplete="off">
                     </div>
                 </div>

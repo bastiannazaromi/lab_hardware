@@ -29,7 +29,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1;
+                                <?php $i = 1; $denda = 0;
                                 foreach ($pinjam as $hasil) : ?>
                                 <tr>
                                     <th><?= $i++ ?></th>
@@ -42,20 +42,9 @@
                                     <td>
                                         <?= tempoTgl($hasil['max_kembali'], $hasil['tanggal_kembali']); ?>
                                     </td>
-                                    <td>
-                                        <?= denda($hasil['max_kembali'], $hasil['tanggal_kembali']); ?>
-                                    </td>
+                                    <td>-</td>
                                     <td>
                                         <div class="form-group" class="badge">
-                                            <label class="badge badge-danger">
-                                                <input type="radio" name="edit_status_ <?= enkrip($hasil['id']); ?>"
-                                                    class="menunggu"
-                                                    <?= $hasil['status'] == 'Menunggu' ? 'checked' : ''; ?>
-                                                    data-id="<?= enkrip($hasil['id']); ?>"
-                                                    data-nama_barang="<?= $hasil['nama_barang']; ?>"
-                                                    data-jumlah="<?= $hasil['jumlah']; ?>" data-status="Menunggu">
-                                                Menunggu
-                                            </label>
                                             <label class="badge badge-warning">
                                                 <input type="radio" name="edit_status_ <?= enkrip($hasil['id']); ?>"
                                                     class="dipinjam"
@@ -83,19 +72,19 @@
                                         </center>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
+                                <?php $denda += denda($hasil['max_kembali'], $hasil['tanggal_kembali']);
+                                endforeach; ?>
                             </tbody>
                             <tfoot>
                                 <tr class="table table-warning">
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td colspan="8" class="text-center">Denda yang dibayar</td>
+                                    <td>
+                                        <div class="badge badge-warning">
+                                            <?php if($pinjam != null) : ?>
+                                            <?= 'Rp. ' . number_format($denda / count($pinjam)) ; ?>
+                                            <?php endif ; ?>
+                                        </div>
+                                    </td>
                                     <td>-</td>
                                     <td>
                                         <center>

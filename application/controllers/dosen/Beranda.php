@@ -13,6 +13,13 @@ class Beranda extends CI_Controller
             redirect('login', 'refresh');
         }
 
+        $this->u2		= $this->uri->segment(2);
+        $this->u3		= $this->uri->segment(3);
+        $this->u4		= $this->uri->segment(4);
+        $this->u5		= $this->uri->segment(5);
+        $this->u6		= $this->uri->segment(6);
+        $this->u7		= $this->uri->segment(7);
+
         $this->load->model('M_Dosen', 'dosen');
         $this->load->model('M_Stok', 'stok');
         $this->load->model('M_Pinjam', 'pinjam');
@@ -182,6 +189,42 @@ class Beranda extends CI_Controller
         echo json_encode($data);
     }
 
+    public function pinjaman()
+    {
+        $nidn = $this->session->userdata('nidn');
+        cek_biodata($nidn);
+
+        $tgl = dekrip($this->u4);
+
+        $data['title'] = 'LAB HARDWARE';
+
+        $data['dosen'] = $this->dosen->getOne($nidn);
+        $data['kategori'] = $this->stok->getKategori();
+        $data['pinjaman'] = $this->pinjam->getSpesifikUser('dosen', $nidn, $tgl);
+
+        $data['page'] = 'frontend/dosen/pinjaman';
+
+        $this->load->view('frontend/dosen/index', $data);
+    }
+
+    public function pinjam()
+    {
+        $nidn = $this->session->userdata('nidn');
+        cek_biodata($nidn);
+
+        $tgl = dekrip($this->u4);
+
+        $data['title'] = 'LAB HARDWARE';
+
+        $data['dosen'] = $this->dosen->getOne($nidn);
+        $data['kategori'] = $this->stok->getKategori();
+        $data['barang'] = $this->pinjam->getKeranjang('dosen');
+
+        $data['page'] = 'frontend/dosen/pinjam';
+
+        $this->load->view('frontend/dosen/index', $data);
+    }
+
     public function tambah()
     {
         $nidn = $this->session->userdata('nidn');
@@ -192,7 +235,7 @@ class Beranda extends CI_Controller
         if ($this->form_validation->run() == false) {
             $data['title'] = 'LAB HARDWARE';
 
-            $data['mahasiswa'] = $this->dosen->getOne($nidn);
+            $data['dosen'] = $this->dosen->getOne($nidn);
             $data['kategori'] = $this->stok->getKategori();
             $data['pinjaman'] = $this->pinjam->getAllDosen($nidn);
 
@@ -221,8 +264,6 @@ class Beranda extends CI_Controller
                 "nama_barang" => $nama_barang,
                 "id_user" => $nidn,
                 "jumlah" => $jumlah,
-                "tanggal_pinjam" => $dates,
-                "max_kembali" => date('Y-m-d', $date_kembali),
                 "status" => "Menunggu",
                 "role" => "Dosen"
             ];
@@ -230,10 +271,10 @@ class Beranda extends CI_Controller
             $query = $this->pinjam->tambah($data_pinjam);
             if ($query) {
                 $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil ditambahkan'));
-                redirect('dosen/beranda');
+                redirect('dashboard/dosen/pinjam');
             } else {
                 $this->session->set_flashdata('flash_error', flash_error('Barang gagal ditambahkan !'));
-                redirect('dosen/beranda');
+                redirect('dashboard/dosen/pinjam');
             }
         }
     }
@@ -259,7 +300,7 @@ class Beranda extends CI_Controller
             $nama_barang = htmlspecialchars($this->input->post('nama_barang', TRUE));
             $jumlah = htmlspecialchars($this->input->post('jumlah', TRUE));
 
-            $barang_pinjam = $this->pinjam->getOne($this->input->post('id', TRUE));
+            $barang_pinjam = $this->pinjam->getOne(dekrip($this->input->post('id', TRUE)));
             $jumlahOld = $barang_pinjam[0]['jumlah'];
             $nama_barang_old = $barang_pinjam[0]['nama_barang'];
 
@@ -290,27 +331,57 @@ class Beranda extends CI_Controller
             $data_pinjam = [
                 "nama_barang" => $nama_barang,
                 "jumlah" => $jumlah,
-                "tanggal_pinjam" => $dates,
-                "max_kembali" => date('Y-m-d', $date_kembali),
                 "status" => "Menunggu"
             ];
 
             $query = $this->pinjam->edit($data_pinjam);
             if ($query) {
                 $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil diedit'));
-                redirect('dosen/beranda');
+                redirect('dashboard/dosen/pinjam');
             } else {
                 $this->session->set_flashdata('flash_error', flash_error('Barang gagal diedit !'));
-                redirect('dosen/beranda');
+                redirect('dashboard/dosen/pinjam');
             }
+        }
+    }
+
+    public function checkout()
+    {
+        $id = $this->input->post('id');
+        
+        if ($id)
+        {
+            $dates = date('Y-m-d H:i:s');
+            $date = strtotime($dates);
+            $date_kembali = strtotime("+7 day", $date);
+
+            $data = [
+                "tanggal_pinjam"    => $dates,
+                "max_kembali"       => date('Y-m-d', $date_kembali),
+                "status"            => "Dipinjam"
+            ];
+
+            foreach ($id as $hasil)
+            {
+                $this->db->where('id', dekrip($hasil));
+                $this->db->update('tb_pinjaman', $data);
+            }
+
+            $this->session->set_flashdata('flash_sukses', flash_sukses('Barang berhasil di checkout'));
+            redirect('dashboard/dosen/pinjam');
+        }
+        else
+        {
+            $this->session->set_flashdata('flash_error', flash_error('Pilih barang yang akan di checkout !'));
+            redirect('dashboard/dosen/pinjam');
         }
     }
 
     public function hapus($id)
     {
-        $this->pinjam->hapus($id);
+        $this->pinjam->hapus(dekrip($id));
         $this->session->set_flashdata('flash_sukses', flash_sukses('Barang pinjam berhasil dihapus'));
-        redirect('dosen/beranda');
+        redirect('dashboard/dosen/pinjam', 'refresh');
     }
 }
         

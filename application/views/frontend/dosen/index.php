@@ -192,21 +192,28 @@
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
-});
 
-function bacaGambar(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+    $("#check-all").click(function() {
+        if ($(this).is(":checked"))
+            $(".check-item").prop("checked", true);
+        else
+            $(".check-item").prop("checked", false);
+    });
 
-        reader.onload = function(e) {
-                $('#gambar_nodin').attr('src', e.target.result);
-            },
+    function bacaGambar(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-            reader.readAsDataURL(input.files[0]);
+            reader.onload = function(e) {
+                    $('#gambar_nodin').attr('src', e.target.result);
+                },
+
+                reader.readAsDataURL(input.files[0]);
+        }
     }
-}
 
-$("#image").change(function() {
-    bacaGambar(this);
+    $("#image").change(function() {
+        bacaGambar(this);
+    });
 });
 </script>
