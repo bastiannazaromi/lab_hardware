@@ -189,6 +189,12 @@
                             </a>
                             <ul class="nav nav-treeview ml-3">
                                 <li class="nav-item">
+                                    <a href="<?= base_url('belakang/pencarian'); ?>" class="nav-link hr">
+                                        <i class="fas fa-search nav-icon"></i>
+                                        <p>Pencarian</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="<?= base_url('belakang/pinjaman/mahasiswa'); ?>" class="nav-link hr">
                                         <i class="fas fa-arrow-circle-right nav-icon"></i>
                                         <p>Mahasiswa</p>

@@ -111,6 +111,9 @@ $route['belakang/kategori/hapus']                   = 'admin/kategori/multiple_d
 $route['belakang/kategori/tambah']                  = 'admin/kategori/tambah';
 $route['belakang/kategori/edit']                    = 'admin/kategori/edit';
 
+$route['belakang/pencarian']                        = 'admin/pencarian';
+$route['belakang/pencarian/cari']                   = 'admin/pencarian/cari';
+
 $route['dashboard']                                 = 'login';
 $route['dashboard/login']                           = 'login';
 $route['dashboard/login/proses']                    = 'login/login';
@@ -135,7 +138,7 @@ $route['dashboard/dosen/pinjam']                    = 'dosen/beranda/pinjam';
 $route['dashboard/dosen/cari_barang']               = 'dosen/beranda/cari_barang';
 $route['dashboard/dosen/tambah']                    = 'dosen/beranda/tambah';
 $route['dashboard/dosen/edit']                      = 'dosen/beranda/edit';
-$route['dashboard/dosen/hapus/(:any)']          = 'dosen/beranda/hapus/$1';
+$route['dashboard/dosen/hapus/(:any)']              = 'dosen/beranda/hapus/$1';
 $route['dashboard/dosen/checkout']                  = 'dosen/beranda/checkout';
 
 $route['dashboard/logout']                          = 'login/logout';

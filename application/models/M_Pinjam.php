@@ -233,4 +233,14 @@ class M_Pinjam extends CI_Model
             return $this->db->get()->result_array();
         }
     }
+
+    public function cari($inputan)
+    {
+        $this->db->like('nama_barang', $inputan);
+        $this->db->or_like('id_user', $inputan);
+        $this->db->or_like('tanggal_pinjam', $inputan);
+        
+        
+        return $this->db->get('tb_pinjaman')->result_array();
+    }
 }
