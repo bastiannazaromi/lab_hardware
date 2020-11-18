@@ -33,10 +33,19 @@ class Pencarian extends CI_Controller {
     {
         $inputan = $this->input->post('inputan', TRUE);
 
-        $data = [
-            "barang"   => $this->pinjam->cari($inputan),
-            "token"    => $this->security->get_csrf_hash() 
-        ];
+        if ($inputan)
+        {
+            $data = [
+                "barang"   => $this->pinjam->cari($inputan),
+                "token"    => $this->security->get_csrf_hash() 
+            ];
+        }
+        else{
+            $data = [
+                "barang"   => null,
+                "token"    => $this->security->get_csrf_hash() 
+            ];
+        }
 
         echo json_encode($data);
     }
