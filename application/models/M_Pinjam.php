@@ -239,7 +239,7 @@ class M_Pinjam extends CI_Model
         $this->db->like('nama_barang', $inputan);
         $this->db->or_like('id_user', $inputan);
         $this->db->or_like('tanggal_pinjam', $inputan);
-        
+        $this->db->order_by('tanggal_pinjam', 'desc');
         
         return $this->db->get('tb_pinjaman')->result_array();
     }
