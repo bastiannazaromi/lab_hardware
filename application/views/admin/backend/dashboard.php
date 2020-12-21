@@ -71,7 +71,7 @@
                 <div class="inner">
                     <h3> <?= $lbMhs; ?></h3>
 
-                    <p>Total Barang OutOfDate Mahasiswa</p>
+                    <p>Total Barang OutOfDate MHS</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-shopping-cart fa-2x"></i>

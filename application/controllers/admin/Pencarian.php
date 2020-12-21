@@ -31,14 +31,32 @@ class Pencarian extends CI_Controller {
 
     public function cari()
     {
-        $inputan = $this->input->post('inputan', TRUE);
+        $inputan = $this->input->post('inputan');
 
         if ($inputan)
         {
+            $peminjam = $this->pinjam->cari($inputan);
+            $data_peminjam = [];
+
+            foreach ($peminjam as $hasil)
+            {
+                array_push($data_peminjam, [
+                    'id'                => $hasil['id'],
+                    'nama_peminjam'     => nama_user($hasil['id_user']),
+                    'nama_barang'       => $hasil['nama_barang'],
+                    'id_user'           => $hasil['id_user'],
+                    'tanggal_pinjam'    => $hasil['tanggal_pinjam'],
+                    'max_kembali'       => $hasil['max_kembali'],
+                    'tanggal_kembali'   => $hasil['tanggal_kembali'],
+                    'status'            => $hasil['status']
+                ]);
+            }
+
             $data = [
-                "barang"   => $this->pinjam->cari($inputan),
+                "barang"   => $data_peminjam,
                 "token"    => $this->security->get_csrf_hash() 
             ];
+            
         }
         else{
             $data = [

@@ -249,3 +249,26 @@ function denda($maxTgl, $tglKembali)
         }
     }
 }
+
+function nama_user($id)
+{
+    $CI = &get_instance();
+
+    $CI->db->where('nim', $id);
+    $data = $CI->db->get('tb_mahasiswa')->row_array();
+
+    if ($data)
+    {
+        return $data['nama'];
+    }
+    else
+    {
+        $CI->db->where('nidn_nipy', $id);
+        $data = $CI->db->get('tb_dosen')->row_array();
+
+        if ($data)
+        {
+            return $data['nama'];
+        }
+    }
+}

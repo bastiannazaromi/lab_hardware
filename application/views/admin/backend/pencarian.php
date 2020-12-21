@@ -27,6 +27,7 @@
                             <thead class="bg-light text-dark">
                                 <tr>
                                     <th>#</th>
+                                    <th>Nama Peminjam</th>
                                     <th>Nama Barang</th>
                                     <th>ID User</th>
                                     <th>Tanggal Pinjam</th>
@@ -69,6 +70,7 @@ function ajax_search() {
                 $("#tabel_cari").append(
                     "<tr class=" + "tr_isi" + ">" +
                     "<td>" + (i + 1) + "</td>" +
+                    "<td>" + result.barang[i].nama_peminjam + "</td>" +
                     "<td>" + result.barang[i].nama_barang + "</td>" +
                     "<td>" + result.barang[i].id_user + "</td>" +
                     "<td>" + result.barang[i].tanggal_pinjam + "</td>" +
@@ -77,7 +79,6 @@ function ajax_search() {
                     "<td>" + result.barang[i].status + "</td>" +
                     "<tr>");
             });
-
             $('#csrf_token').val(result.token);
         }
     });
